@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddActividadFragment">
+
+    <EditText
+        android:id="@+id/editTextNombre06"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:hint="Nombre de la actividad"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipoActividad06"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!--TODO enlazar spinner con tipos de dias de base de datos mediante... ¿android: entries?-->
+
+    <Spinner
+        android:id="@+id/spinnerTipoActividad06"
+        android:layout_width="360dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="84dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCalcular"
+        android:layout_width="318dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="76dp"
+        android:text="@string/btn_calcular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnFechaIni06"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:text="@string/btn_fecha_inicio"
+        app:layout_constraintBottom_toTopOf="@+id/btnFechaFin06"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.506" />
+
+    <Button
+        android:id="@+id/btnFechaFin06"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="88dp"
+        android:text="@string/btn_fecha_fin"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNombre06"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NiUnDiaGratis</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">juanAntonioVicentePastor@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_salir">Salir</string>
+
+    <string name="menu_home">NiUnDiaGratis</string>
+    <string name="menu_gest_act">Gestión de actividades</string>
+    <string name="menu_gest_perm">Gestión de permisos</string>
+    <string name="menu_config">Configuración</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="Fragment_submenu01">Submenu01</string>
+    <string name="fragment_add_actividad">Añadir actividad</string>
+    <string name="fragment_mod_actividad">Modificar actividad</string>
+
+    <string name="opciones_1_gest_actividades">Gestión de actividades</string>
+    <string name="opciones_1_act_btn1">Añadir actividad</string>
+    <string name="opciones_1_act_btn2">Modificar actividad</string>
+
+    <string name="opciones_1_gest_permisos">Gestión de permisos</string>
+    <string name="opciones_1_perm_btn1">Añadir permiso</string>
+    <string name="opciones_1_perm_btn2">Modificar permiso</string>
+
+    <string name="opciones_1_gest_config">Configuración de datos</string>
+    <string name="opciones_1_conf_btn1">Añadir configuración</string>
+    <string name="opciones_1_conf_btn2">Modificar configuración</string>
+
+    <string name="opciones_1_config_add_tipo">Añadir configuración</string>
+    <string name="opciones_1_add_tipo_act_btn1">Añadir tipo de actividad</string>
+    <string name="opciones_1_add_tipo_dia_btn2">Añadir tipo de dia</string>
+
+    <string name="opciones_1_config_mod_tipo">Modificar configuración</string>
+    <string name="opciones_1_mod_tipo_act_btn1">Modificar tipo de actividad</string>
+    <string name="opciones_1_mod_tipo_dia_btn2">Modificar tipo de dia</string>
+
+    <string name="spinner_tipo_dia">Seleccionar el tipo de día</string>
+    <string name="btn_fecha_inicio">Seleccionar fecha de inicio</string>
+    <string name="btn_fecha_fin">Seleccionar fecha de finalizacion</string>
+
+    <string name="btn_calcular">Calcular</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <integer-array name="spinner_prop_items">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+    <integer-array name="spinner_max_items">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </integer-array>
+</resources>

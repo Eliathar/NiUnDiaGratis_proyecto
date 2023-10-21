@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ModTipoActividadSelecFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textViewTipo3Dia15"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="44dp"
+        android:text="Tipo dia 3"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerTipo3Dia15"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="44dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewTipo3Dia15" />
+
+    <Spinner
+        android:id="@+id/spinnerProporcion15"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="56dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo1Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewTipo3Dia15" />
+
+    <TextView
+        android:id="@+id/textViewTipo1Dia15"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="52dp"
+        android:text="Tipo de dia"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo2Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewNombreTipoAct15"
+        android:layout_width="313dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="52dp"
+        android:text="Nombre  tipo actividad"
+        app:layout_constraintBottom_toTopOf="@+id/textViewProporcionDias15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.939" />
+
+    <Spinner
+        android:id="@+id/spinnerTipo1Dia15"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="52dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo2Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewTipo1Dia15" />
+
+    <TextView
+        android:id="@+id/textViewTipo2Dia15"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="52dp"
+        android:text="Tipo de dia 2"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo3Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerTipo2Dia15"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="52dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo3Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewTipo2Dia15" />
+
+    <TextView
+        android:id="@+id/textViewProporcionDias15"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="56dp"
+        android:text="proporcion dias"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo1Dia15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="263dp"
+        android:layout_height="79dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGuardia15"
+        android:layout_width="137dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="32dp"
+        android:text="Es guardia"
+        app:layout_constraintBottom_toTopOf="@+id/button15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
