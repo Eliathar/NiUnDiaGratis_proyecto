@@ -15,6 +15,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.niundiagratis.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import android.app.DatePickerDialog
+import androidx.room.Room
+import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Usamos el contexto de la actividad para crear la base de datos
+        val context = this
+
+        val database = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, "NiUnDiaGratis").build()
+        database.openHelper.writableDatabase
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
