@@ -17,6 +17,23 @@ import java.util.Date
 
 //Marcamos la clase como entidad de Room con @Entity
 @Entity(tableName = "tablaTiposActividades",
+    foreignKeys = [
+        ForeignKey(
+            entity = TiposDias::class,
+            parentColumns = ["nombreTipoDia"],
+            childColumns = ["tipoDiasGenerados1"]
+        ),
+        ForeignKey(
+            entity = TiposDias::class,
+            parentColumns = ["nombreTipoDia"],
+            childColumns = ["tipoDiasGenerados2"]
+        ),
+        ForeignKey(
+            entity = TiposDias::class,
+            parentColumns = ["nombreTipoDia"],
+            childColumns = ["tipoDiasGenerados3"]
+        )
+    ],
     indices = [
         Index(value = ["tipoDiasGenerados1"], unique = true),
         Index(value = ["tipoDiasGenerados2"], unique = true),
@@ -33,7 +50,8 @@ data class TiposActividades(
 
     val requisitosDiasAct1: Int?,
     val requisitosDiasAct2: Int?,
-    val requisitosDiasAct3: Int?
+    val requisitosDiasAct3: Int?,
+    val esGuardia: Boolean
 )
 
 @Entity(tableName = "tablaTiposDias")
@@ -49,28 +67,10 @@ data class TiposDias(
             entity = TiposActividades::class,
             parentColumns = ["nombreTipoAct"],
             childColumns = ["tipoActOk"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["tipoDiasGenerados1"],
-            childColumns = ["tipoDiasActOk1"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["tipoDiasGenerados2"],
-            childColumns = ["tipoDiasActOk2"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["tipoDiasGenerados3"],
-            childColumns = ["tipoDiasActOk3"]
         )
     ],
     indices = [
-        Index(value = ["tipoActOk"]),
-        Index(value = ["tipoDiasActOk1"]),
-        Index(value = ["tipoDiasActOk2"]),
-        Index(value = ["tipoDiasActOk3"])
+        Index(unique = true, value = ["tipoActOk"])
     ]
 )
 class ActividadesRealizadas(
@@ -94,15 +94,27 @@ class ActividadesRealizadas(
     // Otros campos de la entidad
 
     var fechaInActOk: Date,
-    var fechaFiActOk: Date
+    var fechaFiActOk: Date,
+    val esGuardiaOk: Boolean
 )
 
-@Entity(tableName = "tablaGuardiasRealizadas")
+@Entity(tableName = "tablaGuardiasRealizadas",
+    foreignKeys = [
+        ForeignKey(
+            entity = ActividadesRealizadas::class,
+            parentColumns = ["tipoActOk"],
+            childColumns = ["tipoGuardiaOk"]
+        )
+    ],
+    indices = [
+        Index(value = ["tipoGuardiaOk"])
+    ]
+)
 data class GuardiasRealizadas(
     @PrimaryKey(autoGenerate = true)
     val idGuarOk: Int,
     val tipoGuardiaOk: String,
-    val tipoDiasGeneradosGuarOk1: String,
+    val tipoDiasGeneradosGuarOk: String,
     val diasGeneradosT1GuarOk: Int,
     val tipoDiasGeneradosGuarOk2: String,
     val diasGeneradosT2GuarOk: Int
@@ -111,35 +123,13 @@ data class GuardiasRealizadas(
 @Entity(tableName = "tablaDiasGenerados",
     foreignKeys = [
         ForeignKey(
-            entity = ActividadesRealizadas::class,
-            parentColumns = ["tipoDiasActOk1"],
-            childColumns = ["tipoDiaGen"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["tipoDiasActOk2"],
-            childColumns = ["tipoDiaGen"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["tipoDiasActOk3"],
-            childColumns = ["tipoDiaGen"]
-        ),
-        ForeignKey(
             entity = TiposActividades::class,
             parentColumns = ["nombreActOk"],
             childColumns = ["nombreActgen"]
-        ),
-        ForeignKey(
-            entity = TiposActividades::class,
-            parentColumns = ["fechaInActOk"],
-            childColumns = [" fechaGen"]
         )
     ],
     indices = [
-        Index(value = ["tipoDiaGen"]),
-        Index(value = ["nombreActgen"]),
-        Index(value = ["fechaGen"])
+        Index(value = ["nombreActgen"])
     ]
 )
 data class DiasGenerados(
