@@ -1,14 +1,5 @@
 package com.example.niundiagratis.data.adapter
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.R
-import com.example.niundiagratis.data.db.ActividadesRealizadas
-
-
 
 /*class ItemActRealAdapter(private val dataList: List<ActividadesRealizadas>) : RecyclerView.Adapter<ItemActReal>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemActReal {

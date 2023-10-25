@@ -18,6 +18,8 @@ import android.app.DatePickerDialog
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.db.BBDDHandler
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -30,28 +32,17 @@ class MainActivity : AppCompatActivity() {
     //Declaracion de navController
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var database: RoomDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Usamos el contexto de la actividad para crear la base de datos
+        //Usamos el contexto de la actividad para crear la base de datos----------------------------
         val context = this
-        //Usamos el año actual para definir el nombre de la base de datos, de este modo se creara una base de datos nueva el 1 de enero
-        val periodo = SimpleDateFormat("yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
-        //Creamos el nombre de la base de datos usando el año
-        val nombreBD = "NiUnDiaGratis_$periodo"
-        if (context.getDatabasePath(nombreBD).exists()){
-            database = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, nombreBD)
-            .fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
-            .build()
-            println ("bbdd abierta")
-        }else{
-            database = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, nombreBD).build()
-            println ("bbdd no existe")
+        runBlocking {
+            BBDDHandler.crearBBDD(context)
         }
-            database.openHelper.writableDatabase
 
+        //Fin de creacion de base de datos----------------------------------------------------------
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
