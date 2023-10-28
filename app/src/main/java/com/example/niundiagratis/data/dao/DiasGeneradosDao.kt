@@ -15,7 +15,7 @@ interface DiasGeneradosDao {
     fun insert(diasgenerados: DiasGenerados)
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaDiasGenerados")
-    fun getAllDiasGenerados(): List<DiasGenerados>
+    fun obtenerDiasGenerados(): List<DiasGenerados>
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaDiasGenerados WHERE id = :id")
     fun getDiasGeneradosById(id: Long): DiasGenerados?
@@ -27,5 +27,5 @@ interface DiasGeneradosDao {
     fun delete(diasgenerados: DiasGenerados)
     //Consulta del numero total segun campo nombre de la entidad
     @Query("SELECT SUM(diasGen) FROM tablaDiasGenerados WHERE tipoDiaGen = :tipoDiaGen")
-    fun getTotalDiasGenerados(tipoDiaGen: String): Long
+    fun getTotalDiasGenerados(tipoDiaGen: String): Int
 }

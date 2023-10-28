@@ -12,17 +12,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.niundiagratis.data.db.BBDDHandler.crearBBDD
 import com.example.niundiagratis.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import android.app.DatePickerDialog
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
-import com.example.niundiagratis.data.db.BBDDHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,9 +34,11 @@ class MainActivity : AppCompatActivity() {
         //Usamos el contexto de la actividad para crear la base de datos----------------------------
         val context = this
         runBlocking {
-            BBDDHandler.crearBBDD(context)
+            withContext(Dispatchers.IO) {
+                // Inicializa la base de datos
+                crearBBDD(context)
+            }
         }
-
         //Fin de creacion de base de datos----------------------------------------------------------
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -57,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 flecha para ir atras */
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.submenu01Fragment,
+                R.id.nav_home, R.id.submenu01Fragment,
                 R.id.nav_gest_act, R.id.nav_gest_perm, R.id.nav_config, R.id.addActividadFragment,
                 R.id.modActividadFragment, R.id.modActividadSeleccionadaFragment, R.id.addPermisoFragment,
                 R.id.modPermisoFragment, R.id.modPermisoSeleccionadoFragment, R.id.addTipoActividadFragment, R.id.addTipoDiaFragment,
@@ -115,7 +112,4 @@ class MainActivity : AppCompatActivity() {
         bundle.putBundle("navController", navController.saveState())
         cargarFragment(seleccion, navController)
     }
-
-
-
 }

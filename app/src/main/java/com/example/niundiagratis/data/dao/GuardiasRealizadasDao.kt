@@ -1,5 +1,6 @@
 package com.example.niundiagratis.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -16,7 +17,7 @@ interface GuardiasRealizadasDao {
 
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaGuardiasRealizadas")
-    fun getAllGuardiasRealizadas(): List<GuardiasRealizadas>
+    fun getAllGuardiasRealizadas():LiveData<List<GuardiasRealizadas>>
 
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaGuardiasRealizadas WHERE idGuarOk = :id")

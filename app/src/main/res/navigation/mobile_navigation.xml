@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_submenu01Fragment"
             app:destination="@id/submenu01Fragment" />
+        <action
+            android:id="@+id/action_nav_home_self"
+            app:destination="@id/nav_home" />
     </fragment>
 
     <fragment
@@ -21,11 +24,6 @@
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.niundiagratis.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/submenu01Fragment"
         android:name="com.example.niundiagratis.Submenu01Fragment"

@@ -15,10 +15,14 @@ interface DiasDisfrutadosDao {
     fun insert(diasdisfrutados: DiasDisfrutados)
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaDiasDisfrutados")
-    fun getAllDiasdisfrutados(): List<DiasDisfrutados>
+    fun obtenerDiasDisfrutados(): List<DiasDisfrutados>
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaDiasDisfrutados WHERE id = :id")
     fun getDiasdisfrutadosById(id: Long): DiasDisfrutados?
+
+    @Query("SELECT COUNT(*) FROM tablaDiasDisfrutados WHERE tipoDiaDis = :tipoDiaGen")
+    fun getTotalDiasDisfrutados(tipoDiaGen: String): Int
+
     //Se actualiza una entidad
     @Update
     fun update(diasdisfrutados: DiasDisfrutados)

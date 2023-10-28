@@ -20,7 +20,7 @@ interface TiposDiasDao {
 
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaTiposDias WHERE nombreTipoDia = :id")
-    fun getTipoDiaById(id: Long): TiposDias?
+    fun getTipoDiaById(id: String): TiposDias?
 
     //Se actualiza una entidad
     @Update

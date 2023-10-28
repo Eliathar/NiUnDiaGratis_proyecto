@@ -1,5 +1,6 @@
 package com.example.niundiagratis.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,26 +11,29 @@ import com.example.niundiagratis.data.db.ActividadesRealizadas
 //Declaramos como interfaz DAO
 @Dao
 interface ActividadesRealizadasDao {
-    @Dao
-    interface ActividadDao {
         //Para insercion de nuevas entidades
         @Insert
-        suspend fun insert(actividadesRealizadasDao: ActividadesRealizadasDao)
+        fun insert(actividadesRealizadas: ActividadesRealizadas)
 
         //Devuelve una lista con todos las entidades
         @Query("SELECT * FROM tablaActividadesRealizadas")
-        suspend fun getAllActividades(): List<ActividadesRealizadas>
+        fun getAllActividades(): List<ActividadesRealizadas>
 
         //Devuelve la entidad seleccionada mediante el id
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE id = :id")
-        suspend fun getActividadById(id: Long): ActividadesRealizadas?
+        fun getActividadById(id: Long): ActividadesRealizadas?
+
+        @Query("SELECT * FROM tablaActividadesRealizadas WHERE esGuardiaOk = 0")
+        fun obtenerActividades(): LiveData<List<ActividadesRealizadas>>
+
+        @Query("SELECT * FROM tablaActividadesRealizadas WHERE esGuardiaOk = 1")
+        fun obtenerGuardias(): LiveData<List<ActividadesRealizadas>>
 
         //Se actualiza una entidad
         @Update
-        suspend fun update(actividadesRealizadas: ActividadesRealizadas)
+        fun update(actividadesRealizadas: ActividadesRealizadas)
 
         //Se elimina una entidad
         @Delete
-        suspend fun delete(actividadesRealizadas: ActividadesRealizadas)
-    }
+        fun delete(actividadesRealizadas: ActividadesRealizadas)
 }
