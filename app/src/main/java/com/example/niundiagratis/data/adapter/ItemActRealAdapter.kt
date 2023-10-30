@@ -22,8 +22,11 @@ class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: In
             1 ->{
                 if (item is ActividadesRealizadas) {
                     holder.txtTipo.text = item.tipoActOk
+                    println("1 $holder.txtTipo.text")
                     holder.txtNombre.text = item.nombreActOk
+                    println(holder.txtNombre.text)
                     holder.txtFecha.text = item.fechaInActOk.toString()
+                    println(holder.txtFecha.text)
                 }
             }
             2-> {
@@ -34,15 +37,18 @@ class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: In
                 }
             }
             3->{
+                println("en computoblogal3")
                 if (item is ComputoGlobal) {
                     holder.txtTipo.text = item.tipoDiaGlobal
-                    holder.txtNombre.text = item.maxGlobal.toString()
+                    println(holder.txtTipo.text)
+                    holder.txtNombre.text = if (item.maxGlobal.toString() == "null") "" else item.maxGlobal.toString()
                     holder.txtFecha.text = item.saldoGlobal.toString()
                 }
             }
         }
     }
     override fun getItemCount(): Int {
+        println(dataList.size)
         return dataList.size
     }
 }

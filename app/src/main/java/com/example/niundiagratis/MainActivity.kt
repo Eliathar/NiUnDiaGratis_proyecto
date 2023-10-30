@@ -6,19 +6,25 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
+import com.example.niundiagratis.data.dao.ComputoGlobalDao
+import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
+import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.BBDDHandler.crearBBDD
+import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.databinding.ActivityMainBinding
+import com.example.niundiagratis.ui.home.HomeFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-
 
 class MainActivity : AppCompatActivity() {
     //Usamos lateinit para indicaral compilador que la variable sera inicializada antes de ser usada
@@ -27,18 +33,20 @@ class MainActivity : AppCompatActivity() {
     //Declaracion de navController
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
+    var baseDatosOk: MutableLiveData<Boolean> = MutableLiveData(false)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //Usamos el contexto de la actividad para crear la base de datos----------------------------
         val context = this
-        runBlocking {
+        /*runBlocking {
             withContext(Dispatchers.IO) {
                 // Inicializa la base de datos
                 crearBBDD(context)
             }
-        }
+        }*/
         //Fin de creacion de base de datos----------------------------------------------------------
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -54,12 +62,12 @@ class MainActivity : AppCompatActivity() {
                 flecha para ir atras */
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.submenu01Fragment,
-                R.id.nav_gest_act, R.id.nav_gest_perm, R.id.nav_config, R.id.addActividadFragment,
-                R.id.modActividadFragment, R.id.modActividadSeleccionadaFragment, R.id.addPermisoFragment,
-                R.id.modPermisoFragment, R.id.modPermisoSeleccionadoFragment, R.id.addTipoActividadFragment, R.id.addTipoDiaFragment,
-                R.id.modTipoActividadFragment, R.id.modTipoActividadSelecFragment,
-                R.id.modTipoDiaFragment, R.id.modTipoDiaSelecFragment
+                R.id.nav_home, R.id.submenu01Fragment, R.id.nav_gest_act, R.id.nav_gest_perm,
+                R.id.nav_config, R.id.addActividadFragment, R.id.modActividadFragment,
+                R.id.modActividadSeleccionadaFragment, R.id.addPermisoFragment,
+                R.id.modPermisoFragment, R.id.modPermisoSeleccionadoFragment,
+                R.id.addTipoActividadFragment, R.id.addTipoDiaFragment, R.id.modTipoActividadFragment,
+                R.id.modTipoActividadSelecFragment, R.id.modTipoDiaFragment, R.id.modTipoDiaSelecFragment
             ), drawerLayout
         )
         // Inicializa navController

@@ -12,7 +12,7 @@ import com.example.niundiagratis.data.db.TiposDias
 interface TiposDiasDao {
     //Para insercion de nuevas entidades
     @Insert
-    suspend fun insert(tiposDias: TiposDias)
+    fun insert(tiposDias: TiposDias)
 
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaTiposDias")

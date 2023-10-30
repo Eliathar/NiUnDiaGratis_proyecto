@@ -12,6 +12,7 @@ import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.DiasGeneradosDao
+import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import java.util.Date
@@ -178,7 +179,7 @@ data class ComputoGlobal(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val tipoDiaGlobal: String,
-    val maxGlobal: Int,
+    val maxGlobal: Int?,
     val genGlobal: Int,
     val conGlobal: Int,
     val saldoGlobal: Int
@@ -198,16 +199,19 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     abstract fun fDiasGeneradosDao(): DiasGeneradosDao
     abstract fun fDiasDisfrutadosDao(): DiasDisfrutadosDao
     abstract fun fComputoGlobalDao(): ComputoGlobalDao
+
+    abstract fun fGuardiasRealizadasDao(): GuardiasRealizadasDao
     companion object{
+
         private var instancia: NiUnDiaGratisBBDD? = null
         //Esta funcion se usara para acceder a la base de datos abierta en el momento de usar la aplicacion
-        fun obtenerInstancia(context: Context): NiUnDiaGratisBBDD{
+        fun obtenerInstancia(context: Context, nombreBD: String): NiUnDiaGratisBBDD{
             println("en obtenerinstancia")
             if(instancia == null){
                 println("en if de obtenerinstancia")
                 synchronized(NiUnDiaGratisBBDD::class){
                     println("en sincronizado")
-                    instancia = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, "NiUnDiaGratis").build()
+                    instancia = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, nombreBD).build()
                     println("instanciado")
                 }
             }

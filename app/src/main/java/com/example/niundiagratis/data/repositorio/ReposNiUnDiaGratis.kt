@@ -1,5 +1,7 @@
 package com.example.niundiagratis.data.repositorio
 
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.LiveData
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
@@ -7,9 +9,13 @@ import com.example.niundiagratis.data.dao.DiasGeneradosDao
 import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
+import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
+import com.example.niundiagratis.data.db.GuardiasRealizadas
+import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 
 class ReposNiUnDiaGratis(
+    private val database: NiUnDiaGratisBBDD,
     private val actividadesRealizadasDao: ActividadesRealizadasDao,
     private val computoGlobalDao: ComputoGlobalDao,
     private val diasDisfrutadosDao: DiasDisfrutadosDao,
@@ -19,6 +25,15 @@ class ReposNiUnDiaGratis(
     private val tiposActividadesDao: TiposActividadesDao
 ) {
 
+    // Funciones para obtener datos de la base de datos
+
+    fun obtenerActividades(): LiveData<List<ActividadesRealizadas>> {
+        return actividadesRealizadasDao.obtenerActividades()
+    }
+
+    fun getAllGuardiasRealizadas(): LiveData<List<GuardiasRealizadas>>{
+        return guardiasRealizadasDao.getAllGuardiasRealizadas()
+    }
     suspend fun obtenerComputoGlobal(): List<ComputoGlobal> {
         val resultados = mutableListOf<ComputoGlobal>()
 
