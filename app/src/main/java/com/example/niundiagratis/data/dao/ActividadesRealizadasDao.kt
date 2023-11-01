@@ -17,7 +17,7 @@ interface ActividadesRealizadasDao {
 
         //Devuelve una lista con todos las entidades
         @Query("SELECT * FROM tablaActividadesRealizadas")
-        fun getAllActividades(): List<ActividadesRealizadas>
+        fun getAllActividades(): LiveData<List<ActividadesRealizadas>>
 
         //Devuelve la entidad seleccionada mediante el id
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE id = :id")

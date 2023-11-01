@@ -1,5 +1,6 @@
 package com.example.niundiagratis.data.db
 import android.content.Context
+import android.os.Parcelable
 import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.ForeignKey

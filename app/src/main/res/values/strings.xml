@@ -43,6 +43,15 @@
     <string name="btn_fecha_inicio">Seleccionar fecha de inicio</string>
     <string name="btn_fecha_fin">Seleccionar fecha de finalizacion</string>
 
+    <string name="tipo">Tipo</string>
+    <string name="maximo">Máximo establecido</string>
+    <string name="saldo_global">Saldo</string>
+    <string name="fecha">Fecha</string>
+    <string name="nombre">Nombre</string>
+    <string name="vacio">Sin datos</string>
+
+
+
     <string name="btn_calcular">Calcular</string>
 
     <!-- TODO: Remove or change this placeholder text -->

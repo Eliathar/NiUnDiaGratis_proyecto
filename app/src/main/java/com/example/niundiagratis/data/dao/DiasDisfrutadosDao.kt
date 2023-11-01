@@ -1,5 +1,6 @@
 package com.example.niundiagratis.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -15,7 +16,7 @@ interface DiasDisfrutadosDao {
     fun insert(diasdisfrutados: DiasDisfrutados)
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaDiasDisfrutados")
-    fun obtenerDiasDisfrutados(): List<DiasDisfrutados>
+    fun obtenerDiasDisfrutados(): LiveData<List<DiasDisfrutados>>
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaDiasDisfrutados WHERE id = :id")
     fun getDiasdisfrutadosById(id: Long): DiasDisfrutados?

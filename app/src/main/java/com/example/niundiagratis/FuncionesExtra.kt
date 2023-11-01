@@ -74,7 +74,7 @@ fun selTextoBotones(selMenuInt: Int, btn1: TextView, btn2: TextView) {
     }
 }
 
-fun cargarFragment(seleccion: Int, navController: NavController){
+fun cargarFragment(seleccion: Int, navController: NavController, datos: Any? = null){
 
     try {
         if(seleccion !=-1) {

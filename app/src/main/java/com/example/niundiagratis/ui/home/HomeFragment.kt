@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         rVGuardias.layoutManager = layoutManager2
         rVComputo.layoutManager = layoutManager3
 
-        val dataBase: NiUnDiaGratisBBDD
+
         //Creacion e inicializacion de base de datos
         runBlocking {
             withContext(Dispatchers.IO) {

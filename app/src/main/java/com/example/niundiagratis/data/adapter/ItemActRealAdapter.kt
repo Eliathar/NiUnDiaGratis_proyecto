@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.R
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
+import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.GuardiasRealizadas
 import com.example.niundiagratis.viewholder.ItemActRealViewHolder
 
@@ -22,11 +23,8 @@ class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: In
             1 ->{
                 if (item is ActividadesRealizadas) {
                     holder.txtTipo.text = item.tipoActOk
-                    println("1 $holder.txtTipo.text")
                     holder.txtNombre.text = item.nombreActOk
-                    println(holder.txtNombre.text)
                     holder.txtFecha.text = item.fechaInActOk.toString()
-                    println(holder.txtFecha.text)
                 }
             }
             2-> {
@@ -43,6 +41,15 @@ class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: In
                     println(holder.txtTipo.text)
                     holder.txtNombre.text = if (item.maxGlobal.toString() == "null") "" else item.maxGlobal.toString()
                     holder.txtFecha.text = item.saldoGlobal.toString()
+                }
+            }
+            4->{
+                println("en computoblogal3")
+                if (item is DiasDisfrutados) {
+                    holder.txtTipo.text = item.id.toString()
+                    println(holder.txtTipo.text)
+                    holder.txtNombre.text = item.tipoDiaDis
+                    holder.txtFecha.text = item.fechaCon.toString()
                 }
             }
         }

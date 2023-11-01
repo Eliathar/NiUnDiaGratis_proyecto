@@ -6,32 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <TableRow
+        android:layout_width="389dp"
+        android:layout_height="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/rVComputo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rVGuardias">
+
+        <TextView
+            android:id="@+id/txtTipo3"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/tipo" />
+
+        <TextView
+            android:id="@+id/txtNombre3"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/maximo" />
+
+        <TextView
+            android:id="@+id/txtFecha3"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/saldo_global"
+            android:textAlignment="textStart" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="389dp"
+        android:layout_height="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rVActReal">
+
+        <TextView
+            android:id="@+id/txtTipo2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/tipo" />
+
+        <TextView
+            android:id="@+id/txtNombre2"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txtFecha2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/fecha"
+            android:textAlignment="textStart" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/TableRow1"
+        android:layout_width="389dp"
+        android:layout_height="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/rVActReal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/txtTipo"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/tipo" />
+
+        <TextView
+            android:id="@+id/txtNombre"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/nombre" />
+
+        <TextView
+            android:id="@+id/txtFecha"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/fecha"
+            android:textAlignment="textStart" />
+    </TableRow>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVActReal"
         android:layout_width="389dp"
-        android:layout_height="355dp"
+        android:layout_height="270dp"
         app:layout_constraintBottom_toTopOf="@+id/rVGuardias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.792" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVGuardias"
-        android:layout_width="391dp"
+        android:layout_width="389dp"
         android:layout_height="158dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/rVComputo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVComputo"
-        android:layout_width="391dp"
+        android:layout_width="389dp"
         android:layout_height="114dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
