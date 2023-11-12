@@ -1,18 +1,20 @@
 package com.example.niundiagratis.data.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.R
+import com.example.niundiagratis.data.viewholder.ViewHolderCompartir
 import com.example.niundiagratis.data.viewmodel.ViewModelCompartir
 
 class CompartirDatosAdapter(
     private val viewModel: ViewModelCompartir,
     private val datos: List<Any>
-    ): RecyclerView.Adapter<CompartirDatosAdapter.ViewHolderCompartir>() {
+    ): RecyclerView.Adapter<ViewHolderCompartir>() {
+    private var itemSelec: Int = -1
 
-    class ViewHolderCompartir(val vista: View) :RecyclerView.ViewHolder(vista)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCompartir {
         val vista = LayoutInflater.from(parent.context)
@@ -21,10 +23,19 @@ class CompartirDatosAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolderCompartir, position: Int) {
-        val registro = datos[position]
-        // Aquí puedes actualizar la vista de 'holder' con los valores de 'registro'
+        val dato = datos[position]
         holder.vista.setOnClickListener {
-            viewModel.selectedData.value = registro
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                itemSelec = pos
+                viewModel.selectedData.value = datos[pos]
+                notifyDataSetChanged()
+            }
+        }
+        if (position == itemSelec) {
+            holder.vista.setBackgroundColor(Color.BLUE)
+        } else {
+            holder.vista.setBackgroundColor(Color.TRANSPARENT)
         }
     }
     override fun getItemCount() = datos.size

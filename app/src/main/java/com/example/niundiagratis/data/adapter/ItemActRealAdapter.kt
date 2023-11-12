@@ -8,10 +8,14 @@ import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.GuardiasRealizadas
-import com.example.niundiagratis.viewholder.ItemActRealViewHolder
+import com.example.niundiagratis.data.viewholder.ItemActRealViewHolder
 
 
-class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: Int) : RecyclerView.Adapter<ItemActRealViewHolder>() {
+class ItemActRealAdapter(
+    private val dataList: List<Any>,
+    private val opcion: Int
+) : RecyclerView.Adapter<ItemActRealViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemActRealViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_list_act_real, parent, false)
@@ -29,7 +33,7 @@ class ItemActRealAdapter(private val dataList: List<Any>, private val opcion: In
             }
             2-> {
                 if (item is GuardiasRealizadas) {
-                    holder.txtTipo.text = item.tipoGuardiaOk
+                    holder.txtTipo.text = item.nombreGuardiaOk
                     holder.txtNombre.text = null
                     holder.txtFecha.text = item.fechaGuar.toString()
                 }

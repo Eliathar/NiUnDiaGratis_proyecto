@@ -41,7 +41,8 @@ import java.util.Date
     indices = [
         Index(value = ["tipoDiasGenerados1"]),
         Index(value = ["tipoDiasGenerados2"]),
-        Index(value = ["tipoDiasGenerados3"])
+        Index(value = ["tipoDiasGenerados3"]),
+        Index(value = ["nombreTipoAct"])
     ])
 data class TiposActividades(
     @PrimaryKey(autoGenerate = false)
@@ -74,7 +75,8 @@ data class TiposDias(
         )
     ],
     indices = [
-        Index(value = ["tipoActOk"], unique = true),
+        Index(value = ["tipoActOk"]),
+        Index(value = ["fechaInActOk"], unique = true),
         Index(value = ["nombreActOk"], unique = true)
     ]
 )
@@ -104,18 +106,18 @@ class ActividadesRealizadas(
     foreignKeys = [
         ForeignKey(
             entity = ActividadesRealizadas::class,
-            parentColumns = ["tipoActOk"],
-            childColumns = ["tipoGuardiaOk"]
+            parentColumns = ["fechaInActOk"],
+            childColumns = ["fechaGuar"]
         )
     ],
     indices = [
-        Index(value = ["tipoGuardiaOk"])
+        Index(value = ["fechaGuar"], unique = true)
     ]
 )
 data class GuardiasRealizadas(
     @PrimaryKey(autoGenerate = true)
     val idGuarOk: Int,
-    val tipoGuardiaOk: String,
+    val nombreGuardiaOk: String,
     val tipoDiasGeneradosGuarOk: String,
     val diasGeneradosT1GuarOk: Int,
     val tipoDiasGeneradosGuarOk2: String,
@@ -132,7 +134,7 @@ data class GuardiasRealizadas(
         )
     ],
     indices = [
-        Index(value = ["nombreActgen"])
+        Index(value = ["nombreActgen"], unique = false)
     ]
 )
 data class DiasGenerados(

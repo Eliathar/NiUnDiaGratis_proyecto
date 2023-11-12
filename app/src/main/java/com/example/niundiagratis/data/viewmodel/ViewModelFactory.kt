@@ -1,4 +1,4 @@
-package com.example.niundiagratis.data.db
+package com.example.niundiagratis.data.viewmodel
 
 
 

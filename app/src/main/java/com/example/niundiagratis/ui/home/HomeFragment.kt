@@ -1,38 +1,26 @@
 package com.example.niundiagratis.ui.home
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.MainActivity
 import com.example.niundiagratis.R
 import com.example.niundiagratis.data.adapter.ItemActRealAdapter
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.BBDDHandler.crearBBDD
-import com.example.niundiagratis.data.repositorio.ReposNiUnDiaGratis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import androidx.lifecycle.LiveData
-import com.example.niundiagratis.ui.home.HomeViewModel
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
-import com.example.niundiagratis.data.db.ViewModelFactory
+import com.example.niundiagratis.data.viewmodel.ViewModelFactory
 
 class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel

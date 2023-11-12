@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.data.adapter.CompartirDatosAdapter
 import com.example.niundiagratis.data.adapter.ItemActRealAdapter
-import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
+import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
-import com.example.niundiagratis.data.db.ViewModelFactorySimple
-import com.example.niundiagratis.data.db.ViewModelSimple
+import com.example.niundiagratis.data.viewmodel.ViewModelFactorySimple
+import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.data.viewmodel.ViewModelCompartir
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,6 +38,7 @@ class ModPermisoFragment : Fragment() {
     private lateinit var diasDisfrutadosDao: DiasDisfrutadosDao
     private var listaDisfrutados: List<DiasDisfrutados> = emptyList()
     private lateinit var rVModPer: RecyclerView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

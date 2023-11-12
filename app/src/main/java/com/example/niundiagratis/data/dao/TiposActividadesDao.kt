@@ -20,8 +20,8 @@ interface TiposActividadesDao {
     fun getAllTiposActividades(): List<TiposActividades>
 
     //Devuelve la entidad seleccionada mediante el id
-    @Query("SELECT * FROM tablaTiposActividades WHERE nombreTipoAct = :id")
-    fun getTipoActividadById(id: Long): TiposActividades?
+    @Query("SELECT * FROM tablaTiposActividades WHERE nombreTipoAct = :nombre")
+    fun getTipoActividadByNombre(nombre: String): TiposActividades?
 
     //Se actualiza una entidad
     @Update
