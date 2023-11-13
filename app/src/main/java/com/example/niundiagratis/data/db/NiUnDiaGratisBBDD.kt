@@ -209,16 +209,11 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
         private var instancia: NiUnDiaGratisBBDD? = null
         //Esta funcion se usara para acceder a la base de datos abierta en el momento de usar la aplicacion
         fun obtenerInstancia(context: Context, nombreBD: String): NiUnDiaGratisBBDD{
-            println("en obtenerinstancia")
             if(instancia == null){
-                println("en if de obtenerinstancia")
                 synchronized(NiUnDiaGratisBBDD::class){
-                    println("en sincronizado")
                     instancia = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, nombreBD).build()
-                    println("instanciado")
                 }
             }
-            println("retornando")
             return instancia!!
         }
 

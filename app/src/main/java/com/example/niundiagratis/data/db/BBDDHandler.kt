@@ -35,7 +35,6 @@ object BBDDHandler {
             ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
                 .build()
             niUnDiaGratisDB.openHelper.writableDatabase
-            println("BBDD ya creada")
         } else {
             niUnDiaGratisDB = Room.databaseBuilder(
                 context.applicationContext,
@@ -52,7 +51,6 @@ object BBDDHandler {
                 inicializarBBDD2(niUnDiaGratisDB)
                 inicializarBBDD3(niUnDiaGratisDB)
             }
-            println("bbdd inicializada")
 
         }
         return nombreBD
@@ -73,7 +71,6 @@ object BBDDHandler {
         //Inicializamos tipos de dias
         runBlocking {
             for (i in 1..6) {
-                println("bucle for $i")
                 when (i) {
                     1 -> nuevoTipoDia = TiposDias(nombreTipoDia = "DA", maxDias = 10)
                     2 -> nuevoTipoDia = TiposDias(nombreTipoDia = "PO", maxDias = 22)
@@ -106,7 +103,6 @@ object BBDDHandler {
             val idTipoDia6 = daoTiposDias.getTipoDiaById("DO")?.nombreTipoDia
 
             for (j in 1..7) {
-                println("bucle for actividades $j")
                 when (j) {
                     1 -> nuevoTiposActividades = TiposActividades(
                         nombreTipoAct = "Maniobras",
@@ -216,7 +212,6 @@ object BBDDHandler {
             val maxTipoDiaG5 = daoTiposDias.getTipoDiaById("MO")?.maxDias
             val maxTipoDiaG6 = daoTiposDias.getTipoDiaById("DO")?.maxDias
             for (k in 1..6) {
-                println("bucle for computo global $k")
                 when (k) {
                     1 -> nuevocomputoGlobal =
                         ComputoGlobal(0, idTipoDiaG1.toString(), maxTipoDiaG1!!, 0, 0, 0)
@@ -237,7 +232,6 @@ object BBDDHandler {
                         ComputoGlobal(0, idTipoDiaG6.toString(), maxTipoDiaG6, 0, 0, 0)
                 }
                 daoComputoGlobal.insert(nuevocomputoGlobal)
-                println("computo terminado")
             }
         }
     }
@@ -255,22 +249,17 @@ object BBDDHandler {
             lateinit var nuevaActReal: ActividadesRealizadas
             //Inicializamos tipos de dias
             //Actividades realizadas
-            val tipoActReal =
-                daoTiposActividades.getTipoActividadByNombre("Maniobras")?.nombreTipoAct
-            println("el valor es $tipoActReal")
+            val tipoActReal = daoTiposActividades.getTipoActividadByNombre("Maniobras")?.nombreTipoAct
             val idTipoDia1 = daoTiposDias.getTipoDiaById("DA")?.nombreTipoDia
             val idTipoDia3 = daoTiposDias.getTipoDiaById("DPP")?.nombreTipoDia
             val idTipoDia5 = daoTiposDias.getTipoDiaById("MO")?.nombreTipoDia
             val idTipoDia6 = daoTiposDias.getTipoDiaById("DO")?.nombreTipoDia
             val tipoActReal1 = daoTiposActividades.getTipoActividadByNombre("Continuada")?.nombreTipoAct
-            println(tipoActReal1)
             val tipoActReal2 = daoTiposActividades.getTipoActividadByNombre("Prolongada")?.nombreTipoAct
-            println(tipoActReal2)
             val fecha = SimpleDateFormat("dd-MM-yyyy")
             println(fecha)
 
             for (l in 1..3) {
-                println("bucle for cactividadesrealizadas $l")
                 when (l) {
                     1 -> {
                         nuevaActReal = ActividadesRealizadas(
@@ -287,9 +276,6 @@ object BBDDHandler {
                             fecha.parse("10-02-2023"),
                             false
                         )
-                        println("act 1 intro")
-                        println("actividad realizada es $nuevaActReal")
-                        println(nuevaActReal)
                     }
 
                     2 -> {
@@ -307,8 +293,6 @@ object BBDDHandler {
                             fecha.parse("10-02-2023"),
                             false
                         )
-                        println("act 2 intro")
-                        println(nuevaActReal)
                     }
 
                     3 -> {
@@ -326,13 +310,11 @@ object BBDDHandler {
                             fecha.parse("11-02-2023"),
                             false
                         )
-                        println("act 3 intro")
                         println(nuevaActReal)
                     }
                 }
 
                 daoActividadesRealizadas.insert(nuevaActReal)
-                println("computo terminado")
 
             }
         }

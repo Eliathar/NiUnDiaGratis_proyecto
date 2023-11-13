@@ -71,24 +71,18 @@ class HomeFragment : Fragment() {
         val factory = ViewModelFactory(computoGlobalDao, actividadesRealizadasDao, guardiasRealizadasDao)
         //Creamos el viewmodel
         val homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
-        println("dentro de 0")
-        homeViewModel.escribir()
         //Funciones para obtener los datos del viewmodel para ls recyclerviews
         lifecycleScope.launch {
             homeViewModel.obtenerActividades().observe(viewLifecycleOwner) { actividades ->
                 val listaActividades = actividades ?: emptyList()
-                println("dentro de 1")
                 println(listaActividades.size)
                 val actRealAdapter = ItemActRealAdapter(listaActividades, 1)
-                println("dentro de 2")
                 rVActReal.adapter = actRealAdapter
-                println("dentro de 3")
             }
         }
         lifecycleScope.launch {
             homeViewModel.obtenerGuardias().observe(viewLifecycleOwner){guardias ->
                 val listaGuardiasRealizadas = guardias ?: emptyList()
-                println("dentro de 4")
                 println(listaGuardiasRealizadas.size)
                 val actGuardias = ItemActRealAdapter(listaGuardiasRealizadas, 2)
                 rVGuardias.adapter = actGuardias
@@ -97,15 +91,12 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             homeViewModel.listaComputoGlobal.observe(viewLifecycleOwner) { datos ->
                 val listaComputoGlobal = datos ?: emptyList()
-                println("dentro de 5")
                 println(listaComputoGlobal.size)
                 for (i in 0..<listaComputoGlobal.size){
                     println(listaComputoGlobal[i].toString())
                 }
                 val computoGlobal = ItemActRealAdapter(listaComputoGlobal, 3)
-                println("dentro de 6")
                 rVComputo.adapter = computoGlobal
-                println("dentro de 7")
             }
         }
         return view

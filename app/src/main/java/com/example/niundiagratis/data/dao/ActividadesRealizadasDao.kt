@@ -21,7 +21,7 @@ interface ActividadesRealizadasDao {
 
         //Devuelve la entidad seleccionada mediante el id
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE id = :id")
-        fun getActividadById(id: Long): ActividadesRealizadas?
+        fun getActividadById(id: Int): ActividadesRealizadas?
 
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE esGuardiaOk = 0")
         fun obtenerActividades(): LiveData<List<ActividadesRealizadas>>

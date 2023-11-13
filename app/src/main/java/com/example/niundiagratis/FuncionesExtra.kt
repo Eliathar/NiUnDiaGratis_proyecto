@@ -13,18 +13,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun abrirFragment(fragment: Fragment) {
-    /* Inicializamos view a null, siempre deberia tener un valor diferente de nulo,
-    pero se usa ? para prevenir errores */
-    val view: View? = null
 
-    //Obtenemos la actividad, usamos ? para prevenir errores por valor nulo
-    val fragmnt = view?.context as FragmentManager
-
-    /* Añadimos el fragment a la actividad, no es necesario ? pues si view es nulo esta
-    linea no se ejecutara */
-    fragmnt.beginTransaction().replace(R.id.nav_view, fragment).commit()
-}
 
 //Obtenemos el titulo del submenu segun el id
 fun selTitulo(submenuId: Int, context: Context?): CharSequence {
@@ -78,9 +67,9 @@ fun cargarFragment(seleccion: Int, navController: NavController, datos: Any? = n
 
     try {
         if(seleccion !=-1) {
+
             val bundle = Bundle()
-            bundle.putInt("opcion_submenu_1", seleccion)
-            //TODO Ir añadiendo las llamadas a los fragments, "seleccion" solo se utiliza para llamadas desde Submenu01
+            bundle?.putInt("opcion_submenu_1", seleccion)
             when(seleccion){
                 0 -> navController.navigate(R.id.nav_home)
                 in 1..5 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
@@ -106,30 +95,6 @@ fun cargarFragment(seleccion: Int, navController: NavController, datos: Any? = n
     }
 }
 
-/*fun showDatePickerDialog(context: Context): Date {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-    var selectedDate: Date? = null
-
-    val datePickerDialog = DatePickerDialog(context, { _, year, month, dayOfMonth ->
-        // En este bloque, puedes manejar la fecha seleccionada
-        selectedDate = Calendar.getInstance().apply {
-            set(year, month, dayOfMonth)
-        }.time
-    }, year, month, day)
-
-    datePickerDialog.show()
-
-    // Espera hasta que el usuario haya seleccionado una fecha
-    while (selectedDate == null) {
-        // Puedes agregar un retardo muy corto aquí si lo deseas
-    }
-
-    return selectedDate!!
-}*/
 fun showDatePickerDialog(context: Context, onDateSelected: (Date) -> Unit) {
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
@@ -153,14 +118,8 @@ fun formatearFecha(fecha: Date): String {
 
 
 fun obtenerTipoDiasBD(): List<String>{
-    //TODO logica para obtener valores de BBDD
-    //val tipoDiasBBDD = //logica para obtener valores
     //Obtenemos un valor predeterminado para el spinner, asi evitamos un textView
     val valoresPredeterminados = mutableListOf("Selecciona una opción")
-
-    //Actualizamos al obtener valores de la BBDD
-    //valoresPredeterminados.addAll(tipoDiasBBDD)
-
     //Retornamos lista de valores obtenidos
     return valoresPredeterminados
 }

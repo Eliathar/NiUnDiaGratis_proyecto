@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_config -> 3
             else -> -1
         }
-        println("seleccion $seleccion")
 
         //Cerramos el menu lateral al realizar la seleccion
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -93,9 +92,7 @@ class MainActivity : AppCompatActivity() {
         /* En caso de que exista una opcion valida, realizamos la llamada al fragment pasando
         como parametro el bundle creado con la seleccion, se usa bundle para facilitar posibles
         mejoras en el futuro, garantizando flexibilidad a la hora de pasar los datos */
-        val bundle = Bundle()
-        bundle.putInt("opcion_submenu_1", seleccion)
-        bundle.putBundle("navController", navController.saveState())
+
         cargarFragment(seleccion, navController)
     }
 }

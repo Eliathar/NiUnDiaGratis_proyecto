@@ -27,12 +27,12 @@
         android:layout_height="52dp"
         android:layout_marginBottom="84dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular06"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonCalcular"
+        android:id="@+id/buttonCalcular06"
         android:layout_width="318dp"
         android:layout_height="75dp"
         android:layout_marginBottom="76dp"

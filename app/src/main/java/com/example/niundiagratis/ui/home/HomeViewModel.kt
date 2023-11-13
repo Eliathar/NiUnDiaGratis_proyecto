@@ -23,15 +23,10 @@ class HomeViewModel(
 
 
     fun obtenerActividades(): LiveData<List<ActividadesRealizadas>>{
-        println("dentro obteneractividades homeviewmodel")
        return actividadesRealizadasDao.obtenerActividades()
    }
     fun obtenerGuardias(): LiveData<List<GuardiasRealizadas>>{
-        println("dentro obtenerGUardias homeviewmodel")
         return guardiasRealizadasDao.getAllGuardiasRealizadas()
-    }
-    fun escribir(){
-        println("dentro del viewmodel")
     }
 
 }

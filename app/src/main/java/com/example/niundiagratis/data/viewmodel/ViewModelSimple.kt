@@ -6,9 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
+import com.example.niundiagratis.data.dao.TiposActividadesDao
+import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.GuardiasRealizadas
+import com.example.niundiagratis.data.db.TiposActividades
+import com.example.niundiagratis.data.db.TiposDias
 
 
 class ViewModelSimple(
@@ -22,7 +26,6 @@ class ViewModelSimple(
     val listaActividades: LiveData<List<Any>> get() = _listaActividades
 
     fun obtenerActividades(): LiveData<List<ActividadesRealizadas>> {
-        println("dentro obteneractividades ViewModelSimple $dao")
         if (dao is ActividadesRealizadasDao) {
             return dao.getAllActividades()
         } else {
@@ -30,7 +33,6 @@ class ViewModelSimple(
         }
     }
     fun obtenerGuardias(): LiveData<List<GuardiasRealizadas>> {
-        println("dentro obtenerGUardias ViewModelSimple")
         if (dao is GuardiasRealizadasDao) {
             return dao.getAllGuardiasRealizadas()
         }else {
@@ -38,21 +40,27 @@ class ViewModelSimple(
         }
     }
     fun obtenerDiasDis(): LiveData<List<DiasDisfrutados>>{
-        println("dentro obtener dias ViewModelSimple")
         if (dao is DiasDisfrutadosDao) {
             return dao.obtenerDiasDisfrutados()
         }else {
             return MutableLiveData(emptyList())
         }
     }
-    fun escribir(){
-        println("dentro del viewmodel")
-    }
     fun setSelectedData(data: Any){
         _selectedData.value = data
     }
     fun actualizarListaActividades(nuevasActividades: List<Any>) {
         _listaActividades.value = nuevasActividades
+    }
+    fun obtenerTiposDias(): List<TiposDias>{
+        if (dao is TiposDiasDao) {
+            return dao.getAllTiposDias()
+        } else throw IllegalArgumentException("DAO no es una instancia de TiposDiasDao")
+    }
+    fun obtenerTiposActividades(): List<TiposActividades>{
+        if (dao is TiposActividadesDao) {
+            return dao.getAllTiposActividades()
+        } else throw IllegalArgumentException("DAO no es una instancia de TiposDiasActividadesDao")
     }
     fun onItemSelected(position: Int){
         //Controlar seleccion items

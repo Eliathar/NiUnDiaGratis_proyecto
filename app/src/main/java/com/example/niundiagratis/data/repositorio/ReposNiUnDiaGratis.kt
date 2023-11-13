@@ -35,6 +35,7 @@ class ReposNiUnDiaGratis(
         return guardiasRealizadasDao.getAllGuardiasRealizadas()
     }
     suspend fun obtenerComputoGlobal(): List<ComputoGlobal> {
+
         val resultados = mutableListOf<ComputoGlobal>()
 
         // Obtener todos los tipos de días de la tabla TiposDias

@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +55,7 @@ class ModActividadFragment : Fragment() {
     private lateinit var txtV: TextView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: ActividadesRealizadas
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +69,9 @@ class ModActividadFragment : Fragment() {
         btn1= binding.btnAceptar07
 
         btn1.isEnabled = false
+
+        navController = findNavController()
+
 
 
         //Enlazamos el recycler view
@@ -96,34 +101,17 @@ class ModActividadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController = findNavController()
         btn1.setOnClickListener {
             selMenuInt = 8
-            println(6)
-            val date: Date = selectedItem.fechaInActOk
-            val datef: Date = selectedItem.fechaFiActOk
-            val dateLong: Long = date.time
-            val dateLong1: Long = datef.time
-
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
                 putInt("id", selectedItem.id)
-                putString("nombreActOk", selectedItem.nombreActOk)
-                putString("tipoActOk", selectedItem.tipoActOk)
-                putString("tipoDiasActOk1", selectedItem.tipoDiasActOk1)
-                putString("tipoDiasActOk2", selectedItem.tipoDiasActOk2)
-                putString("tipoDiasActOk3", selectedItem.tipoDiasActOk3)
-                putInt("diasGenActOk1", selectedItem.diasGenActOk1 ?: 0)
-                putInt("diasGenActOk2", selectedItem.diasGenActOk2 ?: 0)
-                putInt("diasGenActOk3", selectedItem.diasGenActOk3 ?: 0)
-                putLong("fechaInActOk", dateLong)
-                putLong("fechaFiActOk", dateLong1)
-                putBoolean("esGuardiaOk", selectedItem.esGuardiaOk)
+                putString("nombreBD", nombreBD)
             }
-
             // Navega al siguiente fragmento con el Bundle
-            cargarFragment(selMenuInt, navController, bundle)
-            println("cargar frgament iniciado")
+            navController.navigate(R.id.action_modActividadFragment_to_modActividadSeleccionadaFragment, bundle)
+            println("actividad seleccionada")
+            println(id)
         }
     }
 

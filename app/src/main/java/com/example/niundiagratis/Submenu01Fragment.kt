@@ -25,7 +25,6 @@ class Submenu01Fragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_submenu01, container, false)
         selMenuInt = arguments?.getInt("opcion_submenu_1") ?: -1
-        println("fragment cargado, seleccion $selMenuInt")
 
         return view
     }
@@ -34,38 +33,29 @@ class Submenu01Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val navController = findNavController()
-        println("el navcontroller es $navController")
         super.onViewCreated(view, savedInstanceState)
         fragmentManager = parentFragmentManager
         val contexto: Context = requireContext()
         val idFragment = this::class.java.simpleName
-        println("idFragment = $idFragment")
 
         //Obtenemos la referencia al toolbar para usar tituloOp1 como texto en ella
         val tituloOp1: Toolbar? = activity?.findViewById(R.id.mainToolbar)
         val context = activity?.applicationContext ?: return
-        println("adjudicado toolbar")
         tituloOp1?.title = selTitulo(selMenuInt, context) as String
-        println("toolbar es ${tituloOp1?.title}")
 
         //Creacion de variables para asignar texto a los botones
         val btn1: TextView = view.findViewById(R.id.btn_Sub_Opcion1)
-        println("btn1 encontrado")
 
         val btn2: TextView = view.findViewById(R.id.btn_Sub_Opcion2)
-        println("btn2 encontrado")
 
         //llamadas a las funciones para obtener el titulo y el texto de los botones
         selTextoBotones(selMenuInt, btn1, btn2)
-
-        println(4)
 
         //Limpiamos la vista en la proxima oprtunidad que tenga el sistema, al seleccionar otra opcion que implique submenu01*/
         view.invalidate()
 
         //Prueba nueva
         btn1.setOnClickListener {
-            println(6)
             when (btn1.text.toString()){
 
                 getString(R.string.opciones_1_conf_btn1)-> {
@@ -92,32 +82,26 @@ class Submenu01Fragment : Fragment() {
             }
         }
         btn2.setOnClickListener{
-            println(61)
             when (btn2.text.toString()){
 
                 getString(R.string.opciones_1_conf_btn2)-> {
                     selMenuInt = 5
-                    println(selMenuInt)
                     cargarFragment(selMenuInt, navController)
                 }
                 getString(R.string.opciones_1_act_btn2)-> {
                     selMenuInt = 7
-                    println(selMenuInt)
                     cargarFragment(selMenuInt, navController)
                 }
                 getString(R.string.opciones_1_perm_btn2)-> {
                     selMenuInt = 10
-                    println(selMenuInt)
                     cargarFragment(selMenuInt, navController)
                 }
                 getString(R.string.opciones_1_add_tipo_dia_btn2)-> {
                     selMenuInt = 13
-                    println(selMenuInt)
                     cargarFragment(selMenuInt, navController)
                 }
                 getString(R.string.opciones_1_mod_tipo_dia_btn2)-> {
                     selMenuInt = 16
-                    println(selMenuInt)
                     cargarFragment(selMenuInt, navController)
                 }
 
@@ -130,10 +114,8 @@ class Submenu01Fragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        println(8)
         super.onAttach(context)
         fragmentManager = requireActivity().supportFragmentManager
-        println(9)
     }
 
 
