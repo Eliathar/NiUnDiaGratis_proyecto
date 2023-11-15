@@ -13,7 +13,6 @@ import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.DiasGeneradosDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import java.util.Date
@@ -102,29 +101,6 @@ class ActividadesRealizadas(
     val esGuardiaOk: Boolean
 )
 
-@Entity(tableName = "tablaGuardiasRealizadas",
-    foreignKeys = [
-        ForeignKey(
-            entity = ActividadesRealizadas::class,
-            parentColumns = ["fechaInActOk"],
-            childColumns = ["fechaGuar"]
-        )
-    ],
-    indices = [
-        Index(value = ["fechaGuar"], unique = true)
-    ]
-)
-data class GuardiasRealizadas(
-    @PrimaryKey(autoGenerate = true)
-    val idGuarOk: Int,
-    val nombreGuardiaOk: String,
-    val tipoDiasGeneradosGuarOk: String,
-    val diasGeneradosT1GuarOk: Int,
-    val tipoDiasGeneradosGuarOk2: String,
-    val diasGeneradosT2GuarOk: Int,
-    val fechaGuar: Date
-)
-
 @Entity(tableName = "tablaDiasGenerados",
     foreignKeys = [
         ForeignKey(
@@ -189,7 +165,7 @@ data class ComputoGlobal(
 )
 //Definimos la base de datos en Room, sus entidades y la version de la base de datos
 @Database(
-    entities = [TiposActividades::class, TiposDias::class, ActividadesRealizadas::class, GuardiasRealizadas::class, DiasDisfrutados::class, ComputoGlobal::class, DiasGenerados::class],
+    entities = [TiposActividades::class, TiposDias::class, ActividadesRealizadas::class, DiasDisfrutados::class, ComputoGlobal::class, DiasGenerados::class],
     version = 1,
     exportSchema = false
 )
@@ -202,8 +178,6 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     abstract fun fDiasGeneradosDao(): DiasGeneradosDao
     abstract fun fDiasDisfrutadosDao(): DiasDisfrutadosDao
     abstract fun fComputoGlobalDao(): ComputoGlobalDao
-
-    abstract fun fGuardiasRealizadasDao(): GuardiasRealizadasDao
     companion object{
 
         private var instancia: NiUnDiaGratisBBDD? = null

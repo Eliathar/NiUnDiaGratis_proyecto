@@ -7,12 +7,15 @@
     tools:context=".ui.home.HomeFragment">
 
     <TableRow
+        android:id="@+id/TableRow"
         android:layout_width="389dp"
         android:layout_height="18dp"
         app:layout_constraintBottom_toTopOf="@+id/rVComputo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rVGuardias">
+        android:background="@drawable/borde"
+        app:layout_constraintTop_toBottomOf="@+id/rVGuardias"
+        app:layout_marginBaseline="9dp">
 
         <TextView
             android:id="@+id/txtTipo3"
@@ -41,9 +44,12 @@
         android:id="@+id/tableRow2"
         android:layout_width="389dp"
         android:layout_height="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/rVGuardias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rVActReal">
+        android:background="@drawable/borde"
+        app:layout_constraintTop_toBottomOf="@+id/rVActReal"
+        app:layout_marginBaseline="9dp">
 
         <TextView
             android:id="@+id/txtTipo2"
@@ -75,8 +81,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/borde"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_marginBaseline="9dp">
 
         <TextView
             android:id="@+id/txtTipo"
@@ -104,12 +112,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVActReal"
         android:layout_width="389dp"
-        android:layout_height="270dp"
+        android:layout_height="248dp"
         app:layout_constraintBottom_toTopOf="@+id/rVGuardias"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.792" />
+        app:layout_constraintVertical_bias="0.812"
+        app:layout_marginBaseline="32dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVGuardias"

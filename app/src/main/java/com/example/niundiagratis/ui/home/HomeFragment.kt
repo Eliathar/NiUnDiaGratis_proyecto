@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.R
 import com.example.niundiagratis.data.adapter.ItemActRealAdapter
@@ -18,16 +19,16 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelFactory
+import com.example.niundiagratis.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var actRealAdapter: ItemActRealAdapter
     private lateinit var computoGlobalDao: ComputoGlobalDao
     private lateinit var actividadesRealizadasDao: ActividadesRealizadasDao
-    private lateinit var guardiasRealizadasDao: GuardiasRealizadasDao
     private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var nombreBD: String
 
@@ -36,22 +37,21 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       val view = inflater.inflate(R.layout.fragment_home, container, false)
-
-        //Enlazamos los recycler views
-        val rVActReal: RecyclerView = view.findViewById(R.id.rVActReal)
-        val rVGuardias: RecyclerView = view.findViewById(R.id.rVGuardias)
-        val rVComputo: RecyclerView = view.findViewById(R.id.rVComputo)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+       val view = binding.root
 
         //obtenemos instancia del layoutmanager
         val layoutManager1 = LinearLayoutManager(context)
         val layoutManager2 = LinearLayoutManager(context)
         val layoutManager3 = LinearLayoutManager(context)
+        val decoration = DividerItemDecoration(context, layoutManager1.orientation)
 
         //Asignamos los layoutmanager a los recyclerviews
-        rVActReal.layoutManager = layoutManager1
-        rVGuardias.layoutManager = layoutManager2
-        rVComputo.layoutManager = layoutManager3
+        binding.rVActReal.layoutManager = layoutManager1
+        binding.rVGuardias.layoutManager = layoutManager2
+        binding.rVComputo.layoutManager = layoutManager3
+
+
 
 
         //Creacion e inicializacion de base de datos
@@ -62,33 +62,34 @@ class HomeFragment : Fragment() {
         }
         println(nombreBD)
         // Obtenemos una instancia de la base de datos seleccionada
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
         // Inicializamos DAOs
         computoGlobalDao = database.fComputoGlobalDao()
         actividadesRealizadasDao = database.fActividadesRealizadasDao()
-        guardiasRealizadasDao = database.fGuardiasRealizadasDao()
         //Creamos una variable viewmodelfactory para pasarle los datos al viewmodel
-        val factory = ViewModelFactory(computoGlobalDao, actividadesRealizadasDao, guardiasRealizadasDao)
+        val factory = ViewModelFactory(computoGlobalDao, actividadesRealizadasDao)
         //Creamos el viewmodel
         val homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
         //Funciones para obtener los datos del viewmodel para ls recyclerviews
         lifecycleScope.launch {
             homeViewModel.obtenerActividades().observe(viewLifecycleOwner) { actividades ->
-                val listaActividades = actividades ?: emptyList()
+                val listaActividades = actividades?.filter{!it.esGuardiaOk} ?:
+                emptyList()
                 println(listaActividades.size)
+                println("lista de actividades ${listaActividades.size}")
                 val actRealAdapter = ItemActRealAdapter(listaActividades, 1)
-                rVActReal.adapter = actRealAdapter
+                binding.rVActReal.adapter = actRealAdapter
+                binding.rVActReal.addItemDecoration(decoration)
             }
-        }
-        lifecycleScope.launch {
-            homeViewModel.obtenerGuardias().observe(viewLifecycleOwner){guardias ->
-                val listaGuardiasRealizadas = guardias ?: emptyList()
-                println(listaGuardiasRealizadas.size)
-                val actGuardias = ItemActRealAdapter(listaGuardiasRealizadas, 2)
-                rVGuardias.adapter = actGuardias
+            homeViewModel.obtenerGuardias().observe(viewLifecycleOwner){actividades ->
+                val listaGuardias = actividades?.filter{it.esGuardiaOk} ?:
+                emptyList()
+                println("lista de guardias ${listaGuardias.size}")
+                val actGuardias = ItemActRealAdapter(listaGuardias, 2)
+                binding.rVGuardias.adapter = actGuardias
+                binding.rVGuardias.addItemDecoration(decoration)
+
             }
-        }
-        lifecycleScope.launch {
             homeViewModel.listaComputoGlobal.observe(viewLifecycleOwner) { datos ->
                 val listaComputoGlobal = datos ?: emptyList()
                 println(listaComputoGlobal.size)
@@ -96,7 +97,8 @@ class HomeFragment : Fragment() {
                     println(listaComputoGlobal[i].toString())
                 }
                 val computoGlobal = ItemActRealAdapter(listaComputoGlobal, 3)
-                rVComputo.adapter = computoGlobal
+                binding.rVComputo.adapter = computoGlobal
+                binding.rVComputo.addItemDecoration(decoration)
             }
         }
         return view

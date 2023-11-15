@@ -6,12 +6,10 @@ import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.DiasGeneradosDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
-import com.example.niundiagratis.data.db.GuardiasRealizadas
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 
 class ReposNiUnDiaGratis(
@@ -20,7 +18,6 @@ class ReposNiUnDiaGratis(
     private val computoGlobalDao: ComputoGlobalDao,
     private val diasDisfrutadosDao: DiasDisfrutadosDao,
     private val diasGeneradosDao: DiasGeneradosDao,
-    private val guardiasRealizadasDao: GuardiasRealizadasDao,
     private val tiposDiasDao: TiposDiasDao,
     private val tiposActividadesDao: TiposActividadesDao
 ) {
@@ -29,10 +26,6 @@ class ReposNiUnDiaGratis(
 
     fun obtenerActividades(): LiveData<List<ActividadesRealizadas>> {
         return actividadesRealizadasDao.obtenerActividades()
-    }
-
-    fun getAllGuardiasRealizadas(): LiveData<List<GuardiasRealizadas>>{
-        return guardiasRealizadasDao.getAllGuardiasRealizadas()
     }
     suspend fun obtenerComputoGlobal(): List<ComputoGlobal> {
 

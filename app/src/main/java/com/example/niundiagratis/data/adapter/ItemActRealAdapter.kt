@@ -7,8 +7,8 @@ import com.example.niundiagratis.R
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
 import com.example.niundiagratis.data.db.DiasDisfrutados
-import com.example.niundiagratis.data.db.GuardiasRealizadas
 import com.example.niundiagratis.data.viewholder.ItemActRealViewHolder
+import com.example.niundiagratis.formatearFecha
 
 
 class ItemActRealAdapter(
@@ -25,23 +25,26 @@ class ItemActRealAdapter(
         val item = dataList[position]
         when (opcion){
             1 ->{
-                if (item is ActividadesRealizadas) {
+                if (item is ActividadesRealizadas && !item.esGuardiaOk) {
+                    println("Actividad localizada ${item.nombreActOk}")
                     holder.txtTipo.text = item.tipoActOk
                     holder.txtNombre.text = item.nombreActOk
-                    holder.txtFecha.text = item.fechaInActOk.toString()
+                    holder.txtFecha.text = formatearFecha(item.fechaInActOk)
                 }
             }
             2-> {
-                if (item is GuardiasRealizadas) {
-                    holder.txtTipo.text = item.nombreGuardiaOk
-                    holder.txtNombre.text = null
-                    holder.txtFecha.text = item.fechaGuar.toString()
+                if (item is ActividadesRealizadas && item.esGuardiaOk) {
+                    println("Guardia localizada ${item.nombreActOk}")
+                    holder.txtTipo.text = item.tipoActOk
+                    holder.txtNombre.text = item.nombreActOk
+                    holder.txtFecha.text = formatearFecha(item.fechaInActOk)
                 }
             }
             3->{
                 println("en computoblogal3")
                 if (item is ComputoGlobal) {
                     holder.txtTipo.text = item.tipoDiaGlobal
+                    println("Computo global localizad ${item.tipoDiaGlobal}")
                     println(holder.txtTipo.text)
                     holder.txtNombre.text = if (item.maxGlobal.toString() == "null") "" else item.maxGlobal.toString()
                     holder.txtFecha.text = item.saldoGlobal.toString()

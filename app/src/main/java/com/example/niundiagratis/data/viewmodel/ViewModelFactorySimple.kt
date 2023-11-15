@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 
 class ViewModelFactorySimple(
     private val dao: Any
@@ -16,7 +15,6 @@ class ViewModelFactorySimple(
             realiza la llamada, esto permite reutilizar este viewmodelfactory*/
             return when (dao) {
                 is ActividadesRealizadasDao -> ViewModelSimple(dao as ActividadesRealizadasDao) as T
-                is GuardiasRealizadasDao -> ViewModelSimple(dao as GuardiasRealizadasDao) as T
                 is DiasDisfrutadosDao -> ViewModelSimple(dao as DiasDisfrutadosDao) as T
                 else -> throw IllegalArgumentException("Unknown DAO class")
             }

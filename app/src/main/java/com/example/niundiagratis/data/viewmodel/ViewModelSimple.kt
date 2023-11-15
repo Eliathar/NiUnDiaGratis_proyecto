@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.DiasDisfrutados
-import com.example.niundiagratis.data.db.GuardiasRealizadas
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.db.TiposDias
 
@@ -48,13 +46,6 @@ class ViewModelSimple(
         } else throw IllegalArgumentException("DAO no es una instancia de TiposDiasDao")
 
 //--------------------------------------------------------------------------------------------------
-    }
-    fun obtenerGuardias(): LiveData<List<GuardiasRealizadas>> {
-        if (dao is GuardiasRealizadasDao) {
-            return dao.getAllGuardiasRealizadas()
-        }else {
-            return MutableLiveData(emptyList())
-        }
     }
     fun obtenerDiasDisLive(): LiveData<List<DiasDisfrutados>>{
         if (dao is DiasDisfrutadosDao) {

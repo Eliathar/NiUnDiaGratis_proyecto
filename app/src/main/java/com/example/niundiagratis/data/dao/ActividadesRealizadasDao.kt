@@ -26,6 +26,7 @@ interface ActividadesRealizadasDao {
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE esGuardiaOk = 0")
         fun obtenerActividades(): LiveData<List<ActividadesRealizadas>>
 
+
         @Query("SELECT * FROM tablaActividadesRealizadas WHERE esGuardiaOk = 1")
         fun obtenerGuardias(): LiveData<List<ActividadesRealizadas>>
 
