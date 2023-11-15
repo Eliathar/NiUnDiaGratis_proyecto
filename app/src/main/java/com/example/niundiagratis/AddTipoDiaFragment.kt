@@ -65,10 +65,6 @@ class AddTipoDiaFragment : Fragment() {
         dao = database.fTiposDiasDao()
         navController = findNavController()
 
-        val spinner = binding.spinnerMax13
-
-
-
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

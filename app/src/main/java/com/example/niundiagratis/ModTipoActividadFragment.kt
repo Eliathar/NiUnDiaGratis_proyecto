@@ -42,7 +42,6 @@ class ModTipoActividadFragment : Fragment() {
     private lateinit var nombreBD: String
     private var listaTiposActividades: List<TiposActividades> = emptyList()
     private lateinit var listaTiposActividadesLive: LiveData<List<TiposActividades>>
-    private lateinit var txtV: TextView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposActividades
     private lateinit var navController: NavController
@@ -112,7 +111,7 @@ class ModTipoActividadFragment : Fragment() {
                 //actualizamos listaActividades del fragment para controlar mensaje de no hay datos
                 listaTiposActividades = listaTiposActividadesScope
                 //Controlamos visibilidad del mensaje de no hay datos
-                txtV.visibility = if (listaTiposActividades.isEmpty()) View.VISIBLE else View.GONE
+                binding.txtVControl14.visibility = if (listaTiposActividades.isEmpty()) View.VISIBLE else View.GONE
 
             }
         }

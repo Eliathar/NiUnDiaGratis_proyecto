@@ -16,10 +16,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
+import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModPermisoSeleccionadoBinding
 import kotlinx.coroutines.Dispatchers
@@ -48,10 +50,10 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     private lateinit var entidad: DiasDisfrutados
     private val viewModelT: ViewModelSimple by lazy {
         val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daot = database.fDiasDisfrutadosDao()
+        daot = database.fTiposDiasDao()
         ViewModelSimple(daot)
     }
-    private lateinit var daot: DiasDisfrutadosDao
+    private lateinit var daot: TiposDiasDao
     private lateinit var navController: NavController
     private var id: Int = 0
 
@@ -69,11 +71,6 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     ): View? {
         binding = FragmentModPermisoSeleccionadoBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        /*//Configuramos el spinner
-        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, obtenerTipoDiasBD())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerTipo11.adapter = adapter*/
 
         //Declaramos el bundle
         val bundle = this.arguments
@@ -144,11 +141,11 @@ class ModPermisoSeleccionadoFragment : Fragment() {
 //----------Obtenemos valores e inicializamos el spinner en un hilo secundario-----------------------
         lifecycleScope.launch {
             //Obtenemos la lista de los tipos de dias
-            val tipoPermisoDB = withContext(Dispatchers.IO) {
-                viewModelT.obtenerDiasDis()
+            val tipoDiaDB = withContext(Dispatchers.IO) {
+                viewModelT.obtenerTiposDiasList()
             }
             //Iteramos sobre la lista y obtenemos los nombres de los tipos de días
-            val nombresTiposActividades = tipoPermisoDB.map { it.tipoDiaDis }
+            val nombresTiposActividades = tipoDiaDB.map { it.nombreTipoDia }
 
             //Creamos un ArrayAdapter con la lista de nombres
             val adapter = ArrayAdapter<String>(

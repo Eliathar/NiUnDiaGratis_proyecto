@@ -64,10 +64,6 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
     ): View? {
         binding = FragmentModActividadSeleccionadaBinding.inflate(inflater, container, false)
         val view = binding.root
-        //Configuramos el spinner
-        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, obtenerTipoDiasBD())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerTipo08.adapter = adapter
 
         //Declaramos el bundle
         val bundle = this.arguments
