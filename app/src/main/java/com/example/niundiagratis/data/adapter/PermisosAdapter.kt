@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.R
-import com.example.niundiagratis.data.db.ActividadesRealizadas
-import com.example.niundiagratis.data.viewholder.SimpleViewHolder
+import com.example.niundiagratis.data.db.DiasDisfrutados
+import com.example.niundiagratis.data.viewholder.PermisosViewHolder
 
-class SimpleAdapter(
-    val datos: List<ActividadesRealizadas>,
-    private val onclickListener: (ActividadesRealizadas) -> Unit
-): RecyclerView.Adapter<SimpleViewHolder>()  {
+class PermisosAdapter(
+    val datos: List<DiasDisfrutados>,
+    private val onclickListener: (DiasDisfrutados) -> Unit
+): RecyclerView.Adapter<PermisosViewHolder>()  {
 
-    var selectedItem: ActividadesRealizadas? = null
+    var selectedItem: DiasDisfrutados? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PermisosViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return SimpleViewHolder(layoutInflater.inflate(R.layout.item_list_act_real, parent, false))
+        return PermisosViewHolder(layoutInflater.inflate(R.layout.item_list_act_real, parent, false))
     }
 
-    override fun onBindViewHolder(holder: SimpleViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PermisosViewHolder, position: Int) {
         val item = datos[position]
         holder.render(item, onclickListener)
         // Cambia el color de fondo si el elemento está seleccionado
@@ -31,8 +31,5 @@ class SimpleAdapter(
         }
 
     }
-
     override fun getItemCount(): Int = datos.size
-
-
 }

@@ -8,110 +8,156 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <EditText
+        android:id="@+id/editTextNombreTipoAct12"
+        android:layout_width="333dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="28dp"
+        android:text="Nombre  tipo actividad"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo1Dia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2ProporcionDias12"
+        android:layout_width="163dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="30dp"
+        android:text="proporcion dias 2"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo3Dia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner2Proporcion12"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="30dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo3Dia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView2ProporcionDias12" />
+
+    <TextView
+        android:id="@+id/textViewTipo1Dia12"
+        android:layout_width="163dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="left|center_vertical"
+        android:text="Tipo de dia"
+        app:layout_constraintBottom_toTopOf="@+id/textView1ProporcionDias12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerTipo1Dia12"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinner1Proporcion12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewTipo1Dia12" />
+
     <TextView
         android:id="@+id/textViewTipo3Dia12"
-        android:layout_width="143dp"
+        android:layout_width="163dp"
         android:layout_height="33dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="16dp"
         android:text="Tipo dia 3"
-        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia12"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textView3ProporcionDias12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerTipo3Dia12"
         android:layout_width="170dp"
         android:layout_height="33dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="16dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/spinner3Proporcion12"
         app:layout_constraintStart_toEndOf="@+id/textViewTipo3Dia12" />
-
-    <Spinner
-        android:id="@+id/spinnerProporcion12"
-        android:layout_width="170dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="56dp"
-        android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo1Dia12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewTipo3Dia12" />
-
-    <TextView
-        android:id="@+id/textViewTipo1Dia12"
-        android:layout_width="143dp"
-        android:layout_height="33dp"
-        android:layout_marginBottom="52dp"
-        android:text="Tipo de dia"
-        app:layout_constraintBottom_toTopOf="@+id/textViewTipo2Dia12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewNombreTipoAct12"
-        android:layout_width="313dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="52dp"
-        android:text="Nombre  tipo actividad"
-        app:layout_constraintBottom_toTopOf="@+id/textViewProporcionDias12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.448"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.939" />
-
-    <Spinner
-        android:id="@+id/spinnerTipo1Dia12"
-        android:layout_width="170dp"
-        android:layout_height="33dp"
-        android:layout_marginBottom="52dp"
-        android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo2Dia12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewTipo1Dia12" />
-
-    <TextView
-        android:id="@+id/textViewTipo2Dia12"
-        android:layout_width="143dp"
-        android:layout_height="33dp"
-        android:layout_marginBottom="52dp"
-        android:text="Tipo de dia 2"
-        app:layout_constraintBottom_toTopOf="@+id/textViewTipo3Dia12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerTipo2Dia12"
         android:layout_width="170dp"
         android:layout_height="33dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="16dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo3Dia12"
+        app:layout_constraintBottom_toTopOf="@+id/spinner2Proporcion12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textViewTipo2Dia12" />
 
     <TextView
-        android:id="@+id/textViewProporcionDias12"
-        android:layout_width="143dp"
+        android:id="@+id/textViewTipo2Dia12"
+        android:layout_width="163dp"
         android:layout_height="33dp"
-        android:layout_marginBottom="56dp"
-        android:text="proporcion dias"
-        app:layout_constraintBottom_toTopOf="@+id/textViewTipo1Dia12"
+        android:layout_marginBottom="16dp"
+        android:text="Tipo de dia 2"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textView2ProporcionDias12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner1Proporcion12"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="30dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo2Dia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView1ProporcionDias12" />
+
+    <TextView
+        android:id="@+id/textView1ProporcionDias12"
+        android:layout_width="163dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="30dp"
+        android:text="proporcion dias 1"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTipo2Dia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner3Proporcion12"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:prompt="@string/spinner_tipo_dia"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView3ProporcionDias12" />
+
+    <TextView
+        android:id="@+id/textView3ProporcionDias12"
+        android:layout_width="163dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="24dp"
+        android:text="proporcion dias 3"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxGuardia12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCalcular12"
         android:layout_width="263dp"
         android:layout_height="79dp"
         android:text="Button"
@@ -127,7 +173,7 @@
         android:layout_height="49dp"
         android:layout_marginBottom="32dp"
         android:text="Es guardia"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

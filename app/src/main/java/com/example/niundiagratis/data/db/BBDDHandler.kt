@@ -2,18 +2,9 @@ package com.example.niundiagratis.data.db
 
 import android.content.Context
 import androidx.room.Room
-import com.example.niundiagratis.MainActivity
-import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
-import com.example.niundiagratis.data.dao.ComputoGlobalDao
-import com.example.niundiagratis.data.dao.GuardiasRealizadasDao
-import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.collections.get
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
-import androidx.room.RoomDatabase
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 //Creamos la base de datos

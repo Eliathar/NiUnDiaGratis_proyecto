@@ -9,7 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <Button
-        android:id="@+id/btn_Aceptar_14"
+        android:id="@+id/btn_Aceptar_10"
         android:layout_width="313dp"
         android:layout_height="103dp"
         android:text="Aceptar"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rVModPer"
+        android:id="@+id/rVModPer10"
         android:layout_width="408dp"
         android:layout_height="508dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,14 +27,14 @@
         app:layout_constraintVertical_bias="0.457" />
 
     <TextView
-        android:id="@+id/txtVControl"
+        android:id="@+id/txtVControl10"
         android:layout_width="293dp"
         android:layout_height="68dp"
         android:text="@string/vacio"
         android:textAlignment="center"
         android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_Aceptar_14"
-        app:layout_constraintEnd_toEndOf="@+id/rVModPer"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_Aceptar_10"
+        app:layout_constraintEnd_toEndOf="@+id/rVModPer10"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

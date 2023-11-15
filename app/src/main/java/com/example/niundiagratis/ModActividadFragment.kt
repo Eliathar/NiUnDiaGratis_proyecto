@@ -72,14 +72,10 @@ class ModActividadFragment : Fragment() {
 
         navController = findNavController()
 
-
-
-        //Enlazamos el recycler view
-        rVmodAct = binding.rVModAct
         //Obtenemos instancia del layoutmanager
         layoutManager = LinearLayoutManager(context)
         //Asignamos el layoutmanager al recyclerview
-        rVmodAct.layoutManager = layoutManager
+        binding.rVModAct.layoutManager = layoutManager
 
         //Definimos el textview de control de que no hay datos
         txtV = binding.txtVControl07
@@ -121,7 +117,8 @@ class ModActividadFragment : Fragment() {
             viewModel.obtenerActividades().observe(viewLifecycleOwner) { actividades ->
                 val listaActividadesScope = actividades ?: emptyList()
                 val actRealAdapter = SimpleAdapter(listaActividadesScope, fragment::onItemSelected)
-                rVmodAct.adapter = actRealAdapter
+                binding.rVModAct.adapter = actRealAdapter
+
                 viewModel.actualizarListaActividades(listaActividadesScope)
                 //actualizamos listaActividades del fragment para controlar mensaje de no hay datos
                 listaActividades = listaActividadesScope
@@ -140,7 +137,7 @@ class ModActividadFragment : Fragment() {
 
     private fun onItemSelected(actReal: ActividadesRealizadas){
         // Actualiza el elemento seleccionado en el adaptador
-        (rVmodAct.adapter as? SimpleAdapter)?.let { adapter ->
+        (binding.rVModAct.adapter as? SimpleAdapter)?.let { adapter ->
             val oldIndex = adapter.selectedItem?.let { adapter.datos.indexOf(it) }
             val newIndex = adapter.datos.indexOf(actReal)
 
@@ -149,7 +146,7 @@ class ModActividadFragment : Fragment() {
             oldIndex?.let { adapter.notifyItemChanged(it) }
             adapter.notifyItemChanged(newIndex)
         }
-        btn1.isEnabled = true
+        binding.btnAceptar07.isEnabled = true
         selectedItem = actReal
 
     }

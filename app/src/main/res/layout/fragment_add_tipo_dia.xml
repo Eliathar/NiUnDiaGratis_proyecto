@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".AddTipoDiaFragment">
 
-    <TextView
-        android:id="@+id/textViewNombre13"
+    <EditText
+        android:id="@+id/editTextNombre13"
         android:layout_width="315dp"
         android:layout_height="57dp"
         android:layout_marginBottom="136dp"
-        android:text="Nombre tipo dia"
+        android:hint="Nombre tipo dia"
         app:layout_constraintBottom_toTopOf="@+id/spinnerMax13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -39,7 +39,7 @@ class ReposNiUnDiaGratis(
         val resultados = mutableListOf<ComputoGlobal>()
 
         // Obtener todos los tipos de días de la tabla TiposDias
-        val tiposDias = tiposDiasDao.getAllTiposDias()
+        val tiposDias = tiposDiasDao.getAllTiposDiasList()
 
         for (tipoDia in tiposDias) {
             val nombreTipoDia = tipoDia.nombreTipoDia

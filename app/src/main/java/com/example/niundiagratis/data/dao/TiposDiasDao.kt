@@ -17,7 +17,10 @@ interface TiposDiasDao {
 
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaTiposDias")
-    fun getAllTiposDias(): List<TiposDias>
+    fun getAllTiposDias(): LiveData<List<TiposDias>>
+
+    @Query("SELECT * FROM tablaTiposDias")
+    fun getAllTiposDiasList(): List<TiposDias>
 
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaTiposDias WHERE nombreTipoDia = :id")

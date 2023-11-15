@@ -42,7 +42,7 @@ import java.util.Date
         Index(value = ["tipoDiasGenerados1"]),
         Index(value = ["tipoDiasGenerados2"]),
         Index(value = ["tipoDiasGenerados3"]),
-        Index(value = ["nombreTipoAct"])
+        Index(value = ["nombreTipoAct"], unique = true)
     ])
 data class TiposActividades(
     @PrimaryKey(autoGenerate = false)
@@ -61,7 +61,7 @@ data class TiposActividades(
 
 @Entity(tableName = "tablaTiposDias")
 data class TiposDias(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey()
     val nombreTipoDia: String,
     val maxDias: Int?
 )

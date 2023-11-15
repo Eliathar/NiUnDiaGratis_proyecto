@@ -1,5 +1,6 @@
 package com.example.niundiagratis.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -18,6 +19,8 @@ interface TiposActividadesDao {
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaTiposActividades")
     fun getAllTiposActividades(): List<TiposActividades>
+    @Query("SELECT * FROM tablaTiposActividades")
+    fun getAllTiposActividadesLive(): LiveData<List<TiposActividades>>
 
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaTiposActividades WHERE nombreTipoAct = :nombre")
