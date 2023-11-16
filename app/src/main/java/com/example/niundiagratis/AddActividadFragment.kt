@@ -32,6 +32,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
+import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
+import com.example.niundiagratis.data.db.BBDDHandler.actualizarDiasGenerados
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.db.TiposDias
 import java.util.concurrent.TimeUnit
@@ -268,6 +270,8 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.insert(actividadNueva)
+                            actualizarDiasGenerados(actividadNueva, database, 1)
+                            actualizarComputoGlobal(database)
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")

@@ -4,29 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.data.adapter.SimpleAdapter
 import com.example.niundiagratis.data.adapter.TiposDiasAdapter
-import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
-import com.example.niundiagratis.databinding.FragmentModActividadBinding
 import com.example.niundiagratis.databinding.FragmentModTipoDiaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import androidx.lifecycle.Observer
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,12 +32,11 @@ class ModTipoDiaFragment : Fragment() {
         ViewModelSimple(dao)
     }
     private lateinit var nombreBD: String
-    private lateinit var rVmodTipoDia: RecyclerView
     private var listaTiposDias: List<TiposDias> = emptyList()
-    private lateinit var txtV: TextView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposDias
     private lateinit var navController: NavController
+    private lateinit var database: NiUnDiaGratisBBDD
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +70,7 @@ class ModTipoDiaFragment : Fragment() {
             }
         }
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
 
         initRecyclerView()
 

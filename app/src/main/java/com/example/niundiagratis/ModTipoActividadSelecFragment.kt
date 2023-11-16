@@ -8,25 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposActividades
-import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModTipoActividadSelecBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 
@@ -70,7 +65,7 @@ class ModTipoActividadSelecFragment : Fragment() {
 
 
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
         daoT = database.fTiposDiasDao()
         navController = findNavController()
 
@@ -81,7 +76,6 @@ class ModTipoActividadSelecFragment : Fragment() {
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
                 dao = database.fTiposActividadesDao()
-                val datos = dao.getTipoActividadByNombre(id)?.nombreTipoAct
                 dao.getTipoActividadByNombre(id)!!
             }
 
@@ -123,11 +117,11 @@ class ModTipoActividadSelecFragment : Fragment() {
             //Creamos un ArrayAdapter con la lista de nombres
             val adapterS = ArrayAdapter<String>(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
+                R.layout.simple_spinner_item,
                 tipoDiasDBSpin
             )
             //Configuramos el ArrayAdapter para el Spinner
-            adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapterS.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
 
             //Asignamos el adapter
             binding.spinnerTipo1Dia15.adapter = adapterS
@@ -147,7 +141,7 @@ class ModTipoActividadSelecFragment : Fragment() {
                 R.layout.simple_spinner_item,
                 spinnerItems
             )
-            adapterI.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapterI.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.spinner1Proporcion15.adapter = adapterI
             binding.spinner2Proporcion15.adapter = adapterI
             binding.spinner3Proporcion15.adapter = adapterI

@@ -1,6 +1,6 @@
 package com.example.niundiagratis
 
-import android.R
+//import android.R
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.Date
+import com.example.niundiagratis.R
+
 
 
 class AddTipoActividadFragment : Fragment() {
@@ -49,6 +52,7 @@ class AddTipoActividadFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -57,6 +61,13 @@ class AddTipoActividadFragment : Fragment() {
     ): View? {
         binding = FragmentAddTipoActividadBinding.inflate(inflater, container, false)
         val view = binding.root
+
+
+        /*val titulo: Toolbar? = activity?.findViewById(com.example.niundiagratis.R.id.mainToolbar)
+        //titulo!!.title = selTitulo(16, requireContext())
+        titulo!!.title = getString(R.string.add_tipo_actividad)*/
+
+
 
         //Obtenemos el nombre de la base de datos
         runBlocking {
@@ -73,6 +84,7 @@ class AddTipoActividadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+
 
         spinConfig()
 //--------------------------------Botones-----------------------------------------------------------
@@ -139,8 +151,8 @@ class AddTipoActividadFragment : Fragment() {
             //Spinner relativo a la proporcion de dias
             spinnerItems = resources.getIntArray(com.example.niundiagratis.R.array.spinner_prop_items).toMutableList()
             spinnerItems.add(0, 0)
-            val adapterProp = ArrayAdapter<Int>(requireContext(), R.layout.simple_spinner_item, spinnerItems)
-            adapterProp.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            val adapterProp = ArrayAdapter<Int>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, spinnerItems)
+            adapterProp.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
             binding.spinner1Proporcion12.adapter = adapterProp
             binding.spinner2Proporcion12.adapter = adapterProp
             binding.spinner3Proporcion12.adapter = adapterProp

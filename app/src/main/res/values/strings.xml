@@ -17,7 +17,15 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="Fragment_submenu01">Submenu01</string>
     <string name="fragment_add_actividad">Añadir actividad</string>
+    <string name="add_tipo_actividad">Añadir tipo de actividad</string>
+    <string name="fragment_add_permiso">Añadir permiso</string>
+    <string name="fragment_mod_tipoActividad">Modificar tipo de actividad</string>
+    <string name="fragment_mod_selec">Modificar selección</string>
+    <string name="fragment_mod_tipo_dia">Modificar tipo de día</string>
+    <string name="fragment_add_tipo_dia">Añadir tipo de dia</string>
+    <string name="fragment_mod_permiso">Modificar permiso</string>
     <string name="fragment_mod_actividad">Modificar actividad</string>
+
 
     <string name="opciones_1_gest_actividades">Gestión de actividades</string>
     <string name="opciones_1_act_btn1">Añadir actividad</string>
@@ -52,6 +60,9 @@
 
 
 
+
+
+
     <string name="btn_calcular">Calcular</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -65,6 +76,30 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
     </integer-array>
     <integer-array name="spinner_max_items">
         <item>1</item>
@@ -77,5 +112,27 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+
     </integer-array>
 </resources>

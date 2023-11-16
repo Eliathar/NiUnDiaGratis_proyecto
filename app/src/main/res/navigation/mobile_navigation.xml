@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
+    android:label="@string/add_tipo_actividad"
     app:startDestination="@+id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.niundiagratis.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_submenu01Fragment"
             app:destination="@id/submenu01Fragment" />
@@ -28,7 +29,7 @@
         android:id="@+id/submenu01Fragment"
         android:name="com.example.niundiagratis.Submenu01Fragment"
         android:label="@string/Fragment_submenu01"
-        tools:layout="@layout/fragment_submenu01" >
+        tools:layout="@layout/fragment_submenu01">
         <action
             android:id="@+id/action_submenu01Fragment_self"
             app:destination="@id/submenu01Fragment" />
@@ -66,7 +67,7 @@
         android:id="@+id/modActividadFragment"
         android:name="com.example.niundiagratis.ModActividadFragment"
         android:label="@string/fragment_mod_actividad"
-        tools:layout="@layout/fragment_mod_actividad" >
+        tools:layout="@layout/fragment_mod_actividad">
         <action
             android:id="@+id/action_modActividadFragment_to_modActividadSeleccionadaFragment"
             app:destination="@id/modActividadSeleccionadaFragment" />
@@ -74,18 +75,18 @@
     <fragment
         android:id="@+id/modActividadSeleccionadaFragment"
         android:name="com.example.niundiagratis.ModActividadSeleccionadaFragment"
-        android:label="fragment_mod_actividad_seleccionada"
+        android:label="@string/fragment_mod_selec"
         tools:layout="@layout/fragment_mod_actividad_seleccionada" />
     <fragment
         android:id="@+id/addPermisoFragment"
         android:name="com.example.niundiagratis.AddPermisoFragment"
-        android:label="fragment_add_permiso"
+        android:label="@string/fragment_add_permiso"
         tools:layout="@layout/fragment_add_permiso" />
     <fragment
         android:id="@+id/modPermisoFragment"
         android:name="com.example.niundiagratis.ModPermisoFragment"
-        android:label="fragment_mod_permiso"
-        tools:layout="@layout/fragment_mod_permiso" >
+        android:label="@string/fragment_mod_permiso"
+        tools:layout="@layout/fragment_mod_permiso">
         <action
             android:id="@+id/action_modPermisoFragment_to_modPermisoSeleccionadoFragment"
             app:destination="@id/modPermisoSeleccionadoFragment" />
@@ -93,23 +94,23 @@
     <fragment
         android:id="@+id/modPermisoSeleccionadoFragment"
         android:name="com.example.niundiagratis.ModPermisoSeleccionadoFragment"
-        android:label="fragment_mod_permiso_seleccionado"
+        android:label="@string/fragment_mod_selec"
         tools:layout="@layout/fragment_mod_permiso_seleccionado" />
     <fragment
         android:id="@+id/addTipoActividadFragment"
         android:name="com.example.niundiagratis.AddTipoActividadFragment"
-        android:label="fragment_add_tipo_actividad"
+        android:label="@string/add_tipo_actividad"
         tools:layout="@layout/fragment_add_tipo_actividad" />
     <fragment
         android:id="@+id/addTipoDiaFragment"
         android:name="com.example.niundiagratis.AddTipoDiaFragment"
-        android:label="fragment_add_tipo_dia"
+        android:label="@string/fragment_add_tipo_dia"
         tools:layout="@layout/fragment_add_tipo_dia" />
     <fragment
         android:id="@+id/modTipoActividadFragment"
         android:name="com.example.niundiagratis.ModTipoActividadFragment"
-        android:label="fragment_mod_tipo_actividad"
-        tools:layout="@layout/fragment_mod_tipo_actividad" >
+        android:label="@string/fragment_mod_tipoActividad"
+        tools:layout="@layout/fragment_mod_tipo_actividad">
         <action
             android:id="@+id/action_modTipoActividadFragment_to_modTipoActividadSelecFragment"
             app:destination="@id/modTipoActividadSelecFragment" />
@@ -117,13 +118,13 @@
     <fragment
         android:id="@+id/modTipoActividadSelecFragment"
         android:name="com.example.niundiagratis.ModTipoActividadSelecFragment"
-        android:label="fragment_mod_tipo_actividad_selec"
+        android:label="@string/fragment_mod_selec"
         tools:layout="@layout/fragment_mod_tipo_actividad_selec" />
     <fragment
         android:id="@+id/modTipoDiaFragment"
         android:name="com.example.niundiagratis.ModTipoDiaFragment"
-        android:label="fragment_mod_tipo_dia"
-        tools:layout="@layout/fragment_mod_tipo_dia" >
+        android:label="@string/fragment_mod_tipo_dia"
+        tools:layout="@layout/fragment_mod_tipo_dia">
         <action
             android:id="@+id/action_modTipoDiaFragment_to_modTipoDiaSelecFragment"
             app:destination="@id/modTipoDiaSelecFragment" />
@@ -131,8 +132,12 @@
     <fragment
         android:id="@+id/modTipoDiaSelecFragment"
         android:name="com.example.niundiagratis.ModTipoDiaSelecFragment"
-        android:label="fragment_mod_tipo_dia_selec"
+        android:label="@string/fragment_mod_selec"
         tools:layout="@layout/fragment_mod_tipo_dia_selec" />
-    <action android:id="@+id/action_global_nav_home" app:destination="@id/nav_home" />
-    <action android:id="@+id/action_global_submenu01Fragment" app:destination="@id/submenu01Fragment" />
+    <action
+        android:id="@+id/action_global_nav_home"
+        app:destination="@id/nav_home" />
+    <action
+        android:id="@+id/action_global_submenu01Fragment"
+        app:destination="@id/submenu01Fragment" />
 </navigation>

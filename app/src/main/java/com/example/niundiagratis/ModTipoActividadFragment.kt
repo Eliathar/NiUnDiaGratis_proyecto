@@ -4,24 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.data.adapter.SimpleAdapter
 import com.example.niundiagratis.data.adapter.TiposActividadesAdapter
-import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
-import com.example.niundiagratis.databinding.FragmentModActividadBinding
 import com.example.niundiagratis.databinding.FragmentModTipoActividadBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,10 +35,11 @@ class ModTipoActividadFragment : Fragment() {
     }
     private lateinit var nombreBD: String
     private var listaTiposActividades: List<TiposActividades> = emptyList()
-    private lateinit var listaTiposActividadesLive: LiveData<List<TiposActividades>>
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposActividades
     private lateinit var navController: NavController
+    private lateinit var database: NiUnDiaGratisBBDD
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +68,7 @@ class ModTipoActividadFragment : Fragment() {
             }
         }
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
 
         initRecyclerView()
         return view

@@ -8,9 +8,6 @@ import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
 import com.example.niundiagratis.ui.home.HomeViewModel
 
-
-
-
 class HomeViewModel(
     private val computoGlobalDao: ComputoGlobalDao,
     private val actividadesRealizadasDao: ActividadesRealizadasDao

@@ -1,33 +1,20 @@
 package com.example.niundiagratis
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.data.adapter.CompartirDatosAdapter
-import com.example.niundiagratis.data.adapter.ItemActRealAdapter
 import com.example.niundiagratis.data.adapter.PermisosAdapter
-import com.example.niundiagratis.data.adapter.TiposActividadesAdapter
-import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
-import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
-import com.example.niundiagratis.data.db.TiposActividades
-import com.example.niundiagratis.data.viewmodel.ViewModelFactorySimple
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
-import com.example.niundiagratis.data.viewmodel.ViewModelCompartir
 import com.example.niundiagratis.databinding.FragmentModPermisoBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,11 +34,11 @@ class ModPermisoFragment : Fragment() {
         ViewModelSimple(dao)
     }
     private lateinit var nombreBD: String
-    private lateinit var diasDisfrutadosDao: DiasDisfrutadosDao
     private var listaDisfrutados: List<DiasDisfrutados> = emptyList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: DiasDisfrutados
     private lateinit var navController: NavController
+    private lateinit var database: NiUnDiaGratisBBDD
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +67,11 @@ class ModPermisoFragment : Fragment() {
 
         runBlocking {
             withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext()).toString()
+                nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
         }
 
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
 
         initRecyclerView()
         return view
@@ -97,9 +84,6 @@ class ModPermisoFragment : Fragment() {
         binding.btnAceptar10.setOnClickListener {
             selMenuInt = 11
             println(6)
-            // Obtiene los datos del registro seleccionado
-            val datos = viewModel.selectedData.value
-
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
                 putInt("id", selectedItem.id)

@@ -19,19 +19,18 @@ object BBDDHandler {
         //Creamos el nombre de la base de datos usando el año
         val nombreBD = "NiUnDiaGratis_$periodo"
         val niUnDiaGratisDB: NiUnDiaGratisBBDD
-        if (context.getDatabasePath(nombreBD).exists()) {
+        if (context.getDatabasePath(nombreBD).exists()) {//codigo si la base de datos existe
             niUnDiaGratisDB = Room.databaseBuilder(
                 context.applicationContext,
                 NiUnDiaGratisBBDD::class.java, nombreBD
             ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
                 .build()
             niUnDiaGratisDB.openHelper.writableDatabase
-        } else {
+        } else {//Codigo si la base de datos no existe
             niUnDiaGratisDB = Room.databaseBuilder(
                 context.applicationContext,
                 NiUnDiaGratisBBDD::class.java,
                 nombreBD
-
             ).build()
             niUnDiaGratisDB.openHelper.writableDatabase
             /* se realiza asi para esperar a que una funcion trermine antes de empezar con la
@@ -157,7 +156,7 @@ object BBDDHandler {
                         tipoDiasGenerados3 = null,
                         requisitosDiasAct1 = 5,
                         requisitosDiasAct2 = 5,
-                        requisitosDiasAct3 = 5,
+                        requisitosDiasAct3 = null,
                         esGuardia = false
                     )
 
@@ -310,5 +309,127 @@ object BBDDHandler {
             }
         }
     }
+
+    fun actualizarDiasGenerados(nuevaActividad: ActividadesRealizadas, database: NiUnDiaGratisBBDD, opcion: Int) {
+        // Obtén los tipos de días y los días generados de la nueva actividad
+        println("dentro de actualizar dias generados")
+        val tiposDias = listOf(nuevaActividad.tipoDiasActOk1, nuevaActividad.tipoDiasActOk2, nuevaActividad.tipoDiasActOk3)
+        val diasGenerados = listOf(nuevaActividad.diasGenActOk1, nuevaActividad.diasGenActOk2, nuevaActividad.diasGenActOk3)
+
+
+
+        // Recorre cada tipo de día
+        for (i in tiposDias.indices) {
+            val tipoDia = tiposDias[i]
+            val diasGen = diasGenerados[i]
+
+            // Si el tipo de día y los días generados no son nulos, crea un nuevo registro en DiasGenerados
+            if (tipoDia != null && diasGen != null) {
+                println("dentro de if actualizar dias generados")
+                for (j in 0 until diasGen) {
+                    println("dentro de for actualizar dias generados vuelta $j")
+                    when (opcion){
+                        1 -> {
+                            val nuevoDiaGenerado = DiasGenerados(
+                                id = 0,  // El ID se generará automáticamente
+                                tipoDiaGen = tipoDia,
+                                nombreActgen = nuevaActividad.nombreActOk,
+                                fechaGen = nuevaActividad.fechaInActOk,  // Usa la fecha de inicio de la actividad como fecha de generación
+                            )
+
+                            // Añade el nuevo registro a la base de datos
+                            println("dentro de actualizar dias generados añadiendo insert")
+                            database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
+                            println("dentro de actualizar dias generados insert añadido")
+                        }
+                        2 -> {
+                            // Busca el DiasGenerados existente en la base de datos
+                            println("dentro de actualizar dias generados buscando dias a modificar")
+                            val diasGeneradosExistentes = database.fDiasGeneradosDao().getDiasGeneradosPorActividad(nuevaActividad.nombreActOk, tipoDia)
+                            println("dentro de actualizar dias generados dias encontrados")
+                            println(diasGeneradosExistentes)
+                            println(diasGeneradosExistentes.size)
+
+                            // Recorre cada DiasGenerados existente
+                            for (diaGeneradoExistente in diasGeneradosExistentes) {
+                                println("dentro de actualizar dias generados con update")
+                                // Actualiza los campos del DiasGenerados existente
+                                diaGeneradoExistente.fechaGen = nuevaActividad.fechaInActOk
+                                println("dentro de actualizar dias generados con update entrando")
+
+                                // Pasa el DiasGenerados actualizado a la función update
+                                database.fDiasGeneradosDao().update(diaGeneradoExistente)
+                                println("dentro de actualizar dias generados con update hecho")
+
+                            }
+                            // Insertamos nuevos registros para los días en caso de generarse mas al modificarlos
+                            for (j in diasGeneradosExistentes.size until diasGen) {
+                                val nuevoDiaGenerado = DiasGenerados(
+                                    id = 0,  // El ID se generará automáticamente
+                                    tipoDiaGen = tipoDia,
+                                    nombreActgen = nuevaActividad.nombreActOk,
+                                    fechaGen = nuevaActividad.fechaInActOk
+                                )// Usamos la fecha de inicio de la actividad como fecha de generación
+
+                                database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
+                            }
+                            // Si hay más registros existentes que días generados, elimina la diferencia
+                            if (diasGeneradosExistentes.size > diasGen) {
+                                val diasGeneradosExcedentes = diasGeneradosExistentes.subList(diasGen, diasGeneradosExistentes.size)
+
+                                for (diaGeneradoExcedente in diasGeneradosExcedentes) {
+                                    database.fDiasGeneradosDao().delete(diaGeneradoExcedente)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun actualizarComputoGlobal(database: NiUnDiaGratisBBDD) {
+        // Obtén los tipos de días
+        val tiposDias = database.fTiposDiasDao().getAllTiposDiasListNombres()
+
+        // Recorre cada tipo de día
+        for (tipoDia in tiposDias) {
+            // Obtén el total de días generados y consumidos para este tipo de día
+            val totalDiasGenerados = database.fDiasGeneradosDao().getTotalDiasGenerados(tipoDia)
+            val totalDiasConsumidos = database.fDiasDisfrutadosDao().getTotalDiasDisfrutados(tipoDia)
+
+            //Obtenemos el dia para acceder a sus campos
+            val nombreDia = database.fTiposDiasDao().getTipoDiaById(tipoDia)
+
+            //Calculamos los días restantes
+            var diasRestantes = 0
+
+            //Si el tipo de día es "PO" o "AP", realiza la resta sobre maxDias
+            if (tipoDia == "PO" || tipoDia == "AP") {
+                diasRestantes = nombreDia?.maxDias?.minus(totalDiasConsumidos) ?: 0
+            }else diasRestantes = totalDiasGenerados - totalDiasConsumidos
+
+
+            // Busca el registro de cómputo global para este tipo de día
+            val computoGlobal = database.fComputoGlobalDao().getComputoGlobalByTipo(tipoDia)
+
+            if (computoGlobal != null) {
+                // Si existe un registro de cómputo global, actualízalo
+                computoGlobal.saldoGlobal= diasRestantes
+                database.fComputoGlobalDao().update(computoGlobal)
+            } else {
+                // Si no existe un registro de cómputo global, crea uno nuevo
+                val nuevoComputoGlobal = ComputoGlobal(
+                    id= 0,
+                    tipoDiaGlobal = tipoDia,
+                    maxGlobal = nombreDia?.maxDias,
+                    genGlobal = totalDiasConsumidos,
+                    conGlobal = totalDiasGenerados,
+                    saldoGlobal = diasRestantes
+                )
+                database.fComputoGlobalDao().insert(nuevoComputoGlobal)
+            }
+        }
+    }
+
 }
 

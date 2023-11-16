@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
+import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModActividadSeleccionadaBinding
@@ -48,9 +49,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
     }
     private lateinit var daot: TiposActividadesDao
     private lateinit var navController: NavController
-
-
-    private var selMenuInt = -1
+    private lateinit var database: NiUnDiaGratisBBDD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +73,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 
 
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
         daot = database.fTiposActividadesDao()
         navController = findNavController()
 
@@ -85,7 +84,6 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
                 dao = database.fActividadesRealizadasDao()
-                val datos = dao.getActividadById(id)?.nombreActOk
                 dao.getActividadById(id)!!
             }
             println(entidad.fechaInActOk.toString())
@@ -274,6 +272,8 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                             lifecycleScope.launch(Dispatchers.IO) {
                                 dao.update(actividadNueva)
+                                BBDDHandler.actualizarDiasGenerados(actividadNueva, database, 2)
+                                BBDDHandler.actualizarComputoGlobal(database)
                             }
 //------------------------------------Fin hilo secundario-------------------------------------------
                             println("datos guardados?")

@@ -83,11 +83,15 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_gest_act -> 1
             R.id.nav_gest_perm -> 2
             R.id.nav_config -> 3
+            R.id.salir -> 4
             else -> -1
         }
 
         //Cerramos el menu lateral al realizar la seleccion
         drawerLayout.closeDrawer(GravityCompat.START)
+
+        //Salimos de la aplicacion al seleccionar salir en el menu lateral
+        if (seleccion == 4) finish()
 
         /* En caso de que exista una opcion valida, realizamos la llamada al fragment pasando
         como parametro el bundle creado con la seleccion, se usa bundle para facilitar posibles

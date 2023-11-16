@@ -50,10 +50,6 @@ class HomeFragment : Fragment() {
         binding.rVActReal.layoutManager = layoutManager1
         binding.rVGuardias.layoutManager = layoutManager2
         binding.rVComputo.layoutManager = layoutManager3
-
-
-
-
         //Creacion e inicializacion de base de datos
         runBlocking {
             withContext(Dispatchers.IO) {

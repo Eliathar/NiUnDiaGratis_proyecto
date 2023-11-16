@@ -18,11 +18,12 @@ import java.util.Locale
 //Obtenemos el titulo del submenu segun el id
 fun selTitulo(submenuId: Int, context: Context?): CharSequence {
     return when (submenuId) {
-        1 -> context?.resources?.getText(R.string.opciones_1_gest_actividades)!!//Gestión ed actividades
+        1 -> context?.resources?.getText(R.string.opciones_1_gest_actividades)!!//Gestión de actividades
         2 -> context?.resources?.getText(R.string.opciones_1_gest_permisos)!!//Gestión de permisos
         3 -> context?.resources?.getText(R.string.opciones_1_gest_config)!!//Gestión de configuración
         4 -> context?.resources?.getText(R.string.opciones_1_config_add_tipo)!!//Gestión de configuración
         5 -> context?.resources?.getText(R.string.opciones_1_config_mod_tipo)!!//Gestión de configuración
+        16 -> "Añadir tipo de actividad"!!//Añadir tipo de actividad
         else -> "error"
     }
 }
