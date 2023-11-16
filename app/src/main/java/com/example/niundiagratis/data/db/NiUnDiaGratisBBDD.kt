@@ -118,8 +118,7 @@ data class DiasGenerados(
     val id: Int,
     val tipoDiaGen: String,
     val nombreActgen: String,
-    var fechaGen: Date,
-    val diasGen: Int
+    var fechaGen: Date
 )
 
 
@@ -161,7 +160,7 @@ data class ComputoGlobal(
     val maxGlobal: Int?,
     val genGlobal: Int,
     val conGlobal: Int,
-    val saldoGlobal: Int
+    var saldoGlobal: Int
 )
 //Definimos la base de datos en Room, sus entidades y la version de la base de datos
 @Database(

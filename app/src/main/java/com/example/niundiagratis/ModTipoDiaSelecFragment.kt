@@ -16,15 +16,12 @@ import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
-import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModTipoDiaSelecBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.Locale
-import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // TODO: cargar datos de actividad seleccionada en los campos
@@ -35,21 +32,11 @@ class ModTipoDiaSelecFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentModTipoDiaSelecBinding
     private val job = Job()
-
-    val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
     private lateinit var dao: TiposDiasDao
     private lateinit var nombreBD: String
     private lateinit var entidad: TiposDias
-    private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daot = database.fTiposActividadesDao()
-        ViewModelSimple(daot)
-    }
-    private lateinit var daot: TiposActividadesDao
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
-    private var maxDiasPas: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +68,6 @@ class ModTipoDiaSelecFragment : Fragment() {
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
                 dao = database.fTiposDiasDao()
-                val datos = dao.getTipoDiaById(id)?.nombreTipoDia
                 dao.getTipoDiaById(id)!!
             }
 
@@ -157,7 +143,7 @@ class ModTipoDiaSelecFragment : Fragment() {
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")
-            val tipoDiaNuevo = nombreTipoDia?.let { it1 ->
+            val tipoDiaNuevo = nombreTipoDia.let { it1 ->
                 TiposDias(
                     nombreTipoDia = nombreTipoDia,
                     maxDias = maxTipoDia

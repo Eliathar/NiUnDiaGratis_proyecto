@@ -17,15 +17,14 @@ interface DiasGeneradosDao {
     @Query("SELECT * FROM tablaDiasGenerados")
     fun obtenerDiasGenerados(): List<DiasGenerados>
     //Devuelve la entidad seleccionada mediante el id
-    @Query("SELECT * FROM tablaDiasGenerados WHERE id = :id")
-    fun getDiasGeneradosById(id: Long): DiasGenerados?
-    //Se actualiza una entidad
+    @Query("SELECT * FROM tablaDiasGenerados WHERE nombreActgen = :nombreActividad AND tipoDiaGen = :tipoDia")
+    fun getDiasGeneradosPorActividad(nombreActividad: String, tipoDia: String): List<DiasGenerados>
     @Update
     fun update(diasgenerados: DiasGenerados)
     //Se elimina una entidad
     @Delete
     fun delete(diasgenerados: DiasGenerados)
     //Consulta del numero total segun campo nombre de la entidad
-    @Query("SELECT SUM(diasGen) FROM tablaDiasGenerados WHERE tipoDiaGen = :tipoDiaGen")
+    @Query("SELECT COUNT(*) FROM tablaDiasGenerados WHERE tipoDiaGen = :tipoDiaGen")
     fun getTotalDiasGenerados(tipoDiaGen: String): Int
 }

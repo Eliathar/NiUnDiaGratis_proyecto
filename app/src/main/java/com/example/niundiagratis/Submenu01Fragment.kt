@@ -35,8 +35,8 @@ class Submenu01Fragment : Fragment() {
         val navController = findNavController()
         super.onViewCreated(view, savedInstanceState)
         fragmentManager = parentFragmentManager
-        val contexto: Context = requireContext()
-        val idFragment = this::class.java.simpleName
+        requireContext()
+        this::class.java.simpleName
 
         //Obtenemos la referencia al toolbar para usar tituloOp1 como texto en ella
         val tituloOp1: Toolbar? = activity?.findViewById(R.id.mainToolbar)

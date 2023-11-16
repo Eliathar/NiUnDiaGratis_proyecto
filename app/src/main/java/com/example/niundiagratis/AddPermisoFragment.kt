@@ -244,6 +244,8 @@ class AddPermisoFragment : Fragment() {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 println("A guardar datos guardando")
                                 dao.insertAll(listaPermisos)
+                                BBDDHandler.actualizarComputoGlobal(database)
+
                                 println("A guardar datos terminado")
 
                             }

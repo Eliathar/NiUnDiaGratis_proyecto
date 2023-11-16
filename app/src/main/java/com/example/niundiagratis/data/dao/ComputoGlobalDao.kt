@@ -23,6 +23,8 @@ interface ComputoGlobalDao {
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaComputoGlobal WHERE id = :id")
     fun getComputoGlobalById(id: Long): ComputoGlobal?
+    @Query("SELECT * FROM tablaComputoGlobal WHERE tipoDiaGlobal = :id")
+    fun getComputoGlobalByTipo(id: String): ComputoGlobal?
 
     //Se actualiza una entidad
     @Update

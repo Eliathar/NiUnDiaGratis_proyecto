@@ -56,6 +56,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     private lateinit var daot: TiposDiasDao
     private lateinit var navController: NavController
     private var id: Int = 0
+    private lateinit var database: NiUnDiaGratisBBDD
 
     private var selMenuInt = -1
 
@@ -86,7 +87,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
 
 
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
         //daot = database.fTiposActividadesDao()
         navController = findNavController()
 
@@ -123,8 +124,6 @@ class ModPermisoSeleccionadoFragment : Fragment() {
         binding.btnFechaIniPerm11.setOnClickListener(){
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaInicio = fechaSelec
-                /*val dateFormatter = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.getDefault())
-                val fechaFormato = dateFormatter.format(fechaInicio)*/
                 binding.btnFechaIniPerm11.text = "Inicio: ${formatearFecha(fechaInicio)}"
             }
 
@@ -194,14 +193,14 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     }
 
     private fun btnCalcular(){
-        //-------------------------------------Boton calcular-----------------------------------------------
+//-------------------------------------Boton calcular-----------------------------------------------
 
         println("calcular pulsado")
         lifecycleScope.launch(Dispatchers.IO) {
             println("A guardar datos1")
             val tipoDia = binding.spinnerTipo11.selectedItem.toString()
             println("A guardar datos2 $tipoDia")
-            //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
+//Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
             val fechaIni = fechaInicio
             println("A guardar datos4")
 
@@ -214,13 +213,13 @@ class ModPermisoSeleccionadoFragment : Fragment() {
                     fechaCon = fechaIni
                 )
             }
-            /*
-            -------------------------Creamos el cuadro de confirmacion------------------------------------------
-            Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
-            obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que deb
-            ser llamado en el hilo secundario para asegurar que tiene los datos cargados para ejecutarse en el
-            hilo principal
-            */
+/*
+-------------------------Creamos el cuadro de confirmacion------------------------------------------
+Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
+obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que deb
+ser llamado en el hilo secundario para asegurar que tiene los datos cargados para ejecutarse en el
+hilo principal
+*/
             withContext(Dispatchers.Main) {
                 val construct = AlertDialog.Builder(context)
                 construct.setTitle("Confirmar datos")
@@ -236,11 +235,12 @@ class ModPermisoSeleccionadoFragment : Fragment() {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.update(permisoNuevo)
+                            BBDDHandler.actualizarComputoGlobal(database)
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")
                     }
-                    //------Cargamos el fragment home al guardar los datos en la base de datos----------
+//------------Cargamos el fragment home al guardar los datos en la base de datos--------------------
                     navController.navigate(R.id.nav_home)
                 }
                 construct.setNegativeButton("Cancelar", null)
