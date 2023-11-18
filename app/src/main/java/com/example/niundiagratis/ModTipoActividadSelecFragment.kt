@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
+import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
@@ -45,6 +46,7 @@ class ModTipoActividadSelecFragment : Fragment() {
     private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var dao: TiposActividadesDao
     private lateinit var spinnerItems: MutableList<Int>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -384,6 +386,7 @@ class ModTipoActividadSelecFragment : Fragment() {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 println("A guardar datos guardando")
                                 dao.update(tipoDiaNuevo)
+                                BBDDHandler.actualizarComputoGlobal(database)
                                 println("A guardar datos terminado")
 
                             }

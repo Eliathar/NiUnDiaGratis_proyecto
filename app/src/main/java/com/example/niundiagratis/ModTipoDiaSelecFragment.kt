@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
+import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.databinding.FragmentModTipoDiaSelecBinding
@@ -33,6 +34,7 @@ class ModTipoDiaSelecFragment : Fragment() {
     private lateinit var entidad: TiposDias
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
+    private lateinit var database: NiUnDiaGratisBBDD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +58,7 @@ class ModTipoDiaSelecFragment : Fragment() {
 
 
         //Obtenemos instancia de la base de datos
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
         navController = findNavController()
 
         runBlocking {
@@ -167,6 +169,7 @@ class ModTipoDiaSelecFragment : Fragment() {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.update(tipoDiaNuevo)
+                            BBDDHandler.actualizarComputoGlobal(database)
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")
