@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelFactory
+import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -31,6 +32,12 @@ class HomeFragment : Fragment() {
     private lateinit var actividadesRealizadasDao: ActividadesRealizadasDao
     private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var nombreBD: String
+    private lateinit var daoT: ComputoGlobalDao
+    private val viewModelT: ViewModelSimple by lazy {
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        daoT = database.fComputoGlobalDao()
+        ViewModelSimple(daoT)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,11 +93,12 @@ class HomeFragment : Fragment() {
                 binding.rVGuardias.addItemDecoration(decoration)
 
             }
+
             homeViewModel.listaComputoGlobal.observe(viewLifecycleOwner) { datos ->
                 val listaComputoGlobal = datos ?: emptyList()
                 println(listaComputoGlobal.size)
                 for (i in 0..<listaComputoGlobal.size){
-                    println(listaComputoGlobal[i].toString())
+                    println("comprobando inicializacion caomputo 1 ${listaComputoGlobal[i].toString()}")
                 }
                 val computoGlobal = ItemActRealAdapter(listaComputoGlobal, 3)
                 binding.rVComputo.adapter = computoGlobal

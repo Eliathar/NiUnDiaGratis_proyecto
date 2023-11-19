@@ -41,17 +41,17 @@ class ItemActRealAdapter(
                 }
             }
             3->{
-                println("en computoblogal3")
+                println("en computoblogal")
                 if (item is ComputoGlobal) {
                     holder.txtTipo.text = item.tipoDiaGlobal
-                    println("Computo global localizad ${item.tipoDiaGlobal}")
+                    println("Computo global localizado ${item.tipoDiaGlobal}")
                     println(holder.txtTipo.text)
                     holder.txtNombre.text = if (item.maxGlobal.toString() == "null") "" else item.maxGlobal.toString()
                     holder.txtFecha.text = item.saldoGlobal.toString()
                 }
             }
             4->{
-                println("en computoblogal3")
+                println("en diasDisfrutados")
                 if (item is DiasDisfrutados) {
                     holder.txtTipo.text = item.id.toString()
                     println(holder.txtTipo.text)

@@ -12,11 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
+import com.example.niundiagratis.data.db.ComputoGlobal
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
+import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModTipoDiaSelecBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,6 +38,8 @@ class ModTipoDiaSelecFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
     private lateinit var database: NiUnDiaGratisBBDD
+    private lateinit var daoT: ComputoGlobalDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +76,7 @@ class ModTipoDiaSelecFragment : Fragment() {
 
             //Asignamos los valores a los campos
             binding.editTextNombre17.setText(entidad.nombreTipoDia)
+            daoT= database.fComputoGlobalDao()
 
         }
 
@@ -136,17 +142,18 @@ class ModTipoDiaSelecFragment : Fragment() {
             println("A guardar datos1")
             val maxTipoDia = binding.spinnerMax17.selectedItem.toString().toInt()
             println("A guardar datos2 $maxTipoDia")
-            val nombreTipoDia = binding.editTextNombre17.text.toString()
+            val nombreTipoDia = binding.editTextNombre17.text
             println("A guardar datos3 $nombreTipoDia")
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")
             val tipoDiaNuevo = nombreTipoDia.let { it1 ->
                 TiposDias(
-                    nombreTipoDia = nombreTipoDia,
+                    nombreTipoDia = nombreTipoDia.toString(),
                     maxDias = maxTipoDia
                 )
             }
+
             /*
             -------------------------Creamos el cuadro de confirmacion------------------------------------------
             Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
@@ -169,6 +176,25 @@ class ModTipoDiaSelecFragment : Fragment() {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.update(tipoDiaNuevo)
+                            val computoModificar = daoT.getComputoGlobalByTipo(nombreTipoDia.toString())
+
+                            val computoGlobalNuevo = computoModificar?.let { it ->
+                                ComputoGlobal(
+                                    id = computoModificar.id,
+                                    tipoDiaGlobal = tipoDiaNuevo.nombreTipoDia,
+                                    maxGlobal = dao.getTipoDiaById(tipoDiaNuevo.nombreTipoDia)!!.maxDias ,
+                                    genGlobal = it.genGlobal,
+                                    conGlobal = it.conGlobal,
+                                    saldoGlobal = it.saldoGlobal
+                                )
+                            }
+                            println("el nuevo computoglobal es $computoGlobalNuevo")
+                            println("el nuevo maxglobal es $maxTipoDia")
+                            daoT.update(computoGlobalNuevo!!)
+                            println("el maxGlobal nuevo es: ${computoGlobalNuevo.maxGlobal} ")
+
+
+
                             BBDDHandler.actualizarComputoGlobal(database)
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------

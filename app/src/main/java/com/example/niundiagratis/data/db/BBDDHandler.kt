@@ -49,15 +49,8 @@ object BBDDHandler {
     //Inicializacion de la base de datos
     private suspend fun inicializarBBDD(database: NiUnDiaGratisBBDD) {
         val daoTiposDias = database.fTiposDiasDao()
-        val daoTiposActividades = database.fTiposActividadesDao()
-        val daoComputoGlobal = database.fComputoGlobalDao()
-        val daoActividadesRealizadas = database.fActividadesRealizadasDao()
-        val daoDiasDisfrutados = database.fDiasDisfrutadosDao()
 
         lateinit var nuevoTipoDia: TiposDias
-        lateinit var nuevoTiposActividades: TiposActividades
-        lateinit var nuevocomputoGlobal: ComputoGlobal
-        lateinit var nuevaActReal: ActividadesRealizadas
         //Inicializamos tipos de dias
         runBlocking {
             for (i in 1..6) {
@@ -77,9 +70,6 @@ object BBDDHandler {
         runBlocking {
             val daoTiposDias = database.fTiposDiasDao()
             val daoTiposActividades = database.fTiposActividadesDao()
-            val daoComputoGlobal = database.fComputoGlobalDao()
-            val daoActividadesRealizadas = database.fActividadesRealizadasDao()
-            val daoDiasDisfrutados = database.fDiasDisfrutadosDao()
             lateinit var nuevoTipoDia: TiposDias
             lateinit var nuevoTiposActividades: TiposActividades
             lateinit var nuevocomputoGlobal: ComputoGlobal
@@ -178,14 +168,8 @@ object BBDDHandler {
     private suspend fun inicializarBBDD2(database: NiUnDiaGratisBBDD) {
         runBlocking {
             val daoTiposDias = database.fTiposDiasDao()
-            val daoTiposActividades = database.fTiposActividadesDao()
             val daoComputoGlobal = database.fComputoGlobalDao()
-            val daoActividadesRealizadas = database.fActividadesRealizadasDao()
-            val daoDiasDisfrutados = database.fDiasDisfrutadosDao()
-            lateinit var nuevoTipoDia: TiposDias
-            lateinit var nuevoTiposActividades: TiposActividades
             lateinit var nuevocomputoGlobal: ComputoGlobal
-            lateinit var nuevaActReal: ActividadesRealizadas
             //Inicializamos tipos de dias
             //Inicializamos datos de computo global
             //Definimos los valores para las foreign keys especificadas
@@ -230,12 +214,7 @@ object BBDDHandler {
 
             val daoTiposDias = database.fTiposDiasDao()
             val daoTiposActividades = database.fTiposActividadesDao()
-            val daoComputoGlobal = database.fComputoGlobalDao()
             val daoActividadesRealizadas = database.fActividadesRealizadasDao()
-            val daoDiasDisfrutados = database.fDiasDisfrutadosDao()
-            lateinit var nuevoTipoDia: TiposDias
-            lateinit var nuevoTiposActividades: TiposActividades
-            lateinit var nuevocomputoGlobal: ComputoGlobal
             lateinit var nuevaActReal: ActividadesRealizadas
             //Inicializamos tipos de dias
             //Actividades realizadas
@@ -388,6 +367,7 @@ object BBDDHandler {
         }
     }
     fun actualizarComputoGlobal(database: NiUnDiaGratisBBDD) {
+
         // Obtén los tipos de días
         val tiposDias = database.fTiposDiasDao().getAllTiposDiasListNombres()
 

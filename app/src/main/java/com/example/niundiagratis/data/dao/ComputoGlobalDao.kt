@@ -26,6 +26,9 @@ interface ComputoGlobalDao {
     @Query("SELECT * FROM tablaComputoGlobal WHERE tipoDiaGlobal = :id")
     fun getComputoGlobalByTipo(id: String): ComputoGlobal?
 
+    @Query("SELECT * FROM tablaComputoGlobal WHERE tipoDiaGlobal = :id")
+    fun getComputoGlobalBTipoDia(id: String): ComputoGlobal?
+
     //Se actualiza una entidad
     @Update
     fun update(computoglobal: ComputoGlobal)

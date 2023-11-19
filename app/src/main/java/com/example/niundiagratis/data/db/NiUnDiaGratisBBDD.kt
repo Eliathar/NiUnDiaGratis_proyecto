@@ -60,7 +60,7 @@ data class TiposActividades(
 
 @Entity(tableName = "tablaTiposDias")
 data class TiposDias(
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = false)
     val nombreTipoDia: String,
     val maxDias: Int?
 )
