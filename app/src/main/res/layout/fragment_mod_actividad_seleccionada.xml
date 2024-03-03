@@ -16,14 +16,26 @@
         android:prompt="@string/spinner_tipo_dia"
         app:layout_constraintBottom_toTopOf="@+id/btnMod08"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnMod08"
         android:layout_width="318dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/btn_calcular"
+        app:layout_constraintBottom_toTopOf="@+id/btnDel08"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnDel08"
+        android:layout_width="318dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btn_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -33,80 +45,54 @@
         android:id="@+id/editTextNombre08"
         android:layout_width="360dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="24dp"
         android:hint="Nombre de la actividad"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/spinnerTipo08"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnFechaIni08"
-        android:layout_width="190dp"
+        android:layout_width="219dp"
         android:layout_height="49dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="84dp"
         android:text="Cambiar fecha inicio"
-        app:layout_constraintBottom_toTopOf="@+id/textViewFechaFin08"
+        app:layout_constraintBottom_toTopOf="@+id/btnFechaFin08"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnFechaFin08"
-        android:layout_width="190dp"
+        android:layout_width="219dp"
         android:layout_height="49dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="40dp"
         android:text="Cambiar fecha fin"
         app:layout_constraintBottom_toTopOf="@+id/editTextNombre08"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textViewFechaInicio08"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/btnFechaIni08"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textViewFechaFin08"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/btnFechaFin08"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        android:id="@+id/textViewFechaFinAnt08"
+        android:layout_width="137dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="52dp"
+        android:text="@string/txtvw_fecha_fin"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNombre08"
+        app:layout_constraintEnd_toStartOf="@+id/btnFechaFin08"
+        app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewFechaInicioAnt08"
-        android:layout_width="154dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="59dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/textViewFechaFin08"
+        android:layout_width="137dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="108dp"
+        android:text="@string/txtvw_fecha_inicio"
+        app:layout_constraintBottom_toTopOf="@+id/textViewFechaFinAnt08"
         app:layout_constraintEnd_toStartOf="@+id/btnFechaIni08"
-        app:layout_constraintHorizontal_bias="0.581"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewFechaFinAnt08"
-        android:layout_width="154dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="83dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNombre08"
-        app:layout_constraintEnd_toStartOf="@+id/btnFechaFin08"
-        app:layout_constraintHorizontal_bias="0.59"
+        app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

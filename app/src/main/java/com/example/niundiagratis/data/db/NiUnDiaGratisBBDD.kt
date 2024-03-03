@@ -9,12 +9,17 @@ import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.DiasGeneradosDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
+import com.example.niundiagratis.data.db.BBDDHandler.crearBBDD
+import kotlinx.coroutines.runBlocking
 import java.util.Date
 
 
@@ -177,7 +182,7 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     abstract fun fDiasGeneradosDao(): DiasGeneradosDao
     abstract fun fDiasDisfrutadosDao(): DiasDisfrutadosDao
     abstract fun fComputoGlobalDao(): ComputoGlobalDao
-    companion object{
+    /*companion object{
 
         private var instancia: NiUnDiaGratisBBDD? = null
         //Esta funcion se usara para acceder a la base de datos abierta en el momento de usar la aplicacion
@@ -190,6 +195,36 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
             return instancia!!
         }
 
+    }*/
+    companion object{
+        private var instancia: NiUnDiaGratisBBDD? = null
+
+         fun obtenerInstancia(context: Context, nombreBD: String): NiUnDiaGratisBBDD{
+
+            if (context.getDatabasePath(dbSeleccionada).exists()) {//codigo si la base de datos existe
+                instancia = Room.databaseBuilder(
+                    context.applicationContext,
+                    NiUnDiaGratisBBDD::class.java, dbSeleccionada
+                ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
+                    .build()
+                //instancia.openHelper.writableDatabase
+            } else {//Codigo si la base de datos no existe
+                instancia = Room.databaseBuilder(
+                    context.applicationContext,
+                    NiUnDiaGratisBBDD::class.java, dbSeleccionada
+                ).build()
+                println(DatabaseActive.databaseAct)
+                println("dentro de obtenmer bbdd")
+                runBlocking {
+                    println("antes de inicializar bbdd")
+                    crearBBDD(instancia!!)
+                    println("despues de inicializar bbdd")
+                }
+
+
+            }
+            return instancia!!
+        }
     }
 }
 

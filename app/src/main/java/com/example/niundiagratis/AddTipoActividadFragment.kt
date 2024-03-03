@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -34,12 +36,11 @@ class AddTipoActividadFragment : Fragment() {
     private lateinit var binding: FragmentAddTipoActividadBinding
     private lateinit var fechaInicio: Date
     private lateinit var fechaFinal: Date
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposActividades
 
     //Valores para el listado del spinner-----------------------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }
@@ -62,22 +63,15 @@ class AddTipoActividadFragment : Fragment() {
         binding = FragmentAddTipoActividadBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
-        /*val titulo: Toolbar? = activity?.findViewById(com.example.niundiagratis.R.id.mainToolbar)
-        //titulo!!.title = selTitulo(16, requireContext())
-        titulo!!.title = getString(R.string.add_tipo_actividad)*/
-
-
-
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daoT = database.fTiposDiasDao()
-        dao = database.fTiposActividadesDao()
+        }*/
+        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        daoT = databaseAct!!.fTiposDiasDao()
+        dao = databaseAct!!.fTiposActividadesDao()
         navController = findNavController()
          return view
     }

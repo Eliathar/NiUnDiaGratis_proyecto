@@ -37,4 +37,7 @@ interface ActividadesRealizadasDao {
         //Se elimina una entidad
         @Delete
         fun delete(actividadesRealizadas: ActividadesRealizadas)
+        //Se elimina una entidad mediante el id
+        @Query("DELETE FROM tablaActividadesRealizadas WHERE id = :id")
+        fun deleteById(id: Int)
 }

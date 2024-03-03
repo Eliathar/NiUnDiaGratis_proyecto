@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModActividadSeleccionadaBinding
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
@@ -40,16 +44,20 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
     private lateinit var fechaFinal: Date
     lateinit var binding: FragmentModActividadSeleccionadaBinding
     private lateinit var dao: ActividadesRealizadasDao
-    private lateinit var nombreBD: String
     private lateinit var entidad: ActividadesRealizadas
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daot = database.fTiposActividadesDao()
         ViewModelSimple(daot)
     }
     private lateinit var daot: TiposActividadesDao
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
+    private lateinit var tipoActOk: String
+    private lateinit var tipoActividad: TiposActividades
+    private lateinit var fechaIni: LocalDate
+    private lateinit var fechaFin: LocalDate
+    private var difDias: Int? = 0
+    private lateinit var actividadNueva: ActividadesRealizadas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +77,11 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 
         //Obtenemos valores del bundle
         val id = bundle!!.getInt("id")
-        nombreBD = bundle.getString("nombreBD")!!
 
 
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daot = database.fTiposActividadesDao()
+        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        daot = databaseAct!!.fTiposActividadesDao()
         navController = findNavController()
 
         /* Obtenemos los datos del registro con la id del bundle en otro hilo, pero esperando a que
@@ -83,7 +90,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
             println(id)
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
-                dao = database.fActividadesRealizadasDao()
+                dao = databaseAct!!.fActividadesRealizadasDao()
                 dao.getActividadById(id)!!
             }
             println(entidad.fechaInActOk.toString())
@@ -129,7 +136,15 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 
         }
         binding.btnMod08.setOnClickListener() {
-            btnCalcular()
+            calculoBtn(1)
+        }
+        binding.btnDel08.setOnClickListener(){
+            /* TODO crear btn eliminar, siguiendo el patron de btncalcular, debe eliminar el
+                registro y actualizar los dias generados y el computo global, comprobar si elimina
+                esos dias y calcula bien o en caso contrario deberemos realizar un calculo de dias
+                y restar los correspondientes, separar los campos de btncalcular para
+                reaprovecharlos para eliminar */
+            calculoBtn(2)
         }
     }
 
@@ -193,46 +208,37 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 //-------------------------Fin hilo secundario------------------------------------------------------
     }
 
-    private fun btnCalcular(){
+    private fun calculoBtn(opcion: Int){
         //-------------------------------------Boton calcular-----------------------------------------------
 
             println("calcular pulsado")
             lifecycleScope.launch(Dispatchers.IO) {
-                println("A guardar datos1")
-                val tipoActOk = binding.spinnerTipo08.selectedItem.toString()
-                println("A guardar datos2 $tipoActOk")
-                val tipoActividad = daot.getTipoActividadByNombre(tipoActOk)
-                println("A guardar datos3 $tipoActividad")
+                tipoActOk = binding.spinnerTipo08.selectedItem.toString()
+                tipoActividad = daot.getTipoActividadByNombre(tipoActOk)!!
                 //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
-                val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                println("A guardar datos4")
-                val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                println("A guardar datos5")
+                fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 //Calculamos la diferencia en días
-                val difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()
-                println("A guardar datos6")
+                difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()
 //-----------------Calculamos los dias generados en base a los requisitos---------------------------
 
                 val totalDias1 = if (difDias != null && tipoActividad?.requisitosDiasAct1 !=
                     null
                 ) {
-                    difDias / tipoActividad.requisitosDiasAct1
+                    difDias!! / tipoActividad.requisitosDiasAct1!!
                 } else null
-                println("A guardar datos7")
                 val totalDias2 = if (difDias != null && tipoActividad?.requisitosDiasAct2 !=
                     null
                 ) {
-                    difDias / tipoActividad.requisitosDiasAct2
+                    difDias!! / tipoActividad.requisitosDiasAct2!!
                 } else null
-                println("A guardar datos8")
                 val totalDias3 = if (difDias != null && tipoActividad?.requisitosDiasAct3 !=
                     null
                 ) {
-                    difDias / tipoActividad.requisitosDiasAct3
+                    difDias!! / tipoActividad.requisitosDiasAct3!!
                 } else null
                 //Asignamos los valores a una variable del tipo adecuado para guardar los datos
-                println("A guardar datos")
-                val actividadNueva = tipoActividad?.let { it1 ->
+                actividadNueva = tipoActividad?.let { it1 ->
                     ActividadesRealizadas(
                         id = entidad.id,
                         nombreActOk = binding.editTextNombre08.text.toString(),
@@ -247,7 +253,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                         fechaFiActOk = fechaFinal,
                         esGuardiaOk = tipoActividad.esGuardia
                     )
-                }
+                }!!
                 /*
                 -------------------------Creamos el cuadro de confirmacion------------------------------------------
                 Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
@@ -255,7 +261,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 ser llamado en el hilo secundario para asegurar que tiene los datos cargados para ejecutarse en el
                 hilo principal
                 */
-                withContext(Dispatchers.Main) {
+                /*withContext(Dispatchers.Main) {
                     val construct = AlertDialog.Builder(context)
                     construct.setTitle("Confirmar datos")
                     construct.setMessage(
@@ -272,8 +278,8 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                             lifecycleScope.launch(Dispatchers.IO) {
                                 dao.update(actividadNueva)
-                                BBDDHandler.actualizarDiasGenerados(actividadNueva, database, 2)
-                                BBDDHandler.actualizarComputoGlobal(database)
+                                BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 2)
+                                BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                             }
 //------------------------------------Fin hilo secundario-------------------------------------------
                             println("datos guardados?")
@@ -283,10 +289,82 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                     }
                     construct.setNegativeButton("Cancelar", null)
                     construct.show()
+                }*/
+                if (opcion == 1){
+                    cuadroConf()
+                }else{
+                    cuadroDel()
                 }
+
             }
 //-----------------------------------Fin hilo secundario--------------------------------------------
 
 //-----------------------------------Fin boton calcular---------------------------------------------
+    }
+    //TODO a partir de aqui hay que hacer todas las variables de btncalcular globales a la clase
+    // para acceder a ellas desde todas sus funciones y copiar modificando para delete
+    private suspend fun cuadroConf(){
+        withContext(Dispatchers.Main) {
+            val construct = AlertDialog.Builder(context)
+            construct.setTitle("Confirmar datos")
+            construct.setMessage(
+                "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
+                        "Nombre de la actividad: ${actividadNueva?.nombreActOk}\n" +
+                        "Tipo de Actividad: $tipoActOk\n" +
+                        "Fecha de Inicio: $fechaIni\n" +
+                        "Fecha de Finalización: $fechaFin"
+            )
+            //Controlamos la reaccion de pulsar aceptar
+            construct.setPositiveButton("Aceptar") { dialog, wich ->
+                if (actividadNueva != null) {
+                    println("datos asignados")
+//------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        dao.update(actividadNueva)
+                        BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 2)
+                        BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                    }
+//------------------------------------Fin hilo secundario-------------------------------------------
+                    println("datos guardados?")
+                }
+                //------Cargamos el fragment home al guardar los datos en la base de datos----------
+                navController.navigate(R.id.nav_home)
+            }
+            construct.setNegativeButton("Cancelar", null)
+            construct.show()
+        }
+    }
+    private suspend fun cuadroDel(){
+        withContext(Dispatchers.Main) {
+            val construct = AlertDialog.Builder(context)
+            construct.setTitle("Confirmar datos")
+            construct.setMessage(
+                "¿Estas seguro de que quieres eliminar este registro?:\n\n" +
+                        "Nombre de la actividad: ${actividadNueva?.nombreActOk}\n" +
+                        "Tipo de Actividad: $tipoActOk\n" +
+                        "Fecha de Inicio: $fechaIni\n" +
+                        "Fecha de Finalización: $fechaFin"
+            )
+            //Controlamos la reaccion de pulsar aceptar
+            construct.setPositiveButton("Aceptar") { dialog, wich ->
+                if (actividadNueva != null) {
+                    println("datos asignados")
+//------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        dao.deleteById(actividadNueva.id)
+                        BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 2)
+
+                        BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+
+                    }
+//------------------------------------Fin hilo secundario-------------------------------------------
+                    println("datos guardados?")
+                }
+                //------Cargamos el fragment home al guardar los datos en la base de datos----------
+                navController.navigate(R.id.nav_home)
+            }
+            construct.setNegativeButton("Cancelar", null)
+            construct.show()
+        }
     }
 }

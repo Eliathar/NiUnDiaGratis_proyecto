@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -31,12 +33,11 @@ import kotlinx.coroutines.withContext
 class ModTipoActividadSelecFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentModTipoActividadSelecBinding
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposActividades
 
     //Valores para el listado del spinner tipos de dia----------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }
@@ -63,12 +64,11 @@ class ModTipoActividadSelecFragment : Fragment() {
 
         //Obtenemos valores del bundle
         val id = bundle!!.getString("id").toString()
-        nombreBD = bundle.getString("nombreBD")!!
 
 
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daoT = database.fTiposDiasDao()
+        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        daoT = databaseAct!!.fTiposDiasDao()
         navController = findNavController()
 
         /* Obtenemos los datos del registro con la id del bundle en otro hilo, pero esperando a que
@@ -77,7 +77,7 @@ class ModTipoActividadSelecFragment : Fragment() {
             println(id)
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
-                dao = database.fTiposActividadesDao()
+                dao = databaseAct!!.fTiposActividadesDao()
                 dao.getTipoActividadByNombre(id)!!
             }
 
@@ -156,8 +156,6 @@ class ModTipoActividadSelecFragment : Fragment() {
             binding.spinner3Proporcion15.setSelection(posicionEntidad3)
 //-----------------------------Fin configuracion spinner de items Int-------------------------------
 
-
-
 //------------------------------Solo necesario en fragments modificar-------------------------------
             val spinSelec1 = adapterS.getPosition(entidad.tipoDiasGenerados1)
             println(spinSelec1)
@@ -228,7 +226,7 @@ class ModTipoActividadSelecFragment : Fragment() {
                     id: Long
                 ) {
                     val itemSel = binding.spinnerTipo3Dia15.selectedItem.toString()
-                    if (itemSel == "Ninguna selección") {
+                    if (itemSel == "Ninguna selección") {//-------------------------------Fin parte dedicada a fragmen
                         //Acciones si no hay seleccion
                         binding.spinnerTipo3Dia15.setSelection(0)
                     } else {
@@ -386,7 +384,7 @@ class ModTipoActividadSelecFragment : Fragment() {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 println("A guardar datos guardando")
                                 dao.update(tipoDiaNuevo)
-                                BBDDHandler.actualizarComputoGlobal(database)
+                                BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                                 println("A guardar datos terminado")
 
                             }

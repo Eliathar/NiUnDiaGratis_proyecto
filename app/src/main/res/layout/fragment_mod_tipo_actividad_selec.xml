@@ -159,7 +159,7 @@
         android:id="@+id/buttonCalcular15"
         android:layout_width="263dp"
         android:layout_height="79dp"
-        android:text="Button"
+        android:text="@string/guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

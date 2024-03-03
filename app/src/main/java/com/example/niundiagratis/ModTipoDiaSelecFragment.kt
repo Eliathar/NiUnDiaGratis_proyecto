@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -33,7 +35,6 @@ class ModTipoDiaSelecFragment : Fragment() {
     private lateinit var binding: FragmentModTipoDiaSelecBinding
     private val job = Job()
     private lateinit var dao: TiposDiasDao
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposDias
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
@@ -59,24 +60,22 @@ class ModTipoDiaSelecFragment : Fragment() {
 
         //Obtenemos valores del bundle
         val id = bundle?.getString("id").toString()
-        nombreBD = bundle?.getString("nombreBD")!!
 
 
-        //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+
         navController = findNavController()
 
         runBlocking {
             println(id)
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
-                dao = database.fTiposDiasDao()
+                dao = databaseAct!!.fTiposDiasDao()
                 dao.getTipoDiaById(id)!!
             }
 
             //Asignamos los valores a los campos
             binding.editTextNombre17.setText(entidad.nombreTipoDia)
-            daoT= database.fComputoGlobalDao()
+            daoT= databaseAct!!.fComputoGlobalDao()
 
         }
 
@@ -157,7 +156,7 @@ class ModTipoDiaSelecFragment : Fragment() {
             /*
             -------------------------Creamos el cuadro de confirmacion------------------------------------------
             Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
-            obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que deb
+            obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que debe
             ser llamado en el hilo secundario para asegurar que tiene los datos cargados para ejecutarse en el
             hilo principal
             */
@@ -188,14 +187,11 @@ class ModTipoDiaSelecFragment : Fragment() {
                                     saldoGlobal = it.saldoGlobal
                                 )
                             }
-                            println("el nuevo computoglobal es $computoGlobalNuevo")
-                            println("el nuevo maxglobal es $maxTipoDia")
                             daoT.update(computoGlobalNuevo!!)
-                            println("el maxGlobal nuevo es: ${computoGlobalNuevo.maxGlobal} ")
 
 
 
-                            BBDDHandler.actualizarComputoGlobal(database)
+                            BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")
