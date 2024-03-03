@@ -7,6 +7,7 @@
     <string name="nav_header_subtitle">juanAntonioVicentePastor</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="msg_sel_bbdd">Seleccionar base de datos</string>
     <string name="action_salir">Salir</string>
 
     <string name="menu_home">NiUnDiaGratis</string>
@@ -58,12 +59,13 @@
     <string name="nombre">Nombre</string>
     <string name="vacio">Sin datos</string>
 
-
-
-
-
-
+    <string name="nombre_tipo_act">Nombre del tipo de actividad</string>
+    <string name="max_dias">Cantidad máxima anual</string>
+    <string name="guardar">Guardar</string>
+    <string name="aceptar">Aceptar</string>
     <string name="btn_calcular">Calcular</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

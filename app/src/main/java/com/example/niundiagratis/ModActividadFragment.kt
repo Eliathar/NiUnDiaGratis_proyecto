@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.SimpleAdapter
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -30,11 +31,10 @@ private var selMenuInt = -1
 class ModActividadFragment : Fragment() {
     lateinit var binding: FragmentModActividadBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         val dao = database.fActividadesRealizadasDao()
         ViewModelSimple(dao)
     }
-    private lateinit var nombreBD: String
     private lateinit var btn1: Button
     private var listaActividades: List<ActividadesRealizadas> = emptyList()
     private lateinit var txtV: TextView
@@ -66,14 +66,14 @@ class ModActividadFragment : Fragment() {
         //Definimos el textview de control de que no hay datos
         txtV = binding.txtVControl07
 
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
+        }*/
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
 
         initRecyclerView()
 
@@ -88,7 +88,7 @@ class ModActividadFragment : Fragment() {
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
                 putInt("id", selectedItem.id)
-                putString("nombreBD", nombreBD)
+                putString("nombreBD", dbSeleccionada)
             }
             // Navega al siguiente fragmento con el Bundle
             navController.navigate(R.id.action_modActividadFragment_to_modActividadSeleccionadaFragment, bundle)

@@ -3,6 +3,7 @@ package com.example.niundiagratis.data.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.R
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.ComputoGlobal
@@ -26,7 +27,7 @@ class ItemActRealAdapter(
         when (opcion){
             1 ->{
                 if (item is ActividadesRealizadas && !item.esGuardiaOk) {
-                    println("Actividad localizada ${item.nombreActOk}")
+                    println("Actividad localizada ${item.nombreActOk} en $databaseAct")
                     holder.txtTipo.text = item.tipoActOk
                     holder.txtNombre.text = item.nombreActOk
                     holder.txtFecha.text = formatearFecha(item.fechaInActOk)

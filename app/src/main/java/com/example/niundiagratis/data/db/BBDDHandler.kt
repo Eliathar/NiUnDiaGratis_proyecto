@@ -2,6 +2,8 @@ package com.example.niundiagratis.data.db
 
 import android.content.Context
 import androidx.room.Room
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.ui.home.HomeFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -9,41 +11,35 @@ import kotlinx.coroutines.runBlocking
 
 //Creamos la base de datos
 object BBDDHandler {
-    suspend fun crearBBDD(context: Context): String {
-        val periodo = SimpleDateFormat(
-            "yyyy",
-            Locale.getDefault()
-        ).format(
-            Calendar.getInstance().time
-        )
-        //Creamos el nombre de la base de datos usando el año
-        val nombreBD = "NiUnDiaGratis_$periodo"
-        val niUnDiaGratisDB: NiUnDiaGratisBBDD
-        if (context.getDatabasePath(nombreBD).exists()) {//codigo si la base de datos existe
-            niUnDiaGratisDB = Room.databaseBuilder(
+    suspend fun crearBBDD(context: Context): NiUnDiaGratisBBDD {
+        //Cargamos por defecto el nombre de la base de datos en dbselector, donde se realiza el calculo y comprobacion del nombre
+        val database: NiUnDiaGratisBBDD
+        println("calculos sobre $dbSeleccionada")
+        if (context.getDatabasePath(dbSeleccionada).exists()) {//codigo si la base de datos existe
+            database = Room.databaseBuilder(
                 context.applicationContext,
-                NiUnDiaGratisBBDD::class.java, nombreBD
+                NiUnDiaGratisBBDD::class.java, dbSeleccionada
             ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
                 .build()
-            niUnDiaGratisDB.openHelper.writableDatabase
+            database.openHelper.writableDatabase
         } else {//Codigo si la base de datos no existe
-            niUnDiaGratisDB = Room.databaseBuilder(
+            database = Room.databaseBuilder(
                 context.applicationContext,
-                NiUnDiaGratisBBDD::class.java,
-                nombreBD
+                NiUnDiaGratisBBDD::class.java, dbSeleccionada
             ).build()
-            niUnDiaGratisDB.openHelper.writableDatabase
+            database.openHelper.writableDatabase
             /* se realiza asi para esperar a que una funcion trermine antes de empezar con la
             siguiente y asi evitar problemas de datos sin inicializar */
             runBlocking {
-                inicializarBBDD(niUnDiaGratisDB)
-                inicializarBBDD1(niUnDiaGratisDB)
-                inicializarBBDD2(niUnDiaGratisDB)
-                inicializarBBDD3(niUnDiaGratisDB)
+                inicializarBBDD(database)
+                inicializarBBDD1(database)
+                inicializarBBDD2(database)
+                inicializarBBDD3(database)
             }
 
         }
-        return nombreBD
+        println(database)
+        return database
     }
 
     //Inicializacion de la base de datos
@@ -233,7 +229,7 @@ object BBDDHandler {
                     1 -> {
                         nuevaActReal = ActividadesRealizadas(
                             0,
-                            "disparate",
+                            "Maniobras1",
                             tipoActReal.toString(),
                             idTipoDia1.toString(),
                             idTipoDia3.toString(),
@@ -291,7 +287,6 @@ object BBDDHandler {
 
     fun actualizarDiasGenerados(nuevaActividad: ActividadesRealizadas, database: NiUnDiaGratisBBDD, opcion: Int) {
         // Obtén los tipos de días y los días generados de la nueva actividad
-        println("dentro de actualizar dias generados")
         val tiposDias = listOf(nuevaActividad.tipoDiasActOk1, nuevaActividad.tipoDiasActOk2, nuevaActividad.tipoDiasActOk3)
         val diasGenerados = listOf(nuevaActividad.diasGenActOk1, nuevaActividad.diasGenActOk2, nuevaActividad.diasGenActOk3)
 
@@ -304,9 +299,7 @@ object BBDDHandler {
 
             // Si el tipo de día y los días generados no son nulos, crea un nuevo registro en DiasGenerados
             if (tipoDia != null && diasGen != null) {
-                println("dentro de if actualizar dias generados")
                 for (j in 0 until diasGen) {
-                    println("dentro de for actualizar dias generados vuelta $j")
                     when (opcion){
                         1 -> {
                             val nuevoDiaGenerado = DiasGenerados(
@@ -317,28 +310,21 @@ object BBDDHandler {
                             )
 
                             // Añade el nuevo registro a la base de datos
-                            println("dentro de actualizar dias generados añadiendo insert")
                             database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
-                            println("dentro de actualizar dias generados insert añadido")
                         }
                         2 -> {
                             // Busca el DiasGenerados existente en la base de datos
-                            println("dentro de actualizar dias generados buscando dias a modificar")
                             val diasGeneradosExistentes = database.fDiasGeneradosDao().getDiasGeneradosPorActividad(nuevaActividad.nombreActOk, tipoDia)
-                            println("dentro de actualizar dias generados dias encontrados")
                             println(diasGeneradosExistentes)
                             println(diasGeneradosExistentes.size)
 
                             // Recorre cada DiasGenerados existente
                             for (diaGeneradoExistente in diasGeneradosExistentes) {
-                                println("dentro de actualizar dias generados con update")
                                 // Actualiza los campos del DiasGenerados existente
                                 diaGeneradoExistente.fechaGen = nuevaActividad.fechaInActOk
-                                println("dentro de actualizar dias generados con update entrando")
 
                                 // Pasa el DiasGenerados actualizado a la función update
                                 database.fDiasGeneradosDao().update(diaGeneradoExistente)
-                                println("dentro de actualizar dias generados con update hecho")
 
                             }
                             // Insertamos nuevos registros para los días en caso de generarse mas al modificarlos

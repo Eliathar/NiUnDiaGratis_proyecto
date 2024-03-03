@@ -30,6 +30,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
@@ -52,16 +53,15 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
     private lateinit var fechaInicio: Date
     private lateinit var fechaFinal: Date
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         dao = database.fActividadesRealizadasDao()
         ViewModelSimple(dao)
     }
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daot = database.fTiposActividadesDao()
         ViewModelSimple(daot)
     }
-    private lateinit var nombreBD: String
     private lateinit var dao: ActividadesRealizadasDao
     private lateinit var daot: TiposActividadesDao
     private lateinit var database: NiUnDiaGratisBBDD
@@ -84,13 +84,13 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
         binding = FragmentAddActividadBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        }*/
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         dao = database.fActividadesRealizadasDao()
         daot = database.fTiposActividadesDao()
         navController = findNavController()
@@ -270,8 +270,10 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.insert(actividadNueva)
+                            println(" la cuenta es ${actividadNueva.diasGenActOk2} + ${actividadNueva.tipoDiasActOk2}")
                             actualizarDiasGenerados(actividadNueva, database, 1)
                             actualizarComputoGlobal(database)
+                            println("el nombre es $database.gett")
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")

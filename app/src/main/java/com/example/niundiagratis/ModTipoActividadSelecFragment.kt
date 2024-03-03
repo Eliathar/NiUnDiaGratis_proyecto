@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -31,12 +32,11 @@ import kotlinx.coroutines.withContext
 class ModTipoActividadSelecFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentModTipoActividadSelecBinding
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposActividades
 
     //Valores para el listado del spinner tipos de dia----------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }
@@ -63,11 +63,10 @@ class ModTipoActividadSelecFragment : Fragment() {
 
         //Obtenemos valores del bundle
         val id = bundle!!.getString("id").toString()
-        nombreBD = bundle.getString("nombreBD")!!
 
 
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = database.fTiposDiasDao()
         navController = findNavController()
 

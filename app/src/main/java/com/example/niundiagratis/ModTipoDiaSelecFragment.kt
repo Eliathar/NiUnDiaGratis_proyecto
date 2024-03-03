@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -33,7 +34,6 @@ class ModTipoDiaSelecFragment : Fragment() {
     private lateinit var binding: FragmentModTipoDiaSelecBinding
     private val job = Job()
     private lateinit var dao: TiposDiasDao
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposDias
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
@@ -59,11 +59,10 @@ class ModTipoDiaSelecFragment : Fragment() {
 
         //Obtenemos valores del bundle
         val id = bundle?.getString("id").toString()
-        nombreBD = bundle?.getString("nombreBD")!!
 
 
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         navController = findNavController()
 
         runBlocking {
@@ -188,10 +187,7 @@ class ModTipoDiaSelecFragment : Fragment() {
                                     saldoGlobal = it.saldoGlobal
                                 )
                             }
-                            println("el nuevo computoglobal es $computoGlobalNuevo")
-                            println("el nuevo maxglobal es $maxTipoDia")
                             daoT.update(computoGlobalNuevo!!)
-                            println("el maxGlobal nuevo es: ${computoGlobalNuevo.maxGlobal} ")
 
 
 

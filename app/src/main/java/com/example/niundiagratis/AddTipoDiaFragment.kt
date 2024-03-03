@@ -12,8 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
+import com.example.niundiagratis.data.db.ComputoGlobal
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
@@ -26,16 +29,15 @@ import kotlinx.coroutines.withContext
 class AddTipoDiaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentAddTipoDiaBinding
-    private lateinit var nombreBD: String
     private lateinit var entidad: TiposDias
 
     //Valores para el listado del spinner-----------------------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daoT = database.fTiposDiasDao()
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        daoT = database.fComputoGlobalDao()
         ViewModelSimple(daoT)
     }
-    private lateinit var daoT: TiposDiasDao
+    private lateinit var daoT: ComputoGlobalDao
     //----------------------------------------------------------------------------------------------
     private lateinit var navController: NavController
     private lateinit var database: NiUnDiaGratisBBDD
@@ -54,14 +56,14 @@ class AddTipoDiaFragment : Fragment() {
         binding = FragmentAddTipoDiaBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daoT = database.fTiposDiasDao()
+        }*/
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        daoT = database.fComputoGlobalDao()
         dao = database.fTiposDiasDao()
         navController = findNavController()
 
@@ -224,6 +226,18 @@ class AddTipoDiaFragment : Fragment() {
                                 println("A guardar datos guardando")
                                 dao.insert(tipoDiaNuevo)
                                 println("A guardar datos terminado")
+                                val computoModificar = daoT.getComputoGlobalByTipo(tipoDiaNuevo.nombreTipoDia)
+                                val computoGlobalNuevo = computoModificar?.let { it ->
+                                    ComputoGlobal(
+                                        id = computoModificar.id,
+                                        tipoDiaGlobal = tipoDiaNuevo.nombreTipoDia,
+                                        maxGlobal = dao.getTipoDiaById(tipoDiaNuevo.nombreTipoDia)!!.maxDias ,
+                                        genGlobal = it.genGlobal,
+                                        conGlobal = it.conGlobal,
+                                        saldoGlobal = it.saldoGlobal
+                                    )
+                                }
+                                daoT.update(computoGlobalNuevo!!)
 
                             }
                             //------------------------------------Fin hilo secundario-------------------------------------------

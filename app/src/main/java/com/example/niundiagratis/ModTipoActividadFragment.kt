@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.TiposActividadesAdapter
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
@@ -29,11 +30,10 @@ private var selMenuInt = -1
 class ModTipoActividadFragment : Fragment() {
     lateinit var binding: FragmentModTipoActividadBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         val dao = database.fTiposActividadesDao()
         ViewModelSimple(dao)
     }
-    private lateinit var nombreBD: String
     private var listaTiposActividades: List<TiposActividades> = emptyList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposActividades
@@ -61,14 +61,14 @@ class ModTipoActividadFragment : Fragment() {
         //Asignamos el layoutmanager al recyclerview
         binding.rVMod14.layoutManager = layoutManager
 
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
+        }*/
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
 
         initRecyclerView()
         return view
@@ -86,7 +86,7 @@ class ModTipoActividadFragment : Fragment() {
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
                 putString("id", selectedItem.nombreTipoAct)
-                putString("nombreBD", nombreBD)
+                putString("nombreBD", dbSeleccionada)
             }
             // Navega al siguiente fragmento con el Bundle
             navController.navigate(R.id.action_modTipoActividadFragment_to_modTipoActividadSelecFragment, bundle)

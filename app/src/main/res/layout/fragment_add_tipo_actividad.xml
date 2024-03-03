@@ -13,11 +13,11 @@
         android:layout_width="333dp"
         android:layout_height="51dp"
         android:layout_marginBottom="28dp"
-        android:text="Nombre  tipo actividad"
         app:layout_constraintBottom_toTopOf="@+id/textViewTipo1Dia12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:hint="@string/nombre_tipo_act"/>
 
     <TextView
         android:id="@+id/textView2ProporcionDias12"
@@ -160,7 +160,7 @@
         android:id="@+id/buttonCalcular12"
         android:layout_width="263dp"
         android:layout_height="79dp"
-        android:text="Button"
+        android:text="@string/guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

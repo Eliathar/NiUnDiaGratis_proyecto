@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.TiposDiasAdapter
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
@@ -27,11 +28,10 @@ private var selMenuInt = -1
 class ModTipoDiaFragment : Fragment() {
     lateinit var binding: FragmentModTipoDiaBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         val dao = database.fTiposDiasDao()
         ViewModelSimple(dao)
     }
-    private lateinit var nombreBD: String
     private var listaTiposDias: List<TiposDias> = emptyList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposDias
@@ -63,14 +63,14 @@ class ModTipoDiaFragment : Fragment() {
         //Asignamos el layoutmanager al recyclerview
         binding.rVmodTiposDias16.layoutManager = layoutManager
 
-        //Obtenemos el nombre de la base de datos
+        /*//Obtenemos el nombre de la base de datos
         runBlocking {
             withContext(Dispatchers.IO) {
                 nombreBD = BBDDHandler.crearBBDD(requireContext())
             }
-        }
+        }*/
         //Obtenemos instancia de la base de datos
-        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD )
+        database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
 
         initRecyclerView()
 
@@ -88,7 +88,7 @@ class ModTipoDiaFragment : Fragment() {
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
                 putString("id", selectedItem.nombreTipoDia)
-                putString("nombreBD", nombreBD)
+                putString("nombreBD", dbSeleccionada)
             }
             // Navega al siguiente fragmento con el Bundle
             navController.navigate(R.id.action_modTipoDiaFragment_to_modTipoDiaSelecFragment, bundle)
