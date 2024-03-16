@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -131,7 +132,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
         binding.btnFechaFin08.setOnClickListener() {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaFinal = fechaSelec
-                binding.btnFechaFin08.text = "Inicio: ${formatearFecha(fechaFinal)}"
+                binding.btnFechaFin08.text = "Fin: ${formatearFecha(fechaFinal)}"
             }
 
         }
@@ -176,6 +177,16 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
             binding.spinnerTipo08.adapter = adapter
 
             val spinSelec = adapter.getPosition(entidad.tipoActOk)
+            val camposPU = mapOf(
+                "tipoDiasActOk1" to entidad.tipoDiasActOk1,
+                "tiposDiasActOk2" to entidad.tipoDiasActOk2,
+                "tipoDiasActOk3" to entidad.tipoDiasActOk3
+            )
+            val campoConPu = camposPU.entries.find { it.value == "PU" }
+            if (campoConPu != null){
+                binding.spinnerMo08.isVisible = true
+                val spinSelecMo = adapter.getPosition(campoConPu.key)
+            }
             println(spinSelec)
             println(entidad.tipoActOk)
 
@@ -352,7 +363,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                     lifecycleScope.launch(Dispatchers.IO) {
                         dao.deleteById(actividadNueva.id)
-                        BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 2)
+                        BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 3)
 
                         BBDDHandler.actualizarComputoGlobal(databaseAct!!)
 

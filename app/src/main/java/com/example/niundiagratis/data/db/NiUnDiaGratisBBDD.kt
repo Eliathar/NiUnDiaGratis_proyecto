@@ -75,7 +75,8 @@ data class TiposDias(
         ForeignKey(
             entity = TiposActividades::class,
             parentColumns = ["nombreTipoAct"],
-            childColumns = ["tipoActOk"]
+            childColumns = ["tipoActOk"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
@@ -111,7 +112,8 @@ class ActividadesRealizadas(
         ForeignKey(
             entity = ActividadesRealizadas::class,
             parentColumns = ["nombreActOk"],
-            childColumns = ["nombreActgen"]
+            childColumns = ["nombreActgen"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
@@ -151,7 +153,8 @@ data class DiasDisfrutados(
         ForeignKey(
             entity = TiposDias::class,
             parentColumns = ["nombreTipoDia"],
-            childColumns = ["tipoDiaGlobal"]
+            childColumns = ["tipoDiaGlobal"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [

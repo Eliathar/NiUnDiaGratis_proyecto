@@ -296,7 +296,7 @@ object BBDDHandler {
                             // Añade el nuevo registro a la base de datos
                             database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
                         }
-                        2 -> {
+                        2, 3 -> {
                             // Busca el DiasGenerados existente en la base de datos
                             val diasGeneradosExistentes = database.fDiasGeneradosDao().getDiasGeneradosPorActividad(nuevaActividad.nombreActOk, tipoDia)
                             println(diasGeneradosExistentes)
@@ -319,8 +319,11 @@ object BBDDHandler {
                                     nombreActgen = nuevaActividad.nombreActOk,
                                     fechaGen = nuevaActividad.fechaInActOk
                                 )// Usamos la fecha de inicio de la actividad como fecha de generación
+                                runBlocking {
+                                    if(opcion == 2) database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
+                                    else if (opcion == 3) database.fDiasGeneradosDao().delete(nuevoDiaGenerado)
+                                }
 
-                                database.fDiasGeneradosDao().insert(nuevoDiaGenerado)
                             }
                             // Si hay más registros existentes que días generados, elimina la diferencia
                             if (diasGeneradosExistentes.size > diasGen) {

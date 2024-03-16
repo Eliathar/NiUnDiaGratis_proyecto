@@ -12,9 +12,9 @@
         android:id="@+id/spinnerTipo08"
         android:layout_width="360dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="24dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/btnMod08"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerMo08"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent" />
@@ -58,10 +58,21 @@
         android:layout_width="219dp"
         android:layout_height="49dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="32dp"
         android:text="Cambiar fecha inicio"
         app:layout_constraintBottom_toTopOf="@+id/btnFechaFin08"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewFechaInicioAnt08"
+        android:layout_width="137dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="56dp"
+        android:text="@string/txtvw_fecha_inicio"
+        app:layout_constraintBottom_toTopOf="@+id/textViewFechaFinAnt08"
+        app:layout_constraintEnd_toStartOf="@+id/btnFechaIni08"
+        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnFechaFin08"
@@ -84,15 +95,12 @@
         app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewFechaInicioAnt08"
-        android:layout_width="137dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="108dp"
-        android:text="@string/txtvw_fecha_inicio"
-        app:layout_constraintBottom_toTopOf="@+id/textViewFechaFinAnt08"
-        app:layout_constraintEnd_toStartOf="@+id/btnFechaIni08"
-        app:layout_constraintHorizontal_bias="0.87"
-        app:layout_constraintStart_toStartOf="parent" />
+    <Spinner
+        android:id="@+id/spinnerMo08"
+        android:layout_width="157dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnMod08"
+        tools:layout_editor_absoluteX="127dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
