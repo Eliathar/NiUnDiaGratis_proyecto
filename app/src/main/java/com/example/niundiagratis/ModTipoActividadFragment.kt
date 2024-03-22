@@ -13,19 +13,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.TiposActividadesAdapter
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModTipoActividadBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-//TODO: controlar seleccion del listado y como pasarle los parametros
-//TODO: implementar base de datos
+
 private var selMenuInt = -1
 class ModTipoActividadFragment : Fragment() {
     lateinit var binding: FragmentModTipoActividadBinding
@@ -38,7 +32,6 @@ class ModTipoActividadFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposActividades
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +43,7 @@ class ModTipoActividadFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentModTipoActividadBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.btnAceptar14.isEnabled = false
@@ -96,7 +89,7 @@ class ModTipoActividadFragment : Fragment() {
     }
     private fun initRecyclerView(){
         val fragment = this
-        val launch = lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.obtenerTiposActividadesLive().observe(viewLifecycleOwner) { actividades ->
                 val listaTiposActividadesScope = actividades ?: emptyList()
                 val actRealAdapter = TiposActividadesAdapter(listaTiposActividadesScope, fragment::onItemSelected)

@@ -6,12 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ModPermisoSeleccionadoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/btnFechaFinPerm11"
+        android:layout_width="320dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="88dp"
+        android:text="@string/btn_fecha_fin"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Spinner
         android:id="@+id/spinnerTipo11"
         android:layout_width="360dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="100dp"
         android:prompt="@string/spinner_tipo_dia"
         app:layout_constraintBottom_toTopOf="@+id/buttonGuardar11"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,15 +42,13 @@
 
     <Button
         android:id="@+id/btnFechaIniPerm11"
-        android:layout_width="370dp"
+        android:layout_width="320dp"
         android:layout_height="60dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginBottom="64dp"
         android:text="@string/btn_fecha_inicio"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerTipo11"
+        app:layout_constraintBottom_toTopOf="@+id/btnFechaFinPerm11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

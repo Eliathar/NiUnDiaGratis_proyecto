@@ -12,18 +12,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.PermisosAdapter
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.DiasDisfrutados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModPermisoBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private var selMenuInt = -1
 
 
@@ -38,7 +33,6 @@ class ModPermisoFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: DiasDisfrutados
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +45,7 @@ class ModPermisoFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentModPermisoBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.btnAceptar10.isEnabled = false
@@ -96,7 +90,7 @@ class ModPermisoFragment : Fragment() {
     }
     private fun initRecyclerView(){
         val fragment = this
-        val launch = lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.obtenerDiasDisLive().observe(viewLifecycleOwner) { actividades ->
                 val listaDisfrutadosScope = actividades ?: emptyList()
                 val actRealAdapter = PermisosAdapter(listaDisfrutadosScope, fragment::onItemSelected)

@@ -1,6 +1,7 @@
 package com.example.niundiagratis
 
-import android.R
+import android.R.layout.simple_spinner_dropdown_item
+import android.R.layout.simple_spinner_item
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,15 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
+import com.example.niundiagratis.R.array.spinner_max_items
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.ComputoGlobal
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
-import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentAddTipoDiaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,42 +26,20 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class AddTipoDiaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private lateinit var binding: FragmentAddTipoDiaBinding
-    private lateinit var entidad: TiposDias
 
-    //Valores para el listado del spinner-----------------------------------------------------------
-    private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
-        daoT = database.fComputoGlobalDao()
-        ViewModelSimple(daoT)
-    }
+    private lateinit var binding: FragmentAddTipoDiaBinding
     private lateinit var daoT: ComputoGlobalDao
-    //----------------------------------------------------------------------------------------------
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var dao: TiposDiasDao
     private lateinit var spinnerItems: MutableList<Int>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentAddTipoDiaBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        /*//Obtenemos el nombre de la base de datos
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext())
-            }
-        }*/
-        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = databaseAct!!.fComputoGlobalDao()
         dao = databaseAct!!.fTiposDiasDao()
         navController = findNavController()
@@ -77,7 +53,7 @@ class AddTipoDiaFragment : Fragment() {
         spinConfig()
 //--------------------------------Botones-----------------------------------------------------------
 
-        binding.btnGuardar13.setOnClickListener(){
+        binding.btnGuardar13.setOnClickListener {
             btnCalcular()
         }
     }
@@ -113,12 +89,12 @@ class AddTipoDiaFragment : Fragment() {
 //--------------------------Inicio de spinners de Int-----------------------------------------------
             //Configuramos los spinner
             //Obtenemos listado de valores para el spinner
-            spinnerItems = resources.getIntArray(com.example.niundiagratis.R.array.spinner_max_items).toMutableList()
+            spinnerItems = resources.getIntArray(spinner_max_items).toMutableList()
             //Añadimos valor por defecto 0
             spinnerItems.add(0, 0)
             //Configuramos el adapter y lo asignamos
-            val adapter = ArrayAdapter<Int>(requireContext(), R.layout.simple_spinner_item, spinnerItems)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            val adapter = ArrayAdapter(requireContext(), simple_spinner_item, spinnerItems)
+            adapter.setDropDownViewResource(simple_spinner_dropdown_item)
             binding.spinnerMax13.adapter = adapter
 //-----------------------------Fin configuracion spinner de items Int-------------------------------
 
@@ -152,7 +128,6 @@ class AddTipoDiaFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -189,12 +164,10 @@ class AddTipoDiaFragment : Fragment() {
 
 //--------------------------Varible tipo para pasar los datos a la BBDD-----------------------------
             println("A guardar datos7")
-            val tipoDiaNuevo = maxAnual?.let { it1 ->
-                TiposDias(
-                    nombreTipoDia = binding.editTextNombre13.text.toString(),
-                    maxDias = maxAnual
-                )
-            }
+            val tipoDiaNuevo = TiposDias(
+                nombreTipoDia = binding.editTextNombre13.text.toString(),
+                maxDias = maxAnual
+            )
             println(tipoDiaNuevo)
             println("A guardar datos8")
             //}
@@ -212,40 +185,38 @@ class AddTipoDiaFragment : Fragment() {
                 println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Nombre tipo: ${tipoDiaNuevo?.nombreTipoDia}\n" +
-                            "Max anual: ${tipoDiaNuevo?.maxDias}\n"
+                            "Nombre tipo: ${tipoDiaNuevo.nombreTipoDia}\n" +
+                            "Max anual: ${tipoDiaNuevo.maxDias}\n"
                 )
                 println("A guardar datos11")
                 //Controlamos la reaccion de pulsar aceptar
 
-                construct.setPositiveButton("Aceptar") { dialog, wich ->
+                construct.setPositiveButton("Aceptar") { _, _ ->
                     runBlocking {
-                        if (tipoDiaNuevo != null) {
-                            println("datos asignados")
-                            //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                println("A guardar datos guardando")
-                                dao.insert(tipoDiaNuevo)
-                                println("A guardar datos terminado")
-                                val computoModificar = daoT.getComputoGlobalByTipo(tipoDiaNuevo.nombreTipoDia)
-                                val computoGlobalNuevo = computoModificar?.let { it ->
-                                    ComputoGlobal(
-                                        id = computoModificar.id,
-                                        tipoDiaGlobal = tipoDiaNuevo.nombreTipoDia,
-                                        maxGlobal = dao.getTipoDiaById(tipoDiaNuevo.nombreTipoDia)!!.maxDias ,
-                                        genGlobal = it.genGlobal,
-                                        conGlobal = it.conGlobal,
-                                        saldoGlobal = it.saldoGlobal
-                                    )
-                                }
-                                daoT.update(computoGlobalNuevo!!)
-
+                        println("datos asignados")
+                        //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            println("A guardar datos guardando")
+                            dao.insert(tipoDiaNuevo)
+                            println("A guardar datos terminado")
+                            val computoModificar = daoT.getComputoGlobalByTipo(tipoDiaNuevo.nombreTipoDia)
+                            val computoGlobalNuevo = computoModificar?.let {
+                                ComputoGlobal(
+                                    id = computoModificar.id,
+                                    tipoDiaGlobal = tipoDiaNuevo.nombreTipoDia,
+                                    maxGlobal = dao.getTipoDiaById(tipoDiaNuevo.nombreTipoDia)!!.maxDias ,
+                                    genGlobal = it.genGlobal,
+                                    conGlobal = it.conGlobal,
+                                    saldoGlobal = it.saldoGlobal
+                                )
                             }
-                            //------------------------------------Fin hilo secundario-------------------------------------------
-                            println("datos guardados?")
+                            daoT.update(computoGlobalNuevo!!)
+
                         }
+                        //------------------------------------Fin hilo secundario-------------------------------------------
+                        println("datos guardados?")
                         //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                        navController.navigate(com.example.niundiagratis.R.id.nav_home)
+                        navController.navigate(R.id.nav_home)
                     }
 
                 }

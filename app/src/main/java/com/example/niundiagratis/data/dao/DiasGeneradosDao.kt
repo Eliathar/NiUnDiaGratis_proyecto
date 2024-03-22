@@ -21,10 +21,11 @@ interface DiasGeneradosDao {
     fun getDiasGeneradosPorActividad(nombreActividad: String, tipoDia: String): List<DiasGenerados>
     @Update
     fun update(diasgenerados: DiasGenerados)
+
     //Se elimina una entidad
     @Delete
     fun delete(diasgenerados: DiasGenerados)
     //Consulta del numero total segun campo nombre de la entidad
-    @Query("SELECT COUNT(*) FROM tablaDiasGenerados WHERE tipoDiaGen = :tipoDiaGen")
+    @Query("SELECT SUM(totalDias) FROM tablaDiasGenerados WHERE tipoDiaGen = :tipoDiaGen")
     fun getTotalDiasGenerados(tipoDiaGen: String): Int
 }

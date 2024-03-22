@@ -33,6 +33,8 @@ interface DiasDisfrutadosDao {
 
     @Query("SELECT COUNT(*) FROM tablaDiasDisfrutados WHERE tipoDiaDis = :tipoDiaGen")
     fun getTotalDiasDisfrutados(tipoDiaGen: String): Int
+    @Query("SELECT SUM(diasTotales) FROM tablaDiasDisfrutados WHERE tipoDiaDis = :tipoDia")
+    fun getTotalDiasDisfrutadosByTipoDia(tipoDia: String): Int
 
     //Se actualiza una entidad
     @Update

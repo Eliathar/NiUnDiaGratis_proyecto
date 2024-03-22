@@ -1,45 +1,26 @@
 package com.example.niundiagratis.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.niundiagratis.data.adapter.ItemActRealAdapter
-import com.example.niundiagratis.data.dao.ComputoGlobalDao
-import kotlinx.coroutines.runBlocking
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive
 import com.example.niundiagratis.DatabaseActive.databaseAct
+import com.example.niundiagratis.data.adapter.ItemActRealAdapter
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.viewmodel.ViewModelFactory
-import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentHomeBinding
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var actRealAdapter: ItemActRealAdapter
     private lateinit var computoGlobalDao: ComputoGlobalDao
     private lateinit var actividadesRealizadasDao: ActividadesRealizadasDao
-    private lateinit var database: NiUnDiaGratisBBDD
-    private lateinit var nombreBD: String
-    private lateinit var daoT: ComputoGlobalDao
-
-    //private lateinit var context: Context
-    private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), nombreBD)
-        daoT = database.fComputoGlobalDao()
-        ViewModelSimple(daoT)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +50,6 @@ class HomeFragment : Fragment() {
         binding.rVGuardias.layoutManager = layoutManager2
         binding.rVComputo.layoutManager = layoutManager3
 
-        //ToDO crear mensaje y control de mensaje para que solo aparezca en el inicio
-
-        println("La base de datos es $databaseAct y el nombre es $dbSeleccionada")
-
-
         // Inicializamos DAOs
         computoGlobalDao = databaseAct!!.fComputoGlobalDao()
         actividadesRealizadasDao = databaseAct!!.fActividadesRealizadasDao()
@@ -82,7 +58,7 @@ class HomeFragment : Fragment() {
         val factory = ViewModelFactory(computoGlobalDao, actividadesRealizadasDao)
 
         //Creamos el viewmodel
-        val homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+        val homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         //Funciones para obtener los datos del viewmodel para los recyclerviews
         runBlocking {
@@ -97,7 +73,6 @@ class HomeFragment : Fragment() {
                 val actGuardias = ItemActRealAdapter(listaGuardias, 2)
                 binding.rVGuardias.adapter = actGuardias
                 binding.rVGuardias.addItemDecoration(decoration)
-
             }
 
             homeViewModel.listaComputoGlobal.observe(viewLifecycleOwner) { datos ->
@@ -107,7 +82,6 @@ class HomeFragment : Fragment() {
                 binding.rVComputo.adapter = computoGlobal
                 binding.rVComputo.addItemDecoration(decoration)
             }
-
         }
         return view
     }

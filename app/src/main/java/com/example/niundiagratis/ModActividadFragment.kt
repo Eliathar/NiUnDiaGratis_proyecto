@@ -15,18 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.SimpleAdapter
 import com.example.niundiagratis.data.db.ActividadesRealizadas
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModActividadBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private var selMenuInt = -1
 class ModActividadFragment : Fragment() {
     lateinit var binding: FragmentModActividadBinding
@@ -41,13 +35,12 @@ class ModActividadFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: ActividadesRealizadas
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflamos el layout del fragment
         binding = FragmentModActividadBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -99,7 +92,7 @@ class ModActividadFragment : Fragment() {
 
     private fun initRecyclerView(){
         val fragment = this
-        val launch = lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.obtenerActividades().observe(viewLifecycleOwner) { actividades ->
                 val listaActividadesScope = actividades ?: emptyList()
                 val actRealAdapter = SimpleAdapter(listaActividadesScope, fragment::onItemSelected)

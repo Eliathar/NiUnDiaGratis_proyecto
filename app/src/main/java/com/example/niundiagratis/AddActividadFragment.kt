@@ -10,54 +10,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.niundiagratis.data.adapter.SimpleAdapter
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
-import com.example.niundiagratis.data.dao.TiposDiasDao
-import com.example.niundiagratis.data.db.BBDDHandler
+import com.example.niundiagratis.data.dao.TiposActividadesDao
+import com.example.niundiagratis.data.db.ActividadesRealizadas
+import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
+import com.example.niundiagratis.data.db.BBDDHandler.actualizarDiasGenerados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentAddActividadBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.Date
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
-import com.example.niundiagratis.DatabaseActive.databaseAct
-import com.example.niundiagratis.data.dao.TiposActividadesDao
-import com.example.niundiagratis.data.db.ActividadesRealizadas
-import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
-import com.example.niundiagratis.data.db.BBDDHandler.actualizarDiasGenerados
-import com.example.niundiagratis.data.db.TiposActividades
-import com.example.niundiagratis.data.db.TiposDias
-import java.util.concurrent.TimeUnit
-import java.sql.Time
-import java.time.LocalDate
 import java.time.ZoneId
+import java.util.Date
 
-// TODO: Rename parameter arguments, choose names that match
 interface OnMenuItemSelectedListener {
     fun onMenuItemSelected(item: MenuItem)
 }
 class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
-    // TODO: Rename and change types of parameters
+
     private lateinit var binding: FragmentAddActividadBinding
     private var mainActivity: MainActivity? = null
     private lateinit var fechaInicio: Date
     private lateinit var fechaFinal: Date
-    private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
-        dao = database.fActividadesRealizadasDao()
-        ViewModelSimple(dao)
-    }
     private val viewModelT: ViewModelSimple by lazy {
         val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daot = database.fTiposActividadesDao()
@@ -65,9 +46,8 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
     }
     private lateinit var dao: ActividadesRealizadasDao
     private lateinit var daot: TiposActividadesDao
-    private lateinit var database: NiUnDiaGratisBBDD
-    private lateinit var tipoActividadDB: List<TiposActividades>
     private lateinit var navController: NavController
+    private lateinit var spinnerItems: MutableList<Int>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +61,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentAddActividadBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -105,21 +85,21 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
 
 //-------------------------Fin hilo secundario------------------------------------------------------
         //Boton fecha inicio
-        binding.btnFechaIni06.setOnClickListener() {
+        binding.btnFechaIni06.setOnClickListener {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaInicio = fechaSelec
-                binding.btnFechaIni06.text = "Inicio: ${formatearFecha(fechaInicio)}"
+                binding.btnFechaIni06.text = getString(R.string.inicio, formatearFecha(fechaInicio))
             }
         }
         //Boton fecha fin
-        binding.btnFechaFin06.setOnClickListener() {
+        binding.btnFechaFin06.setOnClickListener {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaFinal = fechaSelec
-                binding.btnFechaFin06.text = "Inicio: ${formatearFecha(fechaFinal)}"
+                binding.btnFechaFin06.text = getString(R.string.fin, formatearFecha(fechaFinal))
             }
         }
 //-------------------------------------Boton calcular-----------------------------------------------
-        binding.buttonCalcular06.setOnClickListener() {
+        binding.buttonCalcular06.setOnClickListener {
             println("calcular pulsado")
             btnCalcular()
 
@@ -152,21 +132,32 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             val tipoActividadDB = withContext(Dispatchers.IO) {
                 viewModelT.obtenerTiposActividades()
             }
+            //Obtenemos listado de valores para el spinner
+            spinnerItems = resources.getIntArray(R.array.spinner_max_items).toMutableList()
             //Iteramos sobre la lista y obtenemos los nombres de los tipos de días
             val nombresTiposActividades = tipoActividadDB.map { it.nombreTipoAct }
 
             //Creamos un ArrayAdapter con la lista de nombres
-            val adapter = ArrayAdapter<String>(
+            val adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
                 nombresTiposActividades
             )
+            //Configuramos el adapter y lo asignamos
+            val adapterI = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                spinnerItems
+            )
 
             //Configuramos el ArrayAdapter para el Spinner
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            //Especificamos el layout a usar cuando se muestra la lista
+            adapterI.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
             //Asignamos el adapter
             binding.spinnerTipoActividad06.adapter = adapter
+            binding.spinnerMo06.adapter = adapterI
 
 
             //Agregamos los valores al adaptador
@@ -184,13 +175,25 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
                         binding.spinnerTipoActividad06.setSelection(0)
                     } else {
                         //Acciones si hay seleccion
+                        // Encuentra la entidad TiposActividades que corresponde al ítem seleccionado
+                        val entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }
+                        if (entidadSeleccionada != null) {
+                            if (entidadSeleccionada.tipoDiasGenerados1 == "PU" || entidadSeleccionada.tipoDiasGenerados2 == "PU"|| entidadSeleccionada.tipoDiasGenerados3 =="PU") {
+                                binding.spinnerMo06.visibility = View.VISIBLE
+                                binding.txtvwDiasPu06.visibility = View.VISIBLE
+                            }else{
+                                binding.spinnerMo06.visibility = View.INVISIBLE
+                                binding.txtvwDiasPu06.visibility = View.INVISIBLE
+                            }
+                        }
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
+
                 }
             }
+
         }
     }
     private fun btnCalcular(){
@@ -212,36 +215,43 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             println("A guardar datos6")
 //-----------------Calculamos los dias generados en base a los requisitos---------------------------
 
-            val totalDias1 = if (difDias != null && tipoActividad?.requisitosDiasAct1 !=
+            val totalDias1 = if (tipoActividad?.requisitosDiasAct1 !=
                 null
             ) {
                 difDias / tipoActividad.requisitosDiasAct1
-            } else null
+            }else if (tipoActividad?.tipoDiasGenerados1 == "PU") {
+                binding.spinnerMo06.selectedItem
+            }else null
             println("A guardar datos7")
-            val totalDias2 = if (difDias != null && tipoActividad?.requisitosDiasAct2 !=
+            val totalDias2 = if (tipoActividad?.requisitosDiasAct2 !=
                 null
             ) {
                 difDias / tipoActividad.requisitosDiasAct2
-            } else null
+            }else if (tipoActividad?.tipoDiasGenerados2 == "PU") {
+                binding.spinnerMo06.selectedItem
+            }else null
+
             println("A guardar datos8")
-            val totalDias3 = if (difDias != null && tipoActividad?.requisitosDiasAct3 !=
+            val totalDias3 = if (tipoActividad?.requisitosDiasAct3 !=
                 null
             ) {
                 difDias / tipoActividad.requisitosDiasAct3
-            } else null
+            }else if (tipoActividad?.tipoDiasGenerados3 == "PU") {
+                binding.spinnerMo06.selectedItem
+            }else null
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")
-            val actividadNueva = tipoActividad?.let { it1 ->
+            val actividadNueva = tipoActividad?.let { _ ->
                 ActividadesRealizadas(
                     id = 0,
                     nombreActOk = binding.editTextNombre06.text.toString(),
                     tipoActOk = tipoActOk,
-                    tipoDiasActOk1 = tipoActividad?.tipoDiasGenerados1.toString(),
-                    tipoDiasActOk2 = tipoActividad?.tipoDiasGenerados2.toString(),
-                    tipoDiasActOk3 = tipoActividad?.tipoDiasGenerados3.toString(),
-                    diasGenActOk1 = totalDias1,
-                    diasGenActOk2 = totalDias2,
-                    diasGenActOk3 = totalDias3,
+                    tipoDiasActOk1 = tipoActividad.tipoDiasGenerados1.toString(),
+                    tipoDiasActOk2 = tipoActividad.tipoDiasGenerados2.toString(),
+                    tipoDiasActOk3 = tipoActividad.tipoDiasGenerados3.toString(),
+                    diasGenActOk1 = totalDias1 as Int?,
+                    diasGenActOk2 = totalDias2 as Int?,
+                    diasGenActOk3 = totalDias3 as Int?,
                     fechaInActOk = fechaInicio,
                     fechaFiActOk = fechaFinal,
                     esGuardiaOk = tipoActividad.esGuardia
@@ -250,7 +260,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             /*
             -------------------------Creamos el cuadro de confirmacion------------------------------------------
             Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
-            obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que deb
+            obstante es necesario que el cauadro aparezca despues de la asignacion de valores, por lo que debe
             ser llamado en el hilo secundario para asegurar que tiene los datos cargados para ejecutarse en el
             hilo principal
             */
@@ -265,7 +275,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
                             "Fecha de Finalización: $fechaFin"
                 )
                 //Controlamos la reaccion de pulsar aceptar
-                construct.setPositiveButton("Aceptar") { dialog, wich ->
+                construct.setPositiveButton("Aceptar") { _, _ ->
                     if (actividadNueva != null) {
                         println("datos asignados")
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------

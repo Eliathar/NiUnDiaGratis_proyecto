@@ -27,14 +27,14 @@ import kotlinx.coroutines.withContext
 import java.time.ZoneId
 import java.util.Date
 
-// TODO: Rename parameter arguments, choose names that match
 
+/* todo agregar comprobacion de dias festivos segun FuncionesExtra.comprobardiafestivo para no
+    contarlos como permiso */
 class AddPermisoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private lateinit var binding: FragmentAddPermisoBinding
     private lateinit var fechaInicio: Date
     private lateinit var fechaFinal: Date
-    private lateinit var entidad: DiasDisfrutados
     private val viewModelT: ViewModelSimple by lazy {
         val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = database.fTiposDiasDao()
@@ -42,7 +42,6 @@ class AddPermisoFragment : Fragment() {
     }
     private lateinit var daoT: TiposDiasDao
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var dao: DiasDisfrutadosDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,15 +53,9 @@ class AddPermisoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentAddPermisoBinding.inflate(inflater, container, false)
         val view = binding.root
-        /*//Obtenemos el nombre de la base de datos
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext())
-            }
-        }*/
 
         //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         daoT = databaseAct!!.fTiposDiasDao()
@@ -78,21 +71,21 @@ class AddPermisoFragment : Fragment() {
 
         spinConfig()
 //--------------------------------Botones-----------------------------------------------------------
-        binding.btnFechaIniPerm09.setOnClickListener(){
+        binding.btnFechaIniPerm09.setOnClickListener {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaInicio = fechaSelec
-                binding.btnFechaIniPerm09.text = "Inicio: ${formatearFecha(fechaInicio)}"
+                binding.btnFechaIniPerm09.text = getString(R.string.inicio, formatearFecha(fechaInicio))
             }
 
         }
-        binding.btnFechaFinPerm09.setOnClickListener(){
+        binding.btnFechaFinPerm09.setOnClickListener {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaFinal = fechaSelec
-                binding.btnFechaFinPerm09.text = "Inicio: ${formatearFecha(fechaFinal)}"
+                binding.btnFechaFinPerm09.text = getString(R.string.fin, formatearFecha(fechaFinal))
             }
 
         }
-        binding.buttonGuardar.setOnClickListener(){
+        binding.buttonGuardar.setOnClickListener {
             btnCalcular()
         }
 
@@ -114,7 +107,6 @@ class AddPermisoFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
                 //No se ha realizado ninguna seleccion
             }
         }
@@ -128,10 +120,10 @@ class AddPermisoFragment : Fragment() {
                 viewModelT.obtenerTiposDiasList()
             }
             //Iteramos sobre la lista y obtenemos los nombres de los tipos de días
-            val nombresTiposActividades = tipoDiaDB?.map { it.nombreTipoDia } ?: emptyList()
+            val nombresTiposActividades = tipoDiaDB.map { it.nombreTipoDia }
 
             //Creamos un ArrayAdapter con la lista de nombres
-            val adapter = ArrayAdapter<String>(
+            val adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
                 nombresTiposActividades
@@ -168,7 +160,6 @@ class AddPermisoFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -184,7 +175,7 @@ class AddPermisoFragment : Fragment() {
             //Obtenemos el tipo de dia disfrutado del spinner
             val tipoDiaDisfrutado = binding.spinnerTipo09.selectedItem.toString()
             println("A guardar datos2 $tipoDiaDisfrutado")
-            val tipoDia = daoT.getTipoDiaById(tipoDiaDisfrutado)
+            daoT.getTipoDiaById(tipoDiaDisfrutado)
 
             //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
             val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
@@ -192,30 +183,20 @@ class AddPermisoFragment : Fragment() {
             val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("A guardar datos5")
             //Calculamos la diferencia en días
-            val difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()
+            val difDias = comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
             println("A guardar datos6")
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")
-            //Bucle para escribir un registro por dia disfrutado
-            var permisoNuevo: DiasDisfrutados? = null
-            val listaPermisos = mutableListOf<DiasDisfrutados>()
-            for (i in 0L..difDias) {
-            //Obtenemos el valor para el registro con cambio a formato Date pues esta en LocalDate
-            val fechaCon = Date.from(fechaIni.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            println("A guardar datos7")
-                permisoNuevo = tipoDia.let { it1 ->
-                    DiasDisfrutados(
-                        id = 0,
-                        tipoDiaDis = tipoDiaDisfrutado,
-                        fechaCon = fechaCon
-                    )
-
-                }
-                listaPermisos.add(permisoNuevo)
+                val permisoNuevo = DiasDisfrutados(
+                    id = 0,
+                    tipoDiaDis = tipoDiaDisfrutado,
+                    fechaCon = fechaInicio,
+                    fechaFinPer = fechaFinal,
+                    diasTotales = difDias
+                )
             println(permisoNuevo)
             println("A guardar datos8")
-            }
             /*
             -------------------------Creamos el cuadro de confirmacion------------------------------------------
             Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
@@ -232,19 +213,20 @@ class AddPermisoFragment : Fragment() {
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
                             "Tipo de dia: $tipoDiaDisfrutado\n" +
                             "Fecha de Inicio: $fechaIni\n" +
-                            "Fecha de Finalización: $fechaFin"
+                            "Fecha de Finalización: $fechaFin\n" +
+                            "Dias totales: $difDias"
                 )
                 println("A guardar datos11")
                 //Controlamos la reaccion de pulsar aceptar
 
-                construct.setPositiveButton("Aceptar") { dialog, wich ->
+                construct.setPositiveButton("Aceptar") { _, _ ->
                     runBlocking {
                         if (permisoNuevo != null) {
                             println("datos asignados")
     //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
                             lifecycleScope.launch(Dispatchers.IO) {
                                 println("A guardar datos guardando")
-                                dao.insertAll(listaPermisos)
+                                dao.insert(permisoNuevo)
                                 BBDDHandler.actualizarComputoGlobal(databaseAct!!)
 
                                 println("A guardar datos terminado")

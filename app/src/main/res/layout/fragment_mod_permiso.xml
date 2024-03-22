@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ModPermisoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <Button
         android:id="@+id/btn_Aceptar_10"

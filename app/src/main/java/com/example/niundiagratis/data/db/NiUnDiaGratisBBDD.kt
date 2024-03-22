@@ -15,6 +15,7 @@ import com.example.niundiagratis.DatabaseActive
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
+import com.example.niundiagratis.data.dao.DiasFestivosDao
 import com.example.niundiagratis.data.dao.DiasGeneradosDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -106,7 +107,8 @@ class ActividadesRealizadas(
     //Control guardia
     val esGuardiaOk: Boolean
 )
-
+/* TODO cambiar a id, id actividad generadora, tipo dia y cantidad de dias de ese tipo, un registro
+    por tipo de dias, ¿eliminar esta tabla y operar directamente con la actividad realizada? */
 @Entity(tableName = "tablaDiasGenerados",
     foreignKeys = [
         ForeignKey(
@@ -125,7 +127,8 @@ data class DiasGenerados(
     val id: Int,
     val tipoDiaGen: String,
     val nombreActgen: String,
-    var fechaGen: Date
+    var fechaGen: Date,
+    var totalDias: Int
 )
 
 
@@ -134,7 +137,8 @@ data class DiasGenerados(
         ForeignKey(
             entity = TiposDias::class,
             parentColumns = ["nombreTipoDia"],
-            childColumns = ["tipoDiaDis"]
+            childColumns = ["tipoDiaDis"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
@@ -145,7 +149,9 @@ data class DiasDisfrutados(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val tipoDiaDis: String,
-    val fechaCon: Date
+    val fechaCon: Date,
+    val fechaFinPer: Date,
+    val diasTotales: Int
 )
 
 @Entity(tableName = "tablaComputoGlobal",
@@ -166,13 +172,21 @@ data class ComputoGlobal(
     val id: Int,
     val tipoDiaGlobal: String,
     val maxGlobal: Int?,
-    val genGlobal: Int,
-    val conGlobal: Int,
+    var genGlobal: Int,
+    var conGlobal: Int,
     var saldoGlobal: Int
+)
+//Definimos la tabla para los dias festivos
+@Entity(tableName = "tablaDiasFestivos")
+data class DiasFestivos(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val nombreDia: String,
+    val fechaDia: Date
 )
 //Definimos la base de datos en Room, sus entidades y la version de la base de datos
 @Database(
-    entities = [TiposActividades::class, TiposDias::class, ActividadesRealizadas::class, DiasDisfrutados::class, ComputoGlobal::class, DiasGenerados::class],
+    entities = [TiposActividades::class, TiposDias::class, ActividadesRealizadas::class, DiasDisfrutados::class, ComputoGlobal::class, DiasGenerados::class, DiasFestivos::class],
     version = 1,
     exportSchema = false
 )
@@ -185,20 +199,7 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     abstract fun fDiasGeneradosDao(): DiasGeneradosDao
     abstract fun fDiasDisfrutadosDao(): DiasDisfrutadosDao
     abstract fun fComputoGlobalDao(): ComputoGlobalDao
-    /*companion object{
-
-        private var instancia: NiUnDiaGratisBBDD? = null
-        //Esta funcion se usara para acceder a la base de datos abierta en el momento de usar la aplicacion
-        fun obtenerInstancia(context: Context, nombreBD: String): NiUnDiaGratisBBDD{
-            if(instancia == null){
-                synchronized(NiUnDiaGratisBBDD::class){
-                    instancia = Room.databaseBuilder(context.applicationContext, NiUnDiaGratisBBDD::class.java, nombreBD).build()
-                }
-            }
-            return instancia!!
-        }
-
-    }*/
+    abstract fun fDiasFestivosDao(): DiasFestivosDao
     companion object{
         private var instancia: NiUnDiaGratisBBDD? = null
 
@@ -210,21 +211,18 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
                     NiUnDiaGratisBBDD::class.java, dbSeleccionada
                 ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
                     .build()
-                //instancia.openHelper.writableDatabase
             } else {//Codigo si la base de datos no existe
                 instancia = Room.databaseBuilder(
                     context.applicationContext,
                     NiUnDiaGratisBBDD::class.java, dbSeleccionada
                 ).build()
                 println(DatabaseActive.databaseAct)
-                println("dentro de obtenmer bbdd")
+                println("dentro de obtener bbdd")
                 runBlocking {
                     println("antes de inicializar bbdd")
                     crearBBDD(instancia!!)
                     println("despues de inicializar bbdd")
                 }
-
-
             }
             return instancia!!
         }

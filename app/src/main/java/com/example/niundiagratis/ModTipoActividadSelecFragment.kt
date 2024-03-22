@@ -1,6 +1,8 @@
 package com.example.niundiagratis
 
-import android.R
+//import android.R
+import android.R.layout.simple_spinner_dropdown_item
+import android.R.layout.simple_spinner_item
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
+import com.example.niundiagratis.R.array.spinner_max_items
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -26,12 +29,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
 
-//TODO: inicializar los valores de los campos segun la actividad pasada
-//TODO: pasar datos al mensaje
+//No se implementa eliminar tipo de actividad, pues podria suponer una perdida irrecuperable de los
+// datos de las actividades realizadas
 class ModTipoActividadSelecFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private lateinit var binding: FragmentModTipoActividadSelecBinding
     private lateinit var entidad: TiposActividades
 
@@ -44,19 +46,14 @@ class ModTipoActividadSelecFragment : Fragment() {
     private lateinit var daoT: TiposDiasDao
     //----------------------------------------------------------------------------------------------
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
     private lateinit var dao: TiposActividadesDao
     private lateinit var spinnerItems: MutableList<Int>
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentModTipoActividadSelecBinding.inflate(inflater, container, false)
         val view = binding.root
         //Declaramos el bundle
@@ -96,7 +93,7 @@ class ModTipoActividadSelecFragment : Fragment() {
         spinConfig()
 //--------------------------------Botones-----------------------------------------------------------
 
-        binding.buttonCalcular15.setOnClickListener(){
+        binding.buttonCalcular15.setOnClickListener {
             btnCalcular()
         }
     }
@@ -117,13 +114,13 @@ class ModTipoActividadSelecFragment : Fragment() {
             //Añadimos todos los valores de la base de datos a la lista con el valor por defecto
             tipoDiasDBSpin.addAll(nombresTiposDias)
             //Creamos un ArrayAdapter con la lista de nombres
-            val adapterS = ArrayAdapter<String>(
+            val adapterS = ArrayAdapter(
                 requireContext(),
-                R.layout.simple_spinner_item,
+                simple_spinner_item,
                 tipoDiasDBSpin
             )
             //Configuramos el ArrayAdapter para el Spinner
-            adapterS.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            adapterS.setDropDownViewResource(simple_spinner_dropdown_item)
 
             //Asignamos el adapter
             binding.spinnerTipo1Dia15.adapter = adapterS
@@ -134,16 +131,16 @@ class ModTipoActividadSelecFragment : Fragment() {
 //--------------------------Inicio de spinners de Int-----------------------------------------------
             //Configuramos los spinner
             //Obtenemos listado de valores para el spinner
-            spinnerItems = resources.getIntArray(com.example.niundiagratis.R.array.spinner_max_items).toMutableList()
+            spinnerItems = resources.getIntArray(spinner_max_items).toMutableList()
             //Añadimos valor por defecto 0
             spinnerItems.add(0, 0)
             //Configuramos el adapter y lo asignamos
-            val adapterI = ArrayAdapter<Int>(
+            val adapterI = ArrayAdapter(
                 requireContext(),
-                R.layout.simple_spinner_item,
+                simple_spinner_item,
                 spinnerItems
             )
-            adapterI.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            adapterI.setDropDownViewResource(simple_spinner_dropdown_item)
             binding.spinner1Proporcion15.adapter = adapterI
             binding.spinner2Proporcion15.adapter = adapterI
             binding.spinner3Proporcion15.adapter = adapterI
@@ -192,7 +189,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -213,7 +209,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -234,7 +229,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -255,7 +249,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -276,7 +269,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -297,7 +289,6 @@ class ModTipoActividadSelecFragment : Fragment() {
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                     //No se ha realizado ninguna seleccion
                 }
             }
@@ -335,18 +326,16 @@ class ModTipoActividadSelecFragment : Fragment() {
 
 //--------------------------Varible tipo para pasar los datos a la BBDD-----------------------------
             println("A guardar datos7")
-            val tipoDiaNuevo = entidad.nombreTipoAct?.let { it1 ->
-                TiposActividades(
-                    nombreTipoAct = binding.editTextNombreTipoAct15.text.toString(),
-                    tipoDiasGenerados1 = if (tipoDia11?.nombreTipoDia == "Seleccione una opción") null else tipoDia11?.nombreTipoDia,
-                    tipoDiasGenerados2 = if (tipoDia21?.nombreTipoDia == "Seleccione una opción") null else tipoDia21?.nombreTipoDia,
-                    tipoDiasGenerados3 = if (tipoDia31?.nombreTipoDia == "Seleccione una opción") null else tipoDia31?.nombreTipoDia,
-                    requisitosDiasAct1 = if (propDias1 == 0) null else propDias1,
-                    requisitosDiasAct2 = if (propDias2 == 0) null else propDias2,
-                    requisitosDiasAct3 = if (propDias3 == 0) null else propDias3,
-                    esGuardia = binding.checkBoxGuardia15.isChecked
-                )
-            }
+            val tipoDiaNuevo = TiposActividades(
+                nombreTipoAct = binding.editTextNombreTipoAct15.text.toString(),
+                tipoDiasGenerados1 = if (tipoDia11?.nombreTipoDia == "Seleccione una opción") null else tipoDia11?.nombreTipoDia,
+                tipoDiasGenerados2 = if (tipoDia21?.nombreTipoDia == "Seleccione una opción") null else tipoDia21?.nombreTipoDia,
+                tipoDiasGenerados3 = if (tipoDia31?.nombreTipoDia == "Seleccione una opción") null else tipoDia31?.nombreTipoDia,
+                requisitosDiasAct1 = if (propDias1 == 0) null else propDias1,
+                requisitosDiasAct2 = if (propDias2 == 0) null else propDias2,
+                requisitosDiasAct3 = if (propDias3 == 0) null else propDias3,
+                esGuardia = binding.checkBoxGuardia15.isChecked
+            )
             println(tipoDiaNuevo)
             println("A guardar datos8")
             //}
@@ -364,35 +353,33 @@ class ModTipoActividadSelecFragment : Fragment() {
                 println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Nombre tipo dia: ${tipoDiaNuevo?.nombreTipoAct}\n" +
-                            "Tipo dias gen 1: ${tipoDiaNuevo?.tipoDiasGenerados1}\n" +
-                            "Tipo dias gen 2: ${tipoDiaNuevo?.tipoDiasGenerados2}\n" +
-                            "Tipo dias gen 3: ${tipoDiaNuevo?.tipoDiasGenerados3}\n" +
-                            "Proporción 1: ${tipoDiaNuevo?.requisitosDiasAct1}\n" +
-                            "Proporción 2: ${tipoDiaNuevo?.requisitosDiasAct2}\n" +
-                            "Proporción 3: ${tipoDiaNuevo?.requisitosDiasAct3}\n" +
-                            "Es Guardia?: ${tipoDiaNuevo?.esGuardia}\n"
+                            "Nombre tipo dia: ${tipoDiaNuevo.nombreTipoAct}\n" +
+                            "Tipo dias gen 1: ${tipoDiaNuevo.tipoDiasGenerados1}\n" +
+                            "Tipo dias gen 2: ${tipoDiaNuevo.tipoDiasGenerados2}\n" +
+                            "Tipo dias gen 3: ${tipoDiaNuevo.tipoDiasGenerados3}\n" +
+                            "Proporción 1: ${tipoDiaNuevo.requisitosDiasAct1}\n" +
+                            "Proporción 2: ${tipoDiaNuevo.requisitosDiasAct2}\n" +
+                            "Proporción 3: ${tipoDiaNuevo.requisitosDiasAct3}\n" +
+                            "Es Guardia?: ${tipoDiaNuevo.esGuardia}\n"
                 )
                 println("A guardar datos11")
                 //Controlamos la reaccion de pulsar aceptar
 
-                construct.setPositiveButton("Aceptar") { dialog, wich ->
+                construct.setPositiveButton("Aceptar") { _, _ ->
                     runBlocking {
-                        if (tipoDiaNuevo != null) {
-                            println("datos asignados")
-                            //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                println("A guardar datos guardando")
-                                dao.update(tipoDiaNuevo)
-                                BBDDHandler.actualizarComputoGlobal(databaseAct!!)
-                                println("A guardar datos terminado")
+                        println("datos asignados")
+                        //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            println("A guardar datos guardando")
+                            dao.update(tipoDiaNuevo)
+                            BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                            println("A guardar datos terminado")
 
-                            }
-                            //------------------------------------Fin hilo secundario-------------------------------------------
-                            println("datos guardados?")
                         }
+                        //------------------------------------Fin hilo secundario-------------------------------------------
+                        println("datos guardados?")
                         //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                        navController.navigate(com.example.niundiagratis.R.id.nav_home)
+                        navController.navigate(R.id.nav_home)
                     }
 
                 }

@@ -5,13 +5,14 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.TextView
 import androidx.navigation.NavController
+import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
-
-
 //Obtenemos el titulo del submenu segun el id
 fun selTitulo(submenuId: Int, context: Context?): CharSequence {
     return when (submenuId) {
@@ -20,11 +21,10 @@ fun selTitulo(submenuId: Int, context: Context?): CharSequence {
         3 -> context?.resources?.getText(R.string.opciones_1_gest_config)!!//Gestión de configuración
         4 -> context?.resources?.getText(R.string.opciones_1_config_add_tipo)!!//Gestión de configuración
         5 -> context?.resources?.getText(R.string.opciones_1_config_mod_tipo)!!//Gestión de configuración
-        16 -> "Añadir tipo de actividad"!!//Añadir tipo de actividad
+        16 -> "Añadir tipo de actividad"//Añadir tipo de actividad
         else -> "error"
     }
 }
-
 fun selTextoBotones(selMenuInt: Int, btn1: TextView, btn2: TextView) {
     when (selMenuInt) {
         //Configuramos textos a mostrar segun strings.xml y opcion seleccionada por parametro
@@ -60,14 +60,13 @@ fun selTextoBotones(selMenuInt: Int, btn1: TextView, btn2: TextView) {
 
     }
 }
-
-fun cargarFragment(seleccion: Int, navController: NavController, datos: Any? = null){
+fun cargarFragment(seleccion: Int, navController: NavController){
 
     try {
         if(seleccion !=-1) {
 
             val bundle = Bundle()
-            bundle?.putInt("opcion_submenu_1", seleccion)
+            bundle.putInt("opcion_submenu_1", seleccion)
             when(seleccion){
                 0 -> navController.navigate(R.id.nav_home)
                 in 1..5 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
@@ -92,16 +91,15 @@ fun cargarFragment(seleccion: Int, navController: NavController, datos: Any? = n
         e.printStackTrace()
     }
 }
-
 fun showDatePickerDialog(context: Context, onDateSelected: (Date) -> Unit) {
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-    val datePickerDialog = DatePickerDialog(context, { _, year, month, dayOfMonth ->
+    val datePickerDialog = DatePickerDialog(context, { _, selYear, selMonth, selDayOfMonth ->
         val selectedDate = Calendar.getInstance().apply {
-            set(year, month, dayOfMonth)
+            set(selYear, selMonth, selDayOfMonth)
         }.time
         onDateSelected(selectedDate)
     }, year, month, day)
@@ -112,22 +110,17 @@ fun formatearFecha(fecha: Date): String {
     val formato = SimpleDateFormat("dd/MM/yyyy", Locale("es", "ES"))
     return formato.format(fecha)
 }
-
-
-
-fun obtenerTipoDiasBD(): List<String>{
+/*fun obtenerTipoDiasBD(): List<String> {
     //Obtenemos un valor predeterminado para el spinner, asi evitamos un textView
-    val valoresPredeterminados = mutableListOf("Selecciona una opción")
     //Retornamos lista de valores obtenidos
-    return valoresPredeterminados
-}
-
+    return mutableListOf("Selecciona una opción")
+}*/
 fun obtenerDBNames(context: Context): List<String>{
     //Obtenemos los nombres de las bases de datos existentes en el directorio
     val directorioDB = context.getDatabasePath("Dummy").parentFile
 
     //Creamos el listado de bases de datos
-    val dbs = directorioDB.listFiles()
+    val dbs = directorioDB!!.listFiles()
 
     //definimos un patron para obtener solo los resultados que necesitamos
     val patron = Regex("NiUnDiaGratis_\\d{4}")
@@ -137,6 +130,22 @@ fun obtenerDBNames(context: Context): List<String>{
         nombreBD.matches(patron)
     } ?: emptyList()
 }
-
+//Comprobamos si los dias del permiso seleccionado es festivo, sabado o domingo, o existe en la tabla de dias festivos
+suspend fun comprobarDiaFestivo(fechaIni: LocalDate, fechaFin: LocalDate, database: NiUnDiaGratisBBDD): Int{
+    /* TODO comprobar que la fecha no esta marcada como festivo en la tabla de la base de datos,
+        agregar fragment para meter, modificar o eliminar dias festivos */
+    var difDias = 0
+    var fechaActual = fechaIni
+    while (fechaActual.isBefore(fechaFin) || fechaActual.isEqual(fechaFin)){
+        val diaSemana = fechaActual.dayOfWeek
+        val esFinSemana = diaSemana == DayOfWeek.SATURDAY || diaSemana == DayOfWeek.SUNDAY
+        val diaFestivo = database.fDiasFestivosDao().getDiaFestivoByFecha(Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+        if (!esFinSemana && diaFestivo == null){
+            difDias++
+        }
+        fechaActual = fechaActual.plusDays(1)
+    }
+    return difDias
+}
 
 

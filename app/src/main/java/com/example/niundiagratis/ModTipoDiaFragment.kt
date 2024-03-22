@@ -12,18 +12,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.data.adapter.TiposDiasAdapter
-import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModTipoDiaBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 
-// TODO: Rename parameter arguments, choose names that match
 private var selMenuInt = -1
 class ModTipoDiaFragment : Fragment() {
     lateinit var binding: FragmentModTipoDiaBinding
@@ -36,7 +31,6 @@ class ModTipoDiaFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var selectedItem: TiposDias
     private lateinit var navController: NavController
-    private lateinit var database: NiUnDiaGratisBBDD
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +42,7 @@ class ModTipoDiaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflamos el layout del fragment
         binding = FragmentModTipoDiaBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -81,7 +75,7 @@ class ModTipoDiaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
-        //TODO llenar lista de bbdd de actividades hechas
+
 
         binding.btnAceptar16.setOnClickListener {
             selMenuInt = 8
@@ -98,7 +92,7 @@ class ModTipoDiaFragment : Fragment() {
     }
     private fun initRecyclerView(){
         val fragment = this
-        val launch = lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.obtenerTiposDias().observe(viewLifecycleOwner) { tiposDias ->
                 val listaTiposDiasScope = tiposDias ?: emptyList()
                 val tiposDiasAdapter = TiposDiasAdapter(listaTiposDiasScope, fragment::onItemSelected)

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".AddActividadFragment">
 
+    <Spinner
+        android:id="@+id/spinnerMo06"
+        android:layout_width="157dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="28dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular06"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.814"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/editTextNombre06"
         android:layout_width="match_parent"
@@ -19,15 +30,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <!--TODO enlazar spinner con tipos de dias de base de datos mediante... ¿android: entries?-->
+
 
     <Spinner
         android:id="@+id/spinnerTipoActividad06"
         android:layout_width="360dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="32dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular06"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerMo06"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,17 +63,30 @@
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.506" />
+        app:layout_constraintVertical_bias="0.73" />
 
     <Button
         android:id="@+id/btnFechaFin06"
         android:layout_width="370dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/btn_fecha_fin"
         app:layout_constraintBottom_toTopOf="@+id/editTextNombre06"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtvwDiasPu06"
+        android:layout_width="145dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="28dp"
+        android:text="@string/txt_dias_PU"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalcular06"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerMo06"
+        app:layout_constraintHorizontal_bias="0.741"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

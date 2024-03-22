@@ -48,13 +48,6 @@ class ReposNiUnDiaGratis(
 
             resultados.add(ComputoGlobal(0, nombreTipoDia, maxGlobal ?: 0, genGlobal, conGlobal, saldoGlobal))
         }
-
         return resultados
     }
-    //TODO en la siguiente funcion actualizar todos los campos y
-    // tablas necesarios al agregar o modificar informacion de la bbdd
-    suspend fun actualizarTodo(){
-
-    }
-
 }

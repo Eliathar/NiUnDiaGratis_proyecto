@@ -26,6 +26,7 @@
     <string name="fragment_add_tipo_dia">Añadir tipo de dia</string>
     <string name="fragment_mod_permiso">Modificar permiso</string>
     <string name="fragment_mod_actividad">Modificar actividad</string>
+    <string name="txt_dias_PU">Días de otros permisos de unidad</string>
 
 
     <string name="opciones_1_gest_actividades">Gestión de actividades</string>
@@ -60,6 +61,8 @@
     <string name="fecha">Fecha</string>
     <string name="nombre">Nombre</string>
     <string name="vacio">Sin datos</string>
+    <string name="inicio">Inicio: %s</string>
+    <string name="fin">Fin: %s</string>
 
     <string name="nombre_tipo_act">Nombre del tipo de actividad</string>
     <string name="max_dias">Cantidad máxima anual</string>
@@ -71,7 +74,7 @@
 
 
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <integer-array name="spinner_prop_items">
@@ -108,6 +111,7 @@
         <item>31</item>
     </integer-array>
     <integer-array name="spinner_max_items">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>

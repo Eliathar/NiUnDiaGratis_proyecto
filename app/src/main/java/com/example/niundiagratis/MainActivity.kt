@@ -16,20 +16,17 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.niundiagratis.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.adapter.BBDDShowMsgAdapter
 import com.example.niundiagratis.data.db.BBDDHandler
-import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.databinding.ActivityMainBinding
 import com.example.niundiagratis.ui.home.HomeFragment
+import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     //Usamos lateinit para indicaral compilador que la variable sera inicializada antes de ser usada
@@ -38,10 +35,6 @@ class MainActivity : AppCompatActivity() {
     //Declaracion de navController
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: BBDDShowMsgAdapter
-    private lateinit var database: NiUnDiaGratisBBDD
-    var mostrarMensajeInicio = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
         //Establecemos el recyclerview como vista de dialogo
         builder.setView(rW)
-        builder.setPositiveButton("Aceptar"){ dialog, which ->
+        builder.setPositiveButton("Aceptar"){ _, _ ->
             lifecycleScope.launch(Dispatchers.IO){
                 runBlocking{
                     BBDDHandler.actualizarComputoGlobal(databaseAct!!)
@@ -174,7 +167,4 @@ class MainActivity : AppCompatActivity() {
 
         builder.show()
     }
-
-    /* TODO recargar home usando el boton calcular del final de cada linea, del mensaje donde se
-        recarga el home con recalculo de los datos para mostrar los datos de la bbdd seleccionada */
 }

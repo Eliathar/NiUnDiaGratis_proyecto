@@ -16,10 +16,8 @@ class Submenu01Fragment : Fragment() {
     //Usamos lateinit para indicaral compilador que la variable sera inicializada antes de ser usada
     private lateinit var fragmentManager: FragmentManager
 
-
     //Accedemos al parametro que se ha pasado a la funcion
     private var selMenuInt = -1
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment

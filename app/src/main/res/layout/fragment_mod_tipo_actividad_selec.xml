@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ModTipoActividadSelecFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <EditText
         android:id="@+id/editTextNombreTipoAct15"
         android:layout_width="333dp"

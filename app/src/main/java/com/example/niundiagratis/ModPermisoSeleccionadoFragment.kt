@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.DBSelector.dbSeleccionada
+import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
@@ -26,14 +27,22 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
+/* TODO implementar eliminar ¿modificar tabla permisos para no hacer un registro por dia?
+    modificar fragments para añadir la opcion de fecha fin y modificar sistema de dias generados
+    para que se genere un regiostro por tipo de dia y actividad con los dias totales de esa actividad,
+    implementar sistema pra llevar el conteo con la nueva dinamica (ahora mismo cuenta registros,
+    debera sumar los dias de cada tipo de dia y restar los consumidos
+* */
 
 class ModPermisoSeleccionadoFragment : Fragment() {
     private val job = Job()
     private lateinit var binding: FragmentModPermisoSeleccionadoBinding
     private lateinit var fechaInicio: Date
+    private lateinit var fechaFinal: Date
     private lateinit var dao: DiasDisfrutadosDao
     private lateinit var entidad: DiasDisfrutados
     private val viewModelT: ViewModelSimple by lazy {
@@ -44,7 +53,6 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     private lateinit var daot: TiposDiasDao
     private lateinit var navController: NavController
     private var id: Int = 0
-    private lateinit var database: NiUnDiaGratisBBDD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +63,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentModPermisoSeleccionadoBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -65,16 +73,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
         //Obtenemos valores del bundle
         id = bundle!!.getInt("id")
         println("esta linea 1 la id es $id")
-        /*runBlocking {
-            withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext())
-            }
-        }*/
-
-
         //Obtenemos instancia de la base de datos
-        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
-        //daot = database.fTiposActividadesDao()
         navController = findNavController()
 
         /* Obtenemos los datos del registro con la id del bundle en otro hilo, pero esperando a que
@@ -92,11 +91,14 @@ class ModPermisoSeleccionadoFragment : Fragment() {
             //Obtenemos las fechas, las formateamoss y las asignamos a los textos de los botones correspondientes
             val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val fechaFormateada = formato.format(entidad.fechaCon)
-            binding.btnFechaIniPerm11.text = fechaFormateada
+            val fechaFormateada1 = formato.format(entidad.fechaFinPer)
+            binding.btnFechaIniPerm11.text = getString(R.string.inicio, fechaFormateada)
+            binding.btnFechaFinPerm11.text = getString(R.string.fin, fechaFormateada1)
             /* Inicializamos valores de campos de fechas para los botones, pues pese a tener el
             texto escrito las variables solo son inicializadas en el onclick, si no se produce el
             evento las variables no tienen valor */
             fechaInicio = entidad.fechaCon
+            fechaFinal= entidad.fechaFinPer
 
         }
         return view
@@ -106,14 +108,21 @@ class ModPermisoSeleccionadoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         spinConfig()
 
-        binding.btnFechaIniPerm11.setOnClickListener(){
+        binding.btnFechaIniPerm11.setOnClickListener {
             showDatePickerDialog(requireContext()) { fechaSelec ->
                 fechaInicio = fechaSelec
-                binding.btnFechaIniPerm11.text = "Inicio: ${formatearFecha(fechaInicio)}"
+                binding.btnFechaIniPerm11.text = getString(R.string.inicio, formatearFecha(fechaInicio))
             }
 
         }
-        binding.buttonGuardar11.setOnClickListener() {
+        binding.btnFechaFinPerm11.setOnClickListener {
+            showDatePickerDialog(requireContext()) { fechaSelec1 ->
+                fechaFinal = fechaSelec1
+                binding.btnFechaFinPerm11.text = getString(R.string.fin, formatearFecha(fechaFinal))
+            }
+
+        }
+        binding.buttonGuardar11.setOnClickListener {
             btnCalcular()
         }
     }
@@ -132,7 +141,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
             val nombresTiposActividades = tipoDiaDB.map { it.nombreTipoDia }
 
             //Creamos un ArrayAdapter con la lista de nombres
-            val adapter = ArrayAdapter<String>(
+            val adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
                 nombresTiposActividades
@@ -184,20 +193,25 @@ class ModPermisoSeleccionadoFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             println("A guardar datos1")
             val tipoDia = binding.spinnerTipo11.selectedItem.toString()
+            val idEntidad = entidad.id.toInt()
             println("A guardar datos2 $tipoDia")
-//Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
-            val fechaIni = fechaInicio
+//Creamos las variables para la resta de fechas, las convertimos a localdate para calcular los dias
+            val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
             println("A guardar datos4")
+            val difDias = comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")
-            val permisoNuevo = id?.let { it1 ->
-                DiasDisfrutados(
-                    id = entidad.id,
-                    tipoDiaDis = tipoDia,
-                    fechaCon = fechaIni
-                )
-            }
+            val permisoNuevo = DiasDisfrutados(
+                id = idEntidad,
+                tipoDiaDis = tipoDia,
+                fechaCon = fechaInicio,
+                fechaFinPer = fechaFinal,
+                diasTotales = difDias
+            )
+            println("datos: $idEntidad, $tipoDia, $fechaInicio, $fechaFinal")
 /*
 -------------------------Creamos el cuadro de confirmacion------------------------------------------
 Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
@@ -211,21 +225,21 @@ hilo principal
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
                             "Tipo de permiso: $tipoDia\n" +
-                            "Fecha de Inicio: $fechaIni\n"
+                            "Fecha de Inicio: $fechaInicio\n" +
+                            "Fecha de finalización: $fechaFinal\n" +
+                            "Dias totales: $difDias"
                 )
                 //Controlamos la reaccion de pulsar aceptar
-                construct.setPositiveButton("Aceptar") { dialog, wich ->
-                    if (permisoNuevo != null) {
-                        println("datos asignados")
+                construct.setPositiveButton("Aceptar") { _, _ ->
+                    println("datos asignados")
 //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            dao.update(permisoNuevo)
-                            BBDDHandler.actualizarComputoGlobal(DatabaseActive.databaseAct!!)
-                        }
-//------------------------------------Fin hilo secundario-------------------------------------------
-                        println("datos guardados?")
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        dao.update(permisoNuevo)
+                        BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                     }
-//------------Cargamos el fragment home al guardar los datos en la base de datos--------------------
+//------------------------------------Fin hilo secundario-------------------------------------------
+                    println("datos guardados?")
+                    //------------Cargamos el fragment home al guardar los datos en la base de datos--------------------
                     navController.navigate(R.id.nav_home)
                 }
                 construct.setNegativeButton("Cancelar", null)

@@ -6,11 +6,13 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.niundiagratis.data.db.DiasFestivos
 import com.example.niundiagratis.data.db.TiposDias
 
 //Declaramos como interfaz DAO
 @Dao
 interface TiposDiasDao {
+
     //Para insercion de nuevas entidades
     @Insert
     fun insert(tiposDias: TiposDias)

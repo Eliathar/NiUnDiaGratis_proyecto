@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Submenu01Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <Button
         android:id="@+id/btn_Sub_Opcion1"
