@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
+import com.example.niundiagratis.data.dao.DiasFestivosDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.DiasDisfrutados
+import com.example.niundiagratis.data.db.DiasFestivos
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.db.TiposDias
 
@@ -67,6 +69,11 @@ class ViewModelSimple(
     fun obtenerTiposActividades(): List<TiposActividades>{
         if (dao is TiposActividadesDao) {
             return dao.getAllTiposActividades()
+        } else throw IllegalArgumentException("DAO no es una instancia de TiposDiasActividadesDao")
+    }
+    fun obtenerDiasFestivos(): LiveData<List<DiasFestivos>>{
+        if (dao is DiasFestivosDao) {
+            return dao.getAllDiasFestivos()
         } else throw IllegalArgumentException("DAO no es una instancia de TiposDiasActividadesDao")
     }
 

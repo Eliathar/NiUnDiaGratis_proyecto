@@ -56,7 +56,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.modActividadSeleccionadaFragment, R.id.addPermisoFragment,
                 R.id.modPermisoFragment, R.id.modPermisoSeleccionadoFragment,
                 R.id.addTipoActividadFragment, R.id.addTipoDiaFragment, R.id.modTipoActividadFragment,
-                R.id.modTipoActividadSelecFragment, R.id.modTipoDiaFragment, R.id.modTipoDiaSelecFragment
+                R.id.modTipoActividadSelecFragment, R.id.modTipoDiaFragment,
+                R.id.modTipoDiaSelecFragment, R.id.addFestivoFragment, R.id.modFestivoFragment,
+                R.id.modFestivoSeleccionadoFragment
             ), drawerLayout
         )
         // Inicializa navController
@@ -92,12 +94,13 @@ class MainActivity : AppCompatActivity() {
         /* Controlamos que elemento se selecciona del menu y le asignamos un valor para pasar al
         fragment de submenu01 y, con el, controlar el texto mostrado en los botones */
         val seleccion = when (item.itemId){
+            R.id.Sel_bbdd -> -2
             R.id.nav_home -> 0
             R.id.nav_gest_act -> 1
             R.id.nav_gest_perm -> 2
+            R.id.nav_gest_fest -> 18
             R.id.nav_config -> 3
             R.id.salir -> 4
-            R.id.Sel_bbdd -> -2
             else -> -1
         }
 

@@ -10,6 +10,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDate
+import java.time.Year
+import java.time.ZoneId
+import java.util.Date
 
 //Creamos la base de datos
 object BBDDHandler {
@@ -20,7 +24,7 @@ object BBDDHandler {
         inicializarBBDD1(instancia)
         inicializarBBDD2(instancia)
         inicializarBBDD3(instancia)
-
+        inicializarBBDD4(instancia)
         }
     }
 
@@ -269,6 +273,109 @@ object BBDDHandler {
                 }
 
                 daoActividadesRealizadas.insert(nuevaActReal)
+
+
+            }
+        }
+        //Actualizamos computo global segun datos de inicializacion
+        actualizarComputoGlobal(database)
+        println("inicializar 4 completo")
+    }
+    suspend fun inicializarBBDD4(database: NiUnDiaGratisBBDD) {
+        runBlocking {
+
+            val daoDiasFestivos = database.fDiasFestivosDao()
+            lateinit var nuevoDiaFestivo: DiasFestivos
+            val year = Year.now().value
+            val localDate1 = LocalDate.of(year, 1, 1)
+            val localDate2 = LocalDate.of(year, 1, 6)
+            val localDate3 = LocalDate.of(year, 5, 1)
+            val localDate4 = LocalDate.of(year, 8, 15)
+            val localDate5 = LocalDate.of(year, 10, 12)
+            val localDate6 = LocalDate.of(year, 11, 1)
+            val localDate7 = LocalDate.of(year, 12, 6)
+            val localDate8 = LocalDate.of(year, 12, 8)
+            val localDate9 = LocalDate.of(year, 12, 25)
+            val fecha1 = Date.from(localDate1.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha2 = Date.from(localDate2.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha3 = Date.from(localDate3.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha4 = Date.from(localDate4.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha5 = Date.from(localDate5.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha6 = Date.from(localDate6.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha7 = Date.from(localDate7.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha8 = Date.from(localDate8.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val fecha9 = Date.from(localDate9.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
+            for (l in 1..9) {
+                when (l) {
+                    1 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Año nuevo",
+                            fecha1
+                        )
+                    }
+
+                    2 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Epifania/Reyes Magos",
+                            fecha2
+                        )
+                    }
+
+                    3-> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Dia del trabajo",
+                            fecha3
+                        )
+                    }
+                    4 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Virgen de la Asunción",
+                            fecha4
+                        )
+                    }
+                    5 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Dia de la Hispanidad",
+                            fecha5
+                        )
+                    }
+                    6 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Todos los santos",
+                            fecha6
+                        )
+                    }
+                    7 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Día de la Constitución",
+                            fecha7
+                        )
+                    }
+                    8 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "La Inmaculada Concepción",
+                            fecha8
+                        )
+                    }
+                    9 -> {
+                        nuevoDiaFestivo = DiasFestivos(
+                            0,
+                            "Navidad",
+                            fecha9
+                        )
+                    }
+                }
+
+                daoDiasFestivos.insert(nuevoDiaFestivo)
 
 
             }

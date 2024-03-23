@@ -31,7 +31,7 @@
         android:id="@+id/btnGuardar13"
         android:layout_width="271dp"
         android:layout_height="91dp"
-        android:text="@string/guardar"
+        android:text="@string/btnGuardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

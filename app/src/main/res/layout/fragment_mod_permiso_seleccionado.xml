@@ -22,9 +22,9 @@
         android:id="@+id/spinnerTipo11"
         android:layout_width="360dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="28dp"
         android:prompt="@string/spinner_tipo_dia"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGuardar11"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent" />
@@ -49,6 +49,16 @@
         app:layout_constraintBottom_toTopOf="@+id/btnFechaFinPerm11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox11"
+        android:layout_width="167dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="28dp"
+        android:text="@string/d_naturales"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGuardar11"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

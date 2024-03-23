@@ -1,12 +1,12 @@
 package com.example.niundiagratis
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -14,60 +14,46 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
-import com.example.niundiagratis.data.adapter.SimpleAdapter
-import com.example.niundiagratis.data.db.ActividadesRealizadas
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.adapter.FestivosAdapter
+import com.example.niundiagratis.data.db.DiasFestivos
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
-import com.example.niundiagratis.databinding.FragmentModActividadBinding
+import com.example.niundiagratis.databinding.FragmentModFestivoBinding
 import kotlinx.coroutines.launch
 
-
 private var selMenuInt = -1
-class ModActividadFragment : Fragment() {
-    lateinit var binding: FragmentModActividadBinding
+class ModFestivoFragment : Fragment() {
+    lateinit var binding: FragmentModFestivoBinding
     private val viewModel: ViewModelSimple by lazy {
-        val dao = databaseAct!!.fActividadesRealizadasDao()
+        val dao =  databaseAct!!.fDiasFestivosDao()
         ViewModelSimple(dao)
     }
-    private lateinit var btn1: Button
-    private var listaActividades: List<ActividadesRealizadas> = emptyList()
-    private lateinit var txtV: TextView
+    private var listaFestivos: List<DiasFestivos> = emptyList()
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var selectedItem: ActividadesRealizadas
+    private lateinit var selectedItem: DiasFestivos
     private lateinit var navController: NavController
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View {
-        // Inflamos el layout del fragment
-        binding = FragmentModActividadBinding.inflate(inflater, container, false)
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentModFestivoBinding.inflate(inflater, container, false)
         val view = binding.root
-        //Obtenemos la referencia al boton aceptar
-        btn1= binding.btnAceptar07
-
-        btn1.isEnabled = false
-
+        binding.btnAceptar20.isEnabled = false
         navController = findNavController()
-
         //Obtenemos instancia del layoutmanager
         layoutManager = LinearLayoutManager(context)
         //Asignamos el layoutmanager al recyclerview
-        binding.rVModAct.layoutManager = layoutManager
-
-        //Definimos el textview de control de que no hay datos
-        txtV = binding.txtVControl07
-
+        binding.rVModFest.layoutManager = layoutManager
         initRecyclerView()
-
         return view
-
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn1.setOnClickListener {
+        binding.btnAceptar20.setOnClickListener {
             selMenuInt = 8
             // Crea un Bundle para pasar los datos
             val bundle = Bundle().apply {
@@ -75,51 +61,45 @@ class ModActividadFragment : Fragment() {
                 putString("nombreBD", dbSeleccionada)
             }
             // Navega al siguiente fragmento con el Bundle
-            navController.navigate(R.id.action_modActividadFragment_to_modActividadSeleccionadaFragment, bundle)
-            println("actividad seleccionada")
-            println(id)
+            navController.navigate(R.id.action_modFestivoFragment_to_modFestivoSeleccionadoFragment, bundle)
         }
     }
-
     private fun initRecyclerView(){
         val fragment = this
         lifecycleScope.launch {
-            viewModel.obtenerActividades().observe(viewLifecycleOwner) { actividades ->
-                val listaActividadesScope = actividades ?: emptyList()
-                val actRealAdapter = SimpleAdapter(listaActividadesScope, fragment::onItemSelected)
-                binding.rVModAct.adapter = actRealAdapter
-
-                viewModel.actualizarListaActividades(listaActividadesScope)
+            viewModel.obtenerDiasFestivos().observe(viewLifecycleOwner) { festivos ->
+                val listaFestivosScope = festivos ?: emptyList()
+                val festivosAdapter = FestivosAdapter(listaFestivosScope, fragment::onItemSelected)
+                binding.rVModFest.adapter = festivosAdapter
+                viewModel.actualizarListaActividades(listaFestivosScope)
                 //actualizamos listaActividades del fragment para controlar mensaje de no hay datos
-                listaActividades = listaActividadesScope
+                listaFestivos = listaFestivosScope
                 //Controlamos visibilidad del mensaje de no hay datos
-                txtV.visibility = if (listaActividades.isEmpty()) View.VISIBLE else View.GONE
+                binding.txtVControl20.visibility = if (listaFestivos.isEmpty()) View.VISIBLE else View.GONE
 
             }
         }
         val manager = layoutManager
         val decoration = DividerItemDecoration(context, manager.orientation)
-        binding.rVModAct.layoutManager = manager
-        binding.rVModAct.adapter = SimpleAdapter(listaActividades) {onItemSelected(it)}
+        binding.rVModFest.layoutManager = manager
+        binding.rVModFest.adapter = FestivosAdapter(listaFestivos) {onItemSelected(it)}
         //Añadimos linea divisoria entre items
-        binding.rVModAct.addItemDecoration(decoration)
+        binding.rVModFest.addItemDecoration(decoration)
     }
-
-    private fun onItemSelected(actReal: ActividadesRealizadas){
+    private fun onItemSelected(festivo: DiasFestivos){
         // Actualiza el elemento seleccionado en el adaptador
-        (binding.rVModAct.adapter as? SimpleAdapter)?.let { adapter ->
+        (binding.rVModFest.adapter as? FestivosAdapter)?.let { adapter ->
             val oldIndex = adapter.selectedItem?.let { adapter.datos.indexOf(it) }
-            val newIndex = adapter.datos.indexOf(actReal)
+            val newIndex = adapter.datos.indexOf(festivo)
 
-            adapter.selectedItem = actReal
+            adapter.selectedItem = festivo
 
             oldIndex?.let { adapter.notifyItemChanged(it) }
             adapter.notifyItemChanged(newIndex)
         }
-        binding.btnAceptar07.isEnabled = true
-        selectedItem = actReal
-
+        binding.btnAceptar20.isEnabled = true
+        selectedItem = festivo
     }
 
-}
 
+}

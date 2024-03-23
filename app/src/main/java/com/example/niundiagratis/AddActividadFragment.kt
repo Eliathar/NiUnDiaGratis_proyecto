@@ -64,14 +64,6 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
     ): View {
         binding = FragmentAddActividadBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        /*//Obtenemos el nombre de la base de datos
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext())
-            }
-        }*/
-        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
         dao = databaseAct!!.fActividadesRealizadasDao()
         daot = databaseAct!!.fTiposActividadesDao()
         navController = findNavController()

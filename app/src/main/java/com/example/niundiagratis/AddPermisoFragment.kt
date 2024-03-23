@@ -43,6 +43,7 @@ class AddPermisoFragment : Fragment() {
     private lateinit var daoT: TiposDiasDao
     private lateinit var navController: NavController
     private lateinit var dao: DiasDisfrutadosDao
+    private var difDias = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +86,7 @@ class AddPermisoFragment : Fragment() {
             }
 
         }
-        binding.buttonGuardar.setOnClickListener {
+        binding.buttonGuardar09.setOnClickListener {
             btnCalcular()
         }
 
@@ -171,23 +172,22 @@ class AddPermisoFragment : Fragment() {
 
         println("calcular pulsado")
         lifecycleScope.launch(Dispatchers.IO) {
-            println("A guardar datos1")
             //Obtenemos el tipo de dia disfrutado del spinner
             val tipoDiaDisfrutado = binding.spinnerTipo09.selectedItem.toString()
-            println("A guardar datos2 $tipoDiaDisfrutado")
             daoT.getTipoDiaById(tipoDiaDisfrutado)
 
             //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
             val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-            println("A guardar datos4")
             val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-            println("A guardar datos5")
+
             //Calculamos la diferencia en días
-            val difDias = comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
-            println("A guardar datos6")
+            difDias = if(!binding.checkBox09.isChecked) {
+                comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
+            } else{
+                java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()+1
+            }
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
-            println("A guardar datos")
                 val permisoNuevo = DiasDisfrutados(
                     id = 0,
                     tipoDiaDis = tipoDiaDisfrutado,
@@ -196,7 +196,6 @@ class AddPermisoFragment : Fragment() {
                     diasTotales = difDias
                 )
             println(permisoNuevo)
-            println("A guardar datos8")
             /*
             -------------------------Creamos el cuadro de confirmacion------------------------------------------
             Estamos en un hilo secundario, pero el cuadro de dialogo solo se ejecuta en el hilo principal, no
@@ -206,9 +205,7 @@ class AddPermisoFragment : Fragment() {
             */
             withContext(Dispatchers.Main) {
                 val construct = AlertDialog.Builder(context)
-                println("A guardar datos9")
                 construct.setTitle("Confirmar datos")
-                println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
                             "Tipo de dia: $tipoDiaDisfrutado\n" +
@@ -216,25 +213,17 @@ class AddPermisoFragment : Fragment() {
                             "Fecha de Finalización: $fechaFin\n" +
                             "Dias totales: $difDias"
                 )
-                println("A guardar datos11")
                 //Controlamos la reaccion de pulsar aceptar
 
                 construct.setPositiveButton("Aceptar") { _, _ ->
                     runBlocking {
-                        if (permisoNuevo != null) {
-                            println("datos asignados")
-    //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                println("A guardar datos guardando")
-                                dao.insert(permisoNuevo)
-                                BBDDHandler.actualizarComputoGlobal(databaseAct!!)
-
-                                println("A guardar datos terminado")
-
-                            }
-    //------------------------------------Fin hilo secundario-------------------------------------------
-                            println("datos guardados?")
+                        println("datos asignados")
+                        //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            dao.insert(permisoNuevo)
+                            BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                         }
+                        //------------------------------------Fin hilo secundario-------------------------------------------
                         //------Cargamos el fragment home al guardar los datos en la base de datos----------
                         navController.navigate(R.id.nav_home)
                     }

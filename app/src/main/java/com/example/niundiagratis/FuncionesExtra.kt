@@ -21,7 +21,7 @@ fun selTitulo(submenuId: Int, context: Context?): CharSequence {
         3 -> context?.resources?.getText(R.string.opciones_1_gest_config)!!//Gestión de configuración
         4 -> context?.resources?.getText(R.string.opciones_1_config_add_tipo)!!//Gestión de configuración
         5 -> context?.resources?.getText(R.string.opciones_1_config_mod_tipo)!!//Gestión de configuración
-        16 -> "Añadir tipo de actividad"//Añadir tipo de actividad
+        18 -> context?.resources?.getText(R.string.opciones_1_gest_festivos)!!//Gestión de festivos
         else -> "error"
     }
 }
@@ -32,44 +32,41 @@ fun selTextoBotones(selMenuInt: Int, btn1: TextView, btn2: TextView) {
             btn1.setText(R.string.opciones_1_act_btn1)
             btn2.setText(R.string.opciones_1_act_btn2)
         }
-
         2 -> {//Submenu01Fragment v2
             btn1.setText(R.string.opciones_1_perm_btn1)
             btn2.setText(R.string.opciones_1_perm_btn2)
 
         }
-
         3 -> {//Submenu01Fragment v3
             btn1.setText(R.string.opciones_1_conf_btn1)
             btn2.setText(R.string.opciones_1_conf_btn2)
 
         }
-
         4 -> {//Submenu01Fragment v4
             btn1.setText(R.string.opciones_1_add_tipo_act_btn1)
             btn2.setText(R.string.opciones_1_add_tipo_dia_btn2)
 
         }
-
         5 -> {//Submenu01Fragment v5
             btn1.setText(R.string.opciones_1_mod_tipo_act_btn1)
             btn2.setText(R.string.opciones_1_mod_tipo_dia_btn2)
 
         }
-
-
+        18 -> {//Submenu01Fragment v18
+            btn1.setText(R.string.opciones_1_fest_btn1)
+            btn2.setText(R.string.opciones_1_fest_btn2)
+        }
     }
 }
 fun cargarFragment(seleccion: Int, navController: NavController){
 
     try {
         if(seleccion !=-1) {
-
             val bundle = Bundle()
             bundle.putInt("opcion_submenu_1", seleccion)
             when(seleccion){
                 0 -> navController.navigate(R.id.nav_home)
-                in 1..5 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
+                in 1..5, 18 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
                 6 -> navController.navigate(R.id.action_submenu01Fragment_to_addActividadFragment, bundle)
                 7 -> navController.navigate(R.id.action_submenu01Fragment_to_modActividadFragment, bundle)
                 8 -> navController.navigate(R.id.action_modActividadFragment_to_modActividadSeleccionadaFragment, bundle)
@@ -82,10 +79,10 @@ fun cargarFragment(seleccion: Int, navController: NavController){
                 15 -> navController.navigate(R.id.action_modTipoActividadFragment_to_modTipoActividadSelecFragment, bundle)
                 16 -> navController.navigate(R.id.action_submenu01Fragment_to_modTipoDiaFragment, bundle)
                 17 -> navController.navigate(R.id.action_modTipoDiaFragment_to_modTipoDiaSelecFragment, bundle)
+                19 -> navController.navigate(R.id.action_submenu01Fragment_to_addFestivoFragment, bundle)
+                20 -> navController.navigate(R.id.action_submenu01Fragment_to_modFestivoFragment, bundle)
+                21 -> navController.navigate(R.id.action_modFestivoFragment_to_modFestivoSeleccionadoFragment, bundle)
             }
-
-
-
         }
     } catch (e: Exception) {
         e.printStackTrace()

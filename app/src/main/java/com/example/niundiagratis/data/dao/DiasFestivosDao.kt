@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.niundiagratis.data.db.DiasFestivos
-import com.example.niundiagratis.data.db.TiposDias
 import java.util.Date
 
 @Dao
@@ -23,14 +22,14 @@ interface DiasFestivosDao {
 
 
     @Query("SELECT * FROM tablaDiasFestivos")
-    fun getAllTiposDiasList(): List<DiasFestivos>
+    fun getAllDiasFestivosList(): List<DiasFestivos>
     @Query("SELECT nombreDia FROM tablaDiasFestivos")
     fun getAllDiasFestivosListNombres(): List<String>
 
 
     //Devuelve la entidad seleccionada mediante el id
-    @Query("SELECT * FROM tablaDiasFestivos WHERE nombreDia = :id")
-    fun getDiaFestivoById(id: String): DiasFestivos?
+    @Query("SELECT * FROM tablaDiasFestivos WHERE id = :id")
+    fun getDiaFestivoById(id: Int): DiasFestivos?
 
     //Devuelve entidad seleccionada mediante fecha
     @Query("SELECT * FROM tablaDiasFestivos WHERE fechaDia= :fecha")

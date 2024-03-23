@@ -31,13 +31,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 
-/* TODO implementar eliminar ¿modificar tabla permisos para no hacer un registro por dia?
-    modificar fragments para añadir la opcion de fecha fin y modificar sistema de dias generados
-    para que se genere un regiostro por tipo de dia y actividad con los dias totales de esa actividad,
-    implementar sistema pra llevar el conteo con la nueva dinamica (ahora mismo cuenta registros,
-    debera sumar los dias de cada tipo de dia y restar los consumidos
-* */
-
 class ModPermisoSeleccionadoFragment : Fragment() {
     private val job = Job()
     private lateinit var binding: FragmentModPermisoSeleccionadoBinding
@@ -53,6 +46,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     private lateinit var daot: TiposDiasDao
     private lateinit var navController: NavController
     private var id: Int = 0
+    private var difDias = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +76,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
             println("esta linea la id es $id")
             entidad = withContext(Dispatchers.IO) {
                 //Obtenemos instancia del Dao
-                dao = DatabaseActive.databaseAct!!.fDiasDisfrutadosDao()
+                dao = databaseAct!!.fDiasDisfrutadosDao()
                 dao.getDiasdisfrutadosById(id)!!
             }
             println(entidad.fechaCon.toString())
@@ -200,7 +194,12 @@ class ModPermisoSeleccionadoFragment : Fragment() {
             val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
             println("A guardar datos4")
-            val difDias = comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
+            //Calculamos la diferencia en días
+            difDias = if(!binding.checkBox11.isChecked) {
+                comprobarDiaFestivo(fechaIni, fechaFin, databaseAct!!)
+            } else{
+                java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()+1
+            }
 
             //Asignamos los valores a una variable del tipo adecuado para guardar los datos
             println("A guardar datos")

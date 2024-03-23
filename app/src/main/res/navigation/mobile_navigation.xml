@@ -57,6 +57,12 @@
         <action
             android:id="@+id/action_submenu01Fragment_to_modTipoDiaFragment"
             app:destination="@id/modTipoDiaFragment" />
+        <action
+            android:id="@+id/action_submenu01Fragment_to_addFestivoFragment"
+            app:destination="@id/addFestivoFragment" />
+        <action
+            android:id="@+id/action_submenu01Fragment_to_modFestivoFragment"
+            app:destination="@id/modFestivoFragment" />
     </fragment>
     <fragment
         android:id="@+id/addActividadFragment"
@@ -140,4 +146,23 @@
     <action
         android:id="@+id/action_global_submenu01Fragment"
         app:destination="@id/submenu01Fragment" />
+    <fragment
+        android:id="@+id/addFestivoFragment"
+        android:name="com.example.niundiagratis.AddFestivoFragment"
+        android:label="@string/fragment_add_festivo"
+        tools:layout="@layout/fragment_add_festivo" />
+    <fragment
+        android:id="@+id/modFestivoSeleccionadoFragment"
+        android:name="com.example.niundiagratis.ModFestivoSeleccionadoFragment"
+        android:label="@string/fragment_mod_selec"
+        tools:layout="@layout/fragment_mod_festivo_seleccionado" />
+    <fragment
+        android:id="@+id/modFestivoFragment"
+        android:name="com.example.niundiagratis.ModFestivoFragment"
+        android:label="@string/fragment_mod_festivo"
+        tools:layout="@layout/fragment_mod_festivo" >
+        <action
+            android:id="@+id/action_modFestivoFragment_to_modFestivoSeleccionadoFragment"
+            app:destination="@id/modFestivoSeleccionadoFragment" />
+    </fragment>
 </navigation>

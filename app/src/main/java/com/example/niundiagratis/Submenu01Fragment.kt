@@ -76,6 +76,10 @@ class Submenu01Fragment : Fragment() {
                     selMenuInt = 14
                     cargarFragment(selMenuInt, navController)
                 }
+                getString(R.string.opciones_1_fest_btn1)-> {
+                    selMenuInt = 19
+                    cargarFragment(selMenuInt, navController)
+                }
 
             }
         }
@@ -100,6 +104,10 @@ class Submenu01Fragment : Fragment() {
                 }
                 getString(R.string.opciones_1_mod_tipo_dia_btn2)-> {
                     selMenuInt = 16
+                    cargarFragment(selMenuInt, navController)
+                }
+                getString(R.string.opciones_1_fest_btn2)-> {
+                    selMenuInt = 20
                     cargarFragment(selMenuInt, navController)
                 }
 

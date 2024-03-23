@@ -162,8 +162,11 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
             val tipoActividadDB = withContext(Dispatchers.IO) {
                 viewModelT.obtenerTiposActividades()
             }
+            //Obtenemos listado de valores para el spinner
+            spinnerItems = resources.getIntArray(R.array.spinner_max_items).toMutableList()
             //Iteramos sobre la lista y obtenemos los nombres de los tipos de días
             nombresTiposActividades = tipoActividadDB.map { it.nombreTipoAct }
+
 
             //Creamos un ArrayAdapter con la lista de nombres
             val adapter = ArrayAdapter(
@@ -171,12 +174,21 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 android.R.layout.simple_spinner_item,
                 nombresTiposActividades
             )
+            //Configuramos el adapter y lo asignamos
+            val adapterII = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                spinnerItems
+            )
 
             //Configuramos el ArrayAdapter para el Spinner
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            //Especificamos el layout a usar cuando se muestra la lista
+            adapterII.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
             //Asignamos el adapter
             binding.spinnerTipo08.adapter = adapter
+            binding.spinnerMo08.adapter = adapterII
 
             val spinSelec = adapter.getPosition(entidad.tipoActOk)
             println(spinSelec)
@@ -200,6 +212,17 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                         binding.spinnerTipo08.setSelection(0)
                     } else {
                         //Acciones si hay seleccion
+                        // Encuentra la entidad TiposActividades que corresponde al ítem seleccionado
+                        val entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }
+                        if (entidadSeleccionada != null) {
+                            if (entidadSeleccionada.tipoDiasGenerados1 == "PU" || entidadSeleccionada.tipoDiasGenerados2 == "PU"|| entidadSeleccionada.tipoDiasGenerados3 =="PU") {
+                                binding.spinnerMo08.visibility = View.VISIBLE
+                                binding.txtvwDiasPu08.visibility = View.VISIBLE
+                            }else{
+                                binding.spinnerMo08.visibility = View.INVISIBLE
+                                binding.txtvwDiasPu08.visibility = View.INVISIBLE
+                            }
+                        }
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
