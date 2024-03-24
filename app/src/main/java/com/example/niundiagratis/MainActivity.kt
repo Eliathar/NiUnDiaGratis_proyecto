@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     //Usamos lateinit para indicaral compilador que la variable sera inicializada antes de ser usada
@@ -103,6 +104,7 @@ class MainActivity : AppCompatActivity() {
             R.id.salir -> 4
             else -> -1
         }
+        println("la seleccion1 del menu es $seleccion")
 
         //Cerramos el menu lateral al realizar la seleccion
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -113,7 +115,8 @@ class MainActivity : AppCompatActivity() {
         //Si se pulsa para seleccionar la base de datos
         if (seleccion == -2) seleccionBBDD()
         println(dbSeleccionada)
-        println("la seleccion del menu es $seleccion")
+        println(databaseAct)
+        println("la seleccion2 del menu es $seleccion")
 
         /* En caso de que exista una opcion valida, realizamos la llamada al fragment pasando
         como parametro el bundle creado con la seleccion, se usa bundle para facilitar posibles
@@ -152,13 +155,14 @@ class MainActivity : AppCompatActivity() {
                     BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                     println("la bbdd selec es $dbSeleccionada")
                 }
-                if (currentFragment is HomeFragment) {
-                    val newFragment = HomeFragment()
-                    val fragmentManager = currentFragment.parentFragmentManager
-                    fragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, newFragment).commit()
-                }else{
-
-                    navController.navigate(R.id.action_global_nav_home)
+                withContext(Dispatchers.Main) {
+                    if (currentFragment is HomeFragment) {
+                        val newFragment = HomeFragment()
+                        val fragmentManager = currentFragment.parentFragmentManager
+                        fragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, newFragment).commit()
+                    } else {
+                        navController.navigate(R.id.action_global_nav_home)
+                    }
                 }
             }
             /* Estemos donde estemos al cambiar la base de datos debe mostrarse el fragment home,
@@ -167,7 +171,6 @@ class MainActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("Cancelar", null)
-
         builder.show()
     }
 }

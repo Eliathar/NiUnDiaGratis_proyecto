@@ -1,15 +1,7 @@
 package com.example.niundiagratis.data.db
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import com.example.niundiagratis.DBSelector.dbSeleccionada
-import com.example.niundiagratis.DatabaseActive.databaseAct
-import com.example.niundiagratis.ui.home.HomeFragment
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Year
 import java.time.ZoneId
@@ -17,8 +9,7 @@ import java.util.Date
 
 //Creamos la base de datos
 object BBDDHandler {
-    suspend fun crearBBDD(instancia: NiUnDiaGratisBBDD) {
-        //TODO crear inicializacion de datos de tabla dias festivos con festivos nacionales
+    fun crearBBDD(instancia: NiUnDiaGratisBBDD) {
         runBlocking {
         inicializarBBDD(instancia)
         inicializarBBDD1(instancia)
@@ -30,7 +21,7 @@ object BBDDHandler {
 
     //Inicializacion de la base de datos
     //Tipos de dias
-    suspend fun inicializarBBDD(database: NiUnDiaGratisBBDD) {
+    private fun inicializarBBDD(database: NiUnDiaGratisBBDD) {
         val daoTiposDias = database.fTiposDiasDao()
 
         lateinit var nuevoTipoDia: TiposDias
@@ -51,14 +42,11 @@ object BBDDHandler {
         println("inicializar 1 completo")
     }
     //Tipos de actividades
-    suspend fun inicializarBBDD1(database: NiUnDiaGratisBBDD) {
+    private fun inicializarBBDD1(database: NiUnDiaGratisBBDD) {
         runBlocking {
             val daoTiposDias = database.fTiposDiasDao()
             val daoTiposActividades = database.fTiposActividadesDao()
-            lateinit var nuevoTipoDia: TiposDias
             lateinit var nuevoTiposActividades: TiposActividades
-            lateinit var nuevocomputoGlobal: ComputoGlobal
-            lateinit var nuevaActReal: ActividadesRealizadas
             //Inicializamos tipos de dias
             //Inicializamos datos de tipos de actividades
             //Definimos los valores para las foreign keys especificadas
@@ -152,7 +140,7 @@ object BBDDHandler {
         println("inicializar 2 completo")
     }
     //Computo global
-    suspend fun inicializarBBDD2(database: NiUnDiaGratisBBDD) {
+    fun inicializarBBDD2(database: NiUnDiaGratisBBDD) {
         runBlocking {
             val daoTiposDias = database.fTiposDiasDao()
             val daoComputoGlobal = database.fComputoGlobalDao()
@@ -281,7 +269,8 @@ object BBDDHandler {
         actualizarComputoGlobal(database)
         println("inicializar 4 completo")
     }
-    suspend fun inicializarBBDD4(database: NiUnDiaGratisBBDD) {
+    //Inicializamos festivos nacionales
+    private fun inicializarBBDD4(database: NiUnDiaGratisBBDD) {
         runBlocking {
 
             val daoDiasFestivos = database.fDiasFestivosDao()
@@ -442,7 +431,7 @@ object BBDDHandler {
             }
         }
     }
-    suspend fun actualizarComputoGlobal(database: NiUnDiaGratisBBDD) {
+    fun actualizarComputoGlobal(database: NiUnDiaGratisBBDD) {
 
         // Obtén los tipos de días
         val tiposDias = database.fTiposDiasDao().getAllTiposDiasListNombres()
@@ -457,13 +446,10 @@ object BBDDHandler {
             //Obtenemos el dia para acceder a sus campos
             val nombreDia = database.fTiposDiasDao().getTipoDiaById(tipoDia)
 
-            //Calculamos los días restantes
-            var diasRestantes = 0
-
             //Si el tipo de día es "PO" o "AP", realiza la resta sobre maxDias
-            if (tipoDia == "PO" || tipoDia == "AP") {
-                diasRestantes = nombreDia?.maxDias?.minus(totalDiasConsumidos) ?: 0
-            } else diasRestantes = totalDiasGenerados - totalDiasConsumidos
+            val diasRestantes: Int = if (tipoDia == "PO" || tipoDia == "AP") {
+                nombreDia?.maxDias?.minus(totalDiasConsumidos) ?: 0
+            } else totalDiasGenerados - totalDiasConsumidos
 
 
             // Busca el registro de cómputo global para este tipo de día

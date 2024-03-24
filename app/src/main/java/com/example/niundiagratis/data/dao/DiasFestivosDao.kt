@@ -2,7 +2,6 @@ package com.example.niundiagratis.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -23,8 +22,8 @@ interface DiasFestivosDao {
 
     @Query("SELECT * FROM tablaDiasFestivos")
     fun getAllDiasFestivosList(): List<DiasFestivos>
-    @Query("SELECT nombreDia FROM tablaDiasFestivos")
-    fun getAllDiasFestivosListNombres(): List<String>
+    /*@Query("SELECT nombreDia FROM tablaDiasFestivos")
+    fun getAllDiasFestivosListNombres(): List<String>*/
 
 
     //Devuelve la entidad seleccionada mediante el id
@@ -40,7 +39,7 @@ interface DiasFestivosDao {
     fun update(diasFestivos: DiasFestivos)
 
     //Se elimina una entidad
-    @Delete
-    fun delete(diasFestivos: DiasFestivos)
+   /* @Delete
+    fun delete(diasFestivos: DiasFestivos)*/
 
 }

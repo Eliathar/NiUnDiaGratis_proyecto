@@ -1,23 +1,19 @@
 package com.example.niundiagratis
 
 import android.app.AlertDialog
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.niundiagratis.DatabaseActive.databaseAct
-import com.example.niundiagratis.data.dao.ComputoGlobalDao
 import com.example.niundiagratis.data.dao.DiasFestivosDao
-import com.example.niundiagratis.data.dao.TiposDiasDao
 import com.example.niundiagratis.data.db.BBDDHandler
 import com.example.niundiagratis.data.db.DiasFestivos
 import com.example.niundiagratis.databinding.FragmentAddFestivoBinding
-import com.example.niundiagratis.databinding.FragmentAddTipoDiaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -79,20 +75,18 @@ class AddFestivoFragment : Fragment() {
 
                 construct.setPositiveButton("Aceptar") { _, _ ->
                     runBlocking {
-                        if (festivoNuevo != null) {
-                            println("datos asignados")
-                            //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                println("A guardar datos guardando")
-                                dao.insert(festivoNuevo)
-                                BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                        println("datos asignados")
+                        //------------------------Volvemos a un hilo secundario para guardar los datos----------------------
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            println("A guardar datos guardando")
+                            dao.insert(festivoNuevo)
+                            BBDDHandler.actualizarComputoGlobal(databaseAct!!)
 
-                                println("A guardar datos terminado")
+                            println("A guardar datos terminado")
 
-                            }
-                            //------------------------------------Fin hilo secundario-------------------------------------------
-                            println("datos guardados?")
                         }
+                        //------------------------------------Fin hilo secundario-------------------------------------------
+                        println("datos guardados?")
                         //------Cargamos el fragment home al guardar los datos en la base de datos----------
                         navController.navigate(R.id.nav_home)
                     }

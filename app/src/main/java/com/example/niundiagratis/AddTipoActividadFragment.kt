@@ -1,6 +1,6 @@
 package com.example.niundiagratis
 
-//import android.R
+
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.TiposActividadesDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -31,7 +30,7 @@ class AddTipoActividadFragment : Fragment() {
 
     //Valores para el listado del spinner-----------------------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }

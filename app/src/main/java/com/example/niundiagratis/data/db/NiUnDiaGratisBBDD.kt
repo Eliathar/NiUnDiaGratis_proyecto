@@ -1,6 +1,5 @@
 package com.example.niundiagratis.data.db
 import android.content.Context
-import android.os.Parcelable
 import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -9,7 +8,6 @@ import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
@@ -203,14 +201,16 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     companion object{
         private var instancia: NiUnDiaGratisBBDD? = null
 
-         fun obtenerInstancia(context: Context, nombreBD: String): NiUnDiaGratisBBDD{
-
-            if (context.getDatabasePath(dbSeleccionada).exists()) {//codigo si la base de datos existe
+         fun obtenerInstancia(context: Context): NiUnDiaGratisBBDD{
+             val instanciaAnterior = DatabaseActive.databaseAct
+             val repositorio = ReposNiUnDiaGratis()
+             if (context.getDatabasePath(dbSeleccionada).exists()) {//codigo si la base de datos existe
                 instancia = Room.databaseBuilder(
                     context.applicationContext,
                     NiUnDiaGratisBBDD::class.java, dbSeleccionada
                 ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
                     .build()
+                 instancia!!.openHelper.writableDatabase
             } else {//Codigo si la base de datos no existe
                 instancia = Room.databaseBuilder(
                     context.applicationContext,
@@ -218,13 +218,31 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
                 ).build()
                 println(DatabaseActive.databaseAct)
                 println("dentro de obtener bbdd")
-                runBlocking {
-                    println("antes de inicializar bbdd")
-                    crearBBDD(instancia!!)
-                    println("despues de inicializar bbdd")
+                if(instanciaAnterior != null) {
+                  /*
+                    En caso de que la anterior base de datos no sea null (primera inicializacion),
+                    se copian los datos de las tablas antiguas, evitando tener que realizar las
+                    modificaciones todos los años
+                    */
+                    repositorio.copiarDatos(instanciaAnterior, instancia!!)
+                }else{
+                    /*
+                    En caso de que la base de datos anterior sea null (primera inicializacion)
+                    se inicializan los valores de las tablas
+                    */
+                    runBlocking {
+                        crearBBDD(instancia!!)
+                    }
                 }
             }
-            return instancia!!
+             /*
+             Abrimos la instancia para escritura, room deberia hacerlo, pero no lo hace, si se
+             borra esta linea todas las opciones del menu lateral cerraran la aplicacion al
+             seleccionar otra base de datos diferente a la que se abre en la app
+             */
+
+             //Devolvemos la instancia abierta para escritura
+             return instancia!!
         }
     }
 }

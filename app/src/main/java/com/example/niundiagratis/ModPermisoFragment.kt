@@ -25,7 +25,7 @@ private var selMenuInt = -1
 class ModPermisoFragment : Fragment() {
     private lateinit var binding: FragmentModPermisoBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         val dao = database.fDiasDisfrutadosDao()
         ViewModelSimple(dao)
     }

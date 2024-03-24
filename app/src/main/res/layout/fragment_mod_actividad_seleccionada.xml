@@ -45,12 +45,14 @@
         android:layout_width="360dp"
         android:layout_height="48dp"
         android:layout_marginBottom="24dp"
-        android:hint="Nombre de la actividad"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/spinnerTipo08"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btnFechaIni08"
@@ -58,7 +60,6 @@
         android:layout_height="49dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
-        android:text="Cambiar fecha inicio"
         app:layout_constraintBottom_toTopOf="@+id/btnFechaFin08"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -79,7 +80,6 @@
         android:layout_height="49dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="40dp"
-        android:text="Cambiar fecha fin"
         app:layout_constraintBottom_toTopOf="@+id/editTextNombre08"
         app:layout_constraintEnd_toEndOf="parent" />
 

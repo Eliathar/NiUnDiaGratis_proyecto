@@ -12,12 +12,15 @@
         android:layout_width="315dp"
         android:layout_height="57dp"
         android:layout_marginBottom="136dp"
-        android:text="Nombre tipo dia"
+        android:text="@string/nombre_tipo_dia"
         app:layout_constraintBottom_toTopOf="@+id/spinnerMax17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor"
+        android:inputType="text" />
 
     <Spinner
         android:id="@+id/spinnerMax17"
@@ -32,7 +35,7 @@
         android:id="@+id/btnGuardar17"
         android:layout_width="271dp"
         android:layout_height="91dp"
-        android:text="Guardar"
+        android:text="@string/btnGuardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

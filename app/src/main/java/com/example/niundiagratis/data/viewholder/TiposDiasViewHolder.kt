@@ -2,7 +2,6 @@ package com.example.niundiagratis.data.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.TiposDias
 import com.example.niundiagratis.databinding.ItemListActRealBinding
 

@@ -23,24 +23,24 @@ class ViewModelSimple(
     private val _listaActividades = MutableLiveData<List<Any>>()
     private val _listaTiposDias = MutableLiveData<List<Any>>()
     //Livedata visible
-    val selectedData: LiveData<Any> get() = _selectedData
-    val listaActividades: LiveData<List<Any>> get() = _listaActividades
-    val listaTiposDias: LiveData<List<Any>> get() = _listaTiposDias
+    //val selectedData: LiveData<Any> get() = _selectedData
+    //val listaActividades: LiveData<List<Any>> get() = _listaActividades
+    //val listaTiposDias: LiveData<List<Any>> get() = _listaTiposDias
 
     fun obtenerActividades(): LiveData<List<ActividadesRealizadas>> {
-        if (dao is ActividadesRealizadasDao) {
-            return dao.getAllActividades()
+        return if (dao is ActividadesRealizadasDao) {
+            dao.getAllActividades()
         } else {
-            return MutableLiveData(emptyList())
+            MutableLiveData(emptyList())
         }
     }
 //Dos tipos de obtenertiposdias, pues ambas versiones de las listas son necesarias------------------
     fun obtenerTiposDias(): LiveData<List<TiposDias>>{
-        if (dao is TiposDiasDao) {
-            return dao.getAllTiposDias()
-        } else {
-            return MutableLiveData(emptyList())
-        }
+    return if (dao is TiposDiasDao) {
+        dao.getAllTiposDias()
+    } else {
+        MutableLiveData(emptyList())
+    }
     }
     fun obtenerTiposDiasList(): List<TiposDias>{
         if (dao is TiposDiasDao) {
@@ -50,17 +50,17 @@ class ViewModelSimple(
 //--------------------------------------------------------------------------------------------------
     }
     fun obtenerDiasDisLive(): LiveData<List<DiasDisfrutados>>{
-        if (dao is DiasDisfrutadosDao) {
-            return dao.obtenerDiasDisfrutadosLive()
+        return if (dao is DiasDisfrutadosDao) {
+            dao.obtenerDiasDisfrutadosLive()
         }else {
-            return MutableLiveData(emptyList())
+            MutableLiveData(emptyList())
         }
     }
-    fun obtenerDiasDis(): List<DiasDisfrutados>{
+    /*fun obtenerDiasDis(): List<DiasDisfrutados>{
         if (dao is DiasDisfrutadosDao) {
             return dao.obtenerDiasDisfrutados()
         }else throw IllegalArgumentException("DAO no es una instancia de DiasDisfrutados")
-    }
+    }*/
     fun obtenerTiposActividadesLive(): LiveData<List<TiposActividades>>{
         if (dao is TiposActividadesDao) {
             return dao.getAllTiposActividadesLive()
@@ -82,9 +82,9 @@ class ViewModelSimple(
     }
 
 
-    fun setSelectedData(data: Any){
+    /*fun setSelectedData(data: Any){
         _selectedData.value = data
-    }
+    }*/
     fun actualizarListaActividades(nuevasActividades: List<Any>) {
         _listaActividades.value = nuevasActividades
     }

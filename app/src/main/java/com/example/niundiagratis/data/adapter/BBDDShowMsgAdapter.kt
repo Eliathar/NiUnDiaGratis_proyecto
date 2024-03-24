@@ -1,6 +1,5 @@
 package com.example.niundiagratis.data.adapter
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -22,11 +21,19 @@ class BBDDShowMsgAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = nombresBBDD[position]
         holder.nombreTextView.text = item
-        holder.itemView.setOnClickListener {
+        /*holder.itemView.setOnClickListener {
             // Invocamos la función onDatabaseSelected cuando se selecciona un elemento
             selectedItem = item
             onDatabaseSelected(item)
             notifyDataSetChanged()
+        }*/
+        holder.itemView.setOnClickListener {
+            // Invocamos la función onDatabaseSelected cuando se selecciona un elemento
+            val oldSelectedPosition = nombresBBDD.indexOf(selectedItem)
+            selectedItem = item
+            onDatabaseSelected(item)
+            notifyItemChanged(oldSelectedPosition)
+            notifyItemChanged(position)
         }
         // Cambia el color de fondo si el elemento está seleccionado
         if (item == selectedItem) {

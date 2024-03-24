@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.R.array.spinner_max_items
 import com.example.niundiagratis.data.dao.TiposActividadesDao
@@ -39,7 +38,7 @@ class ModTipoActividadSelecFragment : Fragment() {
 
     //Valores para el listado del spinner tipos de dia----------------------------------------------
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }

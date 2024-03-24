@@ -15,7 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Seleccionar base de datos" />
+                android:text="@string/msg_sel_bbdd" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewDatabases"

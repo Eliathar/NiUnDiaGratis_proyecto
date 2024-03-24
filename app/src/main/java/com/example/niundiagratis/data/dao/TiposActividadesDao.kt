@@ -2,7 +2,6 @@ package com.example.niundiagratis.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -31,6 +30,6 @@ interface TiposActividadesDao {
     fun update(tipoActividad: TiposActividades)
 
     //Se elimina una entidad
-    @Delete
-    fun delete(tipoActividad: TiposActividades)
+    /*@Delete
+    fun delete(tipoActividad: TiposActividades)*/
 }

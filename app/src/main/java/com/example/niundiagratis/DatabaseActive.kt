@@ -16,9 +16,9 @@ object DatabaseActive {
     suspend fun getDatabase(context: Context): NiUnDiaGratisBBDD {
         println(dbSeleccionada)
         databaseAct = withContext(Dispatchers.IO) {
-            NiUnDiaGratisBBDD.obtenerInstancia(context.applicationContext, dbSeleccionada)
+            NiUnDiaGratisBBDD.obtenerInstancia(context.applicationContext)
         }
-        println(databaseAct)
+        println("la base de datos es $databaseAct")
 
         return databaseAct!!
     }

@@ -2,11 +2,9 @@ package com.example.niundiagratis.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.niundiagratis.data.db.DiasFestivos
 import com.example.niundiagratis.data.db.TiposDias
 
 //Declaramos como interfaz DAO
@@ -37,6 +35,6 @@ interface TiposDiasDao {
     fun update(tiposDias: TiposDias)
 
     //Se elimina una entidad
-    @Delete
-    fun delete(tiposDias: TiposDias)
+    /*@Delete
+    fun delete(tiposDias: TiposDias)*/
 }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.niundiagratis.R
-import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewholder.TiposActividadesViewHolder
 

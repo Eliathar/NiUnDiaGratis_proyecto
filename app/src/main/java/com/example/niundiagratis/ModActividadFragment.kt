@@ -16,7 +16,6 @@ import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.adapter.SimpleAdapter
 import com.example.niundiagratis.data.db.ActividadesRealizadas
-import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentModActividadBinding
 import kotlinx.coroutines.launch

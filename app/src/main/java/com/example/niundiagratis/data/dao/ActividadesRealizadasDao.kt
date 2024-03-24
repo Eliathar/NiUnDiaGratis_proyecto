@@ -2,7 +2,6 @@ package com.example.niundiagratis.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -35,8 +34,8 @@ interface ActividadesRealizadasDao {
         fun update(actividadesRealizadas: ActividadesRealizadas)
 
         //Se elimina una entidad
-        @Delete
-        fun delete(actividadesRealizadas: ActividadesRealizadas)
+        /*@Delete
+        fun delete(actividadesRealizadas: ActividadesRealizadas)*/
         //Se elimina una entidad mediante el id
         @Query("DELETE FROM tablaActividadesRealizadas WHERE id = :id")
         fun deleteById(id: Int)

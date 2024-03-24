@@ -67,8 +67,20 @@
     <string name="saldo_global">Saldo</string>
     <string name="fecha">Fecha</string>
     <string name="nombre">Nombre</string>
+    <string name="nombre_tipo_dia">Nombre del tipo de día</string>
     <string name="vacio">Sin datos</string>
+    <string name="nombre_act">Nombre de la actividad</string>
+    <string name="es_guardia">Es guardia</string>
+    <string name="camb_fecha_ini">Cambiar fecha de inicio</string>
+    <string name="camb_fecha_fin">Cambiar fecha de finalización</string>
+    <string name="tipo_dia_1">Tipo de día 1</string>
+    <string name="tipo_dia_2">Tipo de día 2</string>
+    <string name="tipo_dia_3">Tipo de día 3</string>
+    <string name="prop_dias_1">Proporcion de dias tipo 1</string>
+    <string name="prop_dias_2">Proporcion de dias tipo 2</string>
+    <string name="prop_dias_3">Proporcion de dias tipo 3</string>
     <string name="d_naturales">Son dias naturales</string>
+
     <string name="inicio">Inicio: %s</string>
     <string name="fin">Fin: %s</string>
 

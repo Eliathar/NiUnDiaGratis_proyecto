@@ -66,7 +66,7 @@ fun cargarFragment(seleccion: Int, navController: NavController){
             bundle.putInt("opcion_submenu_1", seleccion)
             when(seleccion){
                 0 -> navController.navigate(R.id.nav_home)
-                in 1..5, 18 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
+                in 1..5 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
                 6 -> navController.navigate(R.id.action_submenu01Fragment_to_addActividadFragment, bundle)
                 7 -> navController.navigate(R.id.action_submenu01Fragment_to_modActividadFragment, bundle)
                 8 -> navController.navigate(R.id.action_modActividadFragment_to_modActividadSeleccionadaFragment, bundle)
@@ -79,6 +79,7 @@ fun cargarFragment(seleccion: Int, navController: NavController){
                 15 -> navController.navigate(R.id.action_modTipoActividadFragment_to_modTipoActividadSelecFragment, bundle)
                 16 -> navController.navigate(R.id.action_submenu01Fragment_to_modTipoDiaFragment, bundle)
                 17 -> navController.navigate(R.id.action_modTipoDiaFragment_to_modTipoDiaSelecFragment, bundle)
+                18 -> navController.navigate(R.id.action_global_submenu01Fragment, bundle)
                 19 -> navController.navigate(R.id.action_submenu01Fragment_to_addFestivoFragment, bundle)
                 20 -> navController.navigate(R.id.action_submenu01Fragment_to_modFestivoFragment, bundle)
                 21 -> navController.navigate(R.id.action_modFestivoFragment_to_modFestivoSeleccionadoFragment, bundle)
@@ -128,7 +129,7 @@ fun obtenerDBNames(context: Context): List<String>{
     } ?: emptyList()
 }
 //Comprobamos si los dias del permiso seleccionado es festivo, sabado o domingo, o existe en la tabla de dias festivos
-suspend fun comprobarDiaFestivo(fechaIni: LocalDate, fechaFin: LocalDate, database: NiUnDiaGratisBBDD): Int{
+fun comprobarDiaFestivo(fechaIni: LocalDate, fechaFin: LocalDate, database: NiUnDiaGratisBBDD): Int{
     /* TODO comprobar que la fecha no esta marcada como festivo en la tabla de la base de datos,
         agregar fragment para meter, modificar o eliminar dias festivos */
     var difDias = 0

@@ -24,7 +24,7 @@ private var selMenuInt = -1
 class ModTipoActividadFragment : Fragment() {
     lateinit var binding: FragmentModTipoActividadBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         val dao = database.fTiposActividadesDao()
         ViewModelSimple(dao)
     }

@@ -2,9 +2,7 @@ package com.example.niundiagratis.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.niundiagratis.data.db.DiasDisfrutados
@@ -17,8 +15,8 @@ interface DiasDisfrutadosDao {
     fun insert(diasdisfrutados: DiasDisfrutados)
 
     //Para insertar varios registros
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(objetos: List<DiasDisfrutados>)
+    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(objetos: List<DiasDisfrutados>)*/
 
     //Devuelve una lista con todos las entidades
     @Query("SELECT * FROM tablaDiasDisfrutados")
@@ -40,7 +38,7 @@ interface DiasDisfrutadosDao {
     @Update
     fun update(diasdisfrutados: DiasDisfrutados)
     //Se elimina una entidad
-    @Delete
-    fun delete(diasdisfrutados: DiasDisfrutados)
+    /*@Delete
+    fun delete(diasdisfrutados: DiasDisfrutados)*/
 
 }

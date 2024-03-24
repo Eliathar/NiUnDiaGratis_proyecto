@@ -11,12 +11,14 @@
         android:layout_width="315dp"
         android:layout_height="57dp"
         android:layout_marginBottom="136dp"
-        android:hint="Nombre tipo dia"
+        android:hint="@string/nombre_tipo_dia"
         app:layout_constraintBottom_toTopOf="@+id/spinnerMax13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:importantForAutofill="no"
+        android:inputType="text" />
 
     <Spinner
         android:id="@+id/spinnerMax13"

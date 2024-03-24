@@ -14,8 +14,8 @@ interface DiasGeneradosDao {
     @Insert
     fun insert(diasgenerados: DiasGenerados)
     //Devuelve una lista con todos las entidades
-    @Query("SELECT * FROM tablaDiasGenerados")
-    fun obtenerDiasGenerados(): List<DiasGenerados>
+    /*@Query("SELECT * FROM tablaDiasGenerados")
+    fun obtenerDiasGenerados(): List<DiasGenerados>*/
     //Devuelve la entidad seleccionada mediante el id
     @Query("SELECT * FROM tablaDiasGenerados WHERE nombreActgen = :nombreActividad AND tipoDiaGen = :tipoDia")
     fun getDiasGeneradosPorActividad(nombreActividad: String, tipoDia: String): List<DiasGenerados>

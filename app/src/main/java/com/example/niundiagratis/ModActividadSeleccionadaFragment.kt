@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.ActividadesRealizadasDao
 import com.example.niundiagratis.data.dao.TiposActividadesDao
@@ -46,7 +45,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
     private lateinit var dao: ActividadesRealizadasDao
     private lateinit var entidad: ActividadesRealizadas
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         daot = database.fTiposActividadesDao()
         ViewModelSimple(daot)
     }

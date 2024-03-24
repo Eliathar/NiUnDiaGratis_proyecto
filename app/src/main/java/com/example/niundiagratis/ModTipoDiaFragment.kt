@@ -23,7 +23,7 @@ private var selMenuInt = -1
 class ModTipoDiaFragment : Fragment() {
     lateinit var binding: FragmentModTipoDiaBinding
     private val viewModel: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         val dao = database.fTiposDiasDao()
         ViewModelSimple(dao)
     }
@@ -56,15 +56,6 @@ class ModTipoDiaFragment : Fragment() {
 
         //Asignamos el layoutmanager al recyclerview
         binding.rVmodTiposDias16.layoutManager = layoutManager
-
-        /*//Obtenemos el nombre de la base de datos
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                nombreBD = BBDDHandler.crearBBDD(requireContext())
-            }
-        }*/
-        //Obtenemos instancia de la base de datos
-        //database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
 
         initRecyclerView()
 

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -36,7 +35,7 @@ class AddPermisoFragment : Fragment() {
     private lateinit var fechaInicio: Date
     private lateinit var fechaFinal: Date
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         daoT = database.fTiposDiasDao()
         ViewModelSimple(daoT)
     }

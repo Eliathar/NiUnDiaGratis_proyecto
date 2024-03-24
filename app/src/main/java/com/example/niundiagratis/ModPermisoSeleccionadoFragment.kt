@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.niundiagratis.DBSelector.dbSeleccionada
 import com.example.niundiagratis.DatabaseActive.databaseAct
 import com.example.niundiagratis.data.dao.DiasDisfrutadosDao
 import com.example.niundiagratis.data.dao.TiposDiasDao
@@ -26,9 +25,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.time.LocalDate
 import java.time.ZoneId
+import java.util.Date
 import java.util.Locale
 
 class ModPermisoSeleccionadoFragment : Fragment() {
@@ -39,7 +37,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
     private lateinit var dao: DiasDisfrutadosDao
     private lateinit var entidad: DiasDisfrutados
     private val viewModelT: ViewModelSimple by lazy {
-        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext(), dbSeleccionada)
+        val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
         daot = database.fTiposDiasDao()
         ViewModelSimple(daot)
     }
@@ -187,7 +185,7 @@ class ModPermisoSeleccionadoFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             println("A guardar datos1")
             val tipoDia = binding.spinnerTipo11.selectedItem.toString()
-            val idEntidad = entidad.id.toInt()
+            val idEntidad = entidad.id
             println("A guardar datos2 $tipoDia")
 //Creamos las variables para la resta de fechas, las convertimos a localdate para calcular los dias
             val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
