@@ -146,4 +146,20 @@ fun comprobarDiaFestivo(fechaIni: LocalDate, fechaFin: LocalDate, database: NiUn
     return difDias
 }
 
+fun obtenerDBNames(context: Context): List<String>{
+    //Obtenemos los nombres de las bases de datos existentes en el directorio
+    val directorioDB = context.getDatabasePath("Dummy").parentFile
+
+    //Creamos el listado de bases de datos
+    val dbs = directorioDB.listFiles()
+
+    //definimos un patron para obtener solo los resultados que necesitamos
+    val patron = Regex("NiUnDiaGratis_\\d{4}")
+
+    //Devolvemos el listado de valores filtrados
+    return dbs?.map { it.name }?.filter { nombreBD ->
+        nombreBD.matches(patron)
+    } ?: emptyList()
+}
+
 
