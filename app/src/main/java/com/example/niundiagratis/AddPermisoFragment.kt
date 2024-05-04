@@ -207,7 +207,7 @@ class AddPermisoFragment : Fragment() {
                 construct.setTitle("Confirmar datos")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Tipo de dia: $tipoDiaDisfrutado\n" +
+                            "Tipo de permiso: $tipoDiaDisfrutado\n" +
                             "Fecha de Inicio: $fechaIni\n" +
                             "Fecha de Finalización: $fechaFin\n" +
                             "Dias totales: $difDias"

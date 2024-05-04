@@ -179,9 +179,6 @@ class ModTipoDiaSelecFragment : Fragment() {
                             )
                         }
                         daoT.update(computoGlobalNuevo!!)
-
-
-
                         BBDDHandler.actualizarComputoGlobal(databaseAct!!)
                     }
 //------------------------------------Fin hilo secundario-------------------------------------------

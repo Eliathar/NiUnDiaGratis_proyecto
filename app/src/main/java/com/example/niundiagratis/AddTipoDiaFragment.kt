@@ -185,7 +185,7 @@ class AddTipoDiaFragment : Fragment() {
                 println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Nombre tipo: ${tipoDiaNuevo.nombreTipoDia}\n" +
+                            "Nombre tipo de día: ${tipoDiaNuevo.nombreTipoDia}\n" +
                             "Max anual: ${tipoDiaNuevo.maxDias}\n"
                 )
                 println("A guardar datos11")

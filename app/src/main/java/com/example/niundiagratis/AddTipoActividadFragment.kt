@@ -324,7 +324,7 @@ class AddTipoActividadFragment : Fragment() {
                 println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Nombre tipo: ${tipoActNuevo.nombreTipoAct}\n" +
+                            "Nombre tipo actividad: ${tipoActNuevo.nombreTipoAct}\n" +
                             "Dias generados 1: ${tipoActNuevo.tipoDiasGenerados1}\n" +
                             "Dias generados 2: ${tipoActNuevo.tipoDiasGenerados2}\n" +
                             "Dias generados 3: ${tipoActNuevo.tipoDiasGenerados3}\n" +

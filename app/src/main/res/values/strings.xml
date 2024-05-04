@@ -10,7 +10,7 @@
     <string name="msg_sel_bbdd">Seleccionar base de datos</string>
     <string name="action_salir">Salir</string>
 
-    <string name="menu_home">NiUnDiaGratis</string>
+    <string name="menu_home">Home</string>
     <string name="menu_gest_act">Gestión de actividades</string>
     <string name="menu_gest_perm">Gestión de permisos</string>
     <string name="menu_gest_fest">Gestión de dias festivos</string>

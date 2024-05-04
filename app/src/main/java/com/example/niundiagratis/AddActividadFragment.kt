@@ -202,7 +202,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("A guardar datos5")
             //Calculamos la diferencia en días
-            val difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()
+            val difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt() + 1
             println("A guardar datos6")
 //-----------------Calculamos los dias generados en base a los requisitos---------------------------
 
