@@ -1,7 +1,6 @@
 package com.example.niundiagratis.data.db
 
 import kotlinx.coroutines.runBlocking
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Year
 import java.time.ZoneId
@@ -14,7 +13,7 @@ object BBDDHandler {
         inicializarBBDD(instancia)
         inicializarBBDD1(instancia)
         inicializarBBDD2(instancia)
-        inicializarBBDD3(instancia)
+        //inicializarBBDD3(instancia)
         inicializarBBDD4(instancia)
         }
     }
@@ -69,7 +68,7 @@ object BBDDHandler {
                     )
 
                     2 -> nuevoTiposActividades = TiposActividades(
-                        nombreTipoAct = "Guarida seguridad",
+                        nombreTipoAct = "Guardia seguridad",
                         tipoDiasGenerados1 = idTipoDia6,
                         tipoDiasGenerados2 = idTipoDia1,
                         tipoDiasGenerados3 = null,
@@ -186,7 +185,7 @@ object BBDDHandler {
         println("inicializar 3 completo")
     }
     //Actividades realizadas
-    suspend fun inicializarBBDD3(database: NiUnDiaGratisBBDD) {
+   /* suspend fun inicializarBBDD3(database: NiUnDiaGratisBBDD) {
         runBlocking {
 
             val daoTiposDias = database.fTiposDiasDao()
@@ -196,10 +195,10 @@ object BBDDHandler {
             //Inicializamos tipos de dias
             //Actividades realizadas
             val tipoActReal = daoTiposActividades.getTipoActividadByNombre("Maniobras")?.nombreTipoAct
-            val idTipoDia1 = daoTiposDias.getTipoDiaById("DA")?.nombreTipoDia
-            val idTipoDia3 = daoTiposDias.getTipoDiaById("DPP")?.nombreTipoDia
-            val idTipoDia5 = daoTiposDias.getTipoDiaById("PU")?.nombreTipoDia
-            val idTipoDia6 = daoTiposDias.getTipoDiaById("DO")?.nombreTipoDia
+            val idTipoDia1 = daoTiposDias.getTipoDiaById("DA")!!.nombreTipoDia
+            val idTipoDia3 = daoTiposDias.getTipoDiaById("DPP")!!.nombreTipoDia
+            val idTipoDia5 = daoTiposDias.getTipoDiaById("PU")!!.nombreTipoDia
+            val idTipoDia6 = daoTiposDias.getTipoDiaById("DO")!!.nombreTipoDia
             val tipoActReal1 = daoTiposActividades.getTipoActividadByNombre("Continuada")?.nombreTipoAct
             val tipoActReal2 = daoTiposActividades.getTipoActividadByNombre("Prolongada")?.nombreTipoAct
             val fecha = SimpleDateFormat("dd-MM-yyyy")
@@ -268,7 +267,7 @@ object BBDDHandler {
         //Actualizamos computo global segun datos de inicializacion
         actualizarComputoGlobal(database)
         println("inicializar 4 completo")
-    }
+    }*/
     //Inicializamos festivos nacionales
     private fun inicializarBBDD4(database: NiUnDiaGratisBBDD) {
         runBlocking {

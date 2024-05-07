@@ -323,10 +323,13 @@ class ModTipoActividadSelecFragment : Fragment() {
             val tipoDia21 = daoT.getTipoDiaById(tipoDia2)
             val tipoDia31 = daoT.getTipoDiaById(tipoDia3)
 
+            val nombreTAct = binding.editTextNombreTipoAct15.text.toString()
+            println("el nuevo nombre del tipo de actividad es $nombreTAct")
+
 //--------------------------Varible tipo para pasar los datos a la BBDD-----------------------------
             println("A guardar datos7")
             val tipoDiaNuevo = TiposActividades(
-                nombreTipoAct = binding.editTextNombreTipoAct15.text.toString(),
+                nombreTipoAct = nombreTAct,
                 tipoDiasGenerados1 = if (tipoDia11?.nombreTipoDia == "Seleccione una opción") null else tipoDia11?.nombreTipoDia,
                 tipoDiasGenerados2 = if (tipoDia21?.nombreTipoDia == "Seleccione una opción") null else tipoDia21?.nombreTipoDia,
                 tipoDiasGenerados3 = if (tipoDia31?.nombreTipoDia == "Seleccione una opción") null else tipoDia31?.nombreTipoDia,
@@ -352,7 +355,7 @@ class ModTipoActividadSelecFragment : Fragment() {
                 println("A guardar datos10")
                 construct.setMessage(
                     "¿Estas seguro de que quieres guardar estos datos?:\n\n" +
-                            "Nombre tipo dia: ${tipoDiaNuevo.nombreTipoAct}\n" +
+                            "Nombre tipo actividad: ${tipoDiaNuevo.nombreTipoAct}\n" +
                             "Tipo dias gen 1: ${tipoDiaNuevo.tipoDiasGenerados1}\n" +
                             "Tipo dias gen 2: ${tipoDiaNuevo.tipoDiasGenerados2}\n" +
                             "Tipo dias gen 3: ${tipoDiaNuevo.tipoDiasGenerados3}\n" +
