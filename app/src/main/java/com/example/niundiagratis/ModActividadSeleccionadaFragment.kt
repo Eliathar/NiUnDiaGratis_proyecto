@@ -298,7 +298,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 //Calculamos la diferencia en días
-                difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()
+                difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()+1
 
 //-----------------Calculamos los dias generados en base a los requisitos---------------------------
                 //Creamos una variable para el control del when que controla el valor de la variable
