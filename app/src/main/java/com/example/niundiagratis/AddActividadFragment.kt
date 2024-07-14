@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -21,12 +22,14 @@ import com.example.niundiagratis.data.db.ActividadesRealizadas
 import com.example.niundiagratis.data.db.BBDDHandler.actualizarComputoGlobal
 import com.example.niundiagratis.data.db.BBDDHandler.actualizarDiasGenerados
 import com.example.niundiagratis.data.db.NiUnDiaGratisBBDD
+import com.example.niundiagratis.data.db.TiposActividades
 import com.example.niundiagratis.data.viewmodel.ViewModelSimple
 import com.example.niundiagratis.databinding.FragmentAddActividadBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZoneId
+import java.util.Calendar
 import java.util.Date
 
 interface OnMenuItemSelectedListener {
@@ -36,7 +39,10 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
 
     private lateinit var binding: FragmentAddActividadBinding
     private var mainActivity: MainActivity? = null
-    private lateinit var fechaInicio: Date
+    private var fechaInicio = Calendar.getInstance().apply{
+        set(Calendar.DAY_OF_MONTH, 1)
+        set(Calendar.MONTH, Calendar.JANUARY)
+    }.time
     private lateinit var fechaFinal: Date
     private val viewModelT: ViewModelSimple by lazy {
         val database = NiUnDiaGratisBBDD.obtenerInstancia(requireContext())
@@ -47,6 +53,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
     private lateinit var daot: TiposActividadesDao
     private lateinit var navController: NavController
     private lateinit var spinnerItems: MutableList<Int>
+    private lateinit var entidadSeleccionada: TiposActividades
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,7 +174,7 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
                     } else {
                         //Acciones si hay seleccion
                         // Encuentra la entidad TiposActividades que corresponde al ítem seleccionado
-                        val entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }
+                        entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }!!
                         if (entidadSeleccionada != null) {
                             if (entidadSeleccionada.tipoDiasGenerados1 == "PU" || entidadSeleccionada.tipoDiasGenerados2 == "PU"|| entidadSeleccionada.tipoDiasGenerados3 =="PU") {
                                 binding.spinnerMo06.visibility = View.VISIBLE
@@ -176,7 +183,15 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
                                 binding.spinnerMo06.visibility = View.INVISIBLE
                                 binding.txtvwDiasPu06.visibility = View.INVISIBLE
                             }
+                            if (entidadSeleccionada.nombreTipoAct == "Guardia seguridad 24h" || entidadSeleccionada.nombreTipoAct == "Guardia orden 24h"){
+                                println("fase1.1")
+                                binding.btnFechaFin06.isVisible = false
+                                println("fase1.2")
+                                fechaFinal = fechaInicio
+                                println("fase1.3")
+                            }
                         }
+
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -199,6 +214,11 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
             val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("A guardar datos4")
+            if (entidadSeleccionada.nombreTipoAct == "Guardia seguridad 24h" || entidadSeleccionada.nombreTipoAct == "Guardia orden 24h"){
+                println("fase1.2")
+                fechaFinal = fechaInicio
+                println("fase1.3")
+            }
             val fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("A guardar datos5")
             //Calculamos la diferencia en días
@@ -276,17 +296,24 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
                             actualizarDiasGenerados(actividadNueva, databaseAct!!, 1)
                             actualizarComputoGlobal(databaseAct!!)
                             println("el nombre es $databaseAct.gett")
+                            withContext(Dispatchers.Main){
+                                navNuevo()
+                            }
                         }
 //------------------------------------Fin hilo secundario-------------------------------------------
                         println("datos guardados?")
                     }
                     //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                    navController.navigate(R.id.nav_home)
+//                    navController.navigate(R.id.nav_home)
                 }
                 construct.setNegativeButton("Cancelar", null)
                 construct.show()
             }
         }
+    }
+    private fun navNuevo () {
+        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+        navController.navigate(R.id.nav_home)
     }
 }
 

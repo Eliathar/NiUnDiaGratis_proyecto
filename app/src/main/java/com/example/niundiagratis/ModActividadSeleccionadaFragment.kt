@@ -66,6 +66,8 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
     private var totalDias2: Int = 0
     private var totalDias3: Int = 0
 
+    private lateinit var entidadSeleccionada: TiposActividades
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -212,7 +214,7 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                     } else {
                         //Acciones si hay seleccion
                         // Encuentra la entidad TiposActividades que corresponde al ítem seleccionado
-                        val entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }
+                        entidadSeleccionada = tipoActividadDB.find { it.nombreTipoAct == itemSel }!!
                         if (entidadSeleccionada != null) {
                             if (entidadSeleccionada.tipoDiasGenerados1 == "PU" || entidadSeleccionada.tipoDiasGenerados2 == "PU"|| entidadSeleccionada.tipoDiasGenerados3 =="PU") {
                                 binding.spinnerMo08.visibility = View.VISIBLE
@@ -296,8 +298,12 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 tipoActividad = daot.getTipoActividadByNombre(tipoActOk)!!
                 //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
                 fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                fechaFin = fechaFinal.togit --version
-                        Instant().atZone(ZoneId.systemDefault()).toLocalDate()
+                if (entidadSeleccionada.nombreTipoAct == "Guardia seguridad 24h" || entidadSeleccionada.nombreTipoAct == "Guardia orden 24h"){
+                    println("fase1.2")
+                    fechaFinal = fechaInicio
+                    println("fase1.3")
+                }
+                fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 //Calculamos la diferencia en días
                 difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()+1
 
@@ -412,6 +418,9 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                     dao.update(actividadNueva)
                     BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 2)
                     BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                    withContext(Dispatchers.Main){
+                        navNuevo()
+                    }
                 }
 //------------------------------------Fin hilo secundario-------------------------------------------
                 println("datos guardados?")
@@ -441,15 +450,22 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                     dao.deleteById(actividadNueva.id)
                     BBDDHandler.actualizarDiasGenerados(actividadNueva, databaseAct!!, 3)
                     BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                    withContext(Dispatchers.Main){
+                        navNuevo()
+                    }
 
                 }
 //------------------------------------Fin hilo secundario-------------------------------------------
                 println("datos guardados?")
-                //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                navController.navigate(R.id.nav_home)
+//                //------Cargamos el fragment home al guardar los datos en la base de datos----------
+//                navController.navigate(R.id.nav_home)
             }
             construct.setNegativeButton("Cancelar", null)
             construct.show()
         }
+    }
+    private fun navNuevo () {
+        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+        navController.navigate(R.id.nav_home)
     }
 }

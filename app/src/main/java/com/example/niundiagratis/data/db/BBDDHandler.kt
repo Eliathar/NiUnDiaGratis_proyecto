@@ -68,7 +68,7 @@ object BBDDHandler {
                     )
 
                     2 -> nuevoTiposActividades = TiposActividades(
-                        nombreTipoAct = "Guardia seguridad",
+                        nombreTipoAct = "Guardia seguridad 24h",
                         tipoDiasGenerados1 = idTipoDia6,
                         tipoDiasGenerados2 = idTipoDia1,
                         tipoDiasGenerados3 = null,
@@ -79,7 +79,7 @@ object BBDDHandler {
                     )
 
                     3 -> nuevoTiposActividades = TiposActividades(
-                        nombreTipoAct = "Guardia orden",
+                        nombreTipoAct = "Guardia orden 24h",
                         tipoDiasGenerados1 = idTipoDia6,
                         tipoDiasGenerados2 = idTipoDia1,
                         tipoDiasGenerados3 = null,
