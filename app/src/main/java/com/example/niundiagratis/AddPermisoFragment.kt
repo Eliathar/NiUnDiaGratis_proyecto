@@ -221,10 +221,13 @@ class AddPermisoFragment : Fragment() {
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.insert(permisoNuevo)
                             BBDDHandler.actualizarComputoGlobal(databaseAct!!)
+                            withContext(Dispatchers.Main){
+                                navNuevo()
+                            }
                         }
-                        //------------------------------------Fin hilo secundario-------------------------------------------
-                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                        navController.navigate(R.id.nav_home)
+//                        //------------------------------------Fin hilo secundario-------------------------------------------
+//                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+//                        navController.navigate(R.id.nav_home)
                     }
 
                 }
@@ -235,5 +238,9 @@ class AddPermisoFragment : Fragment() {
 //-----------------------------------Fin hilo secundario--------------------------------------------
 
 //-----------------------------------Fin boton calcular---------------------------------------------
+    }
+    private fun navNuevo () {
+        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+        navController.navigate(R.id.nav_home)
     }
 }

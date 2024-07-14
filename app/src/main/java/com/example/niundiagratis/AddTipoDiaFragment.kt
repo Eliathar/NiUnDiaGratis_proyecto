@@ -211,12 +211,15 @@ class AddTipoDiaFragment : Fragment() {
                                 )
                             }
                             daoT.update(computoGlobalNuevo!!)
+                            withContext(Dispatchers.Main){
+                                navNuevo()
+                            }
 
                         }
                         //------------------------------------Fin hilo secundario-------------------------------------------
-                        println("datos guardados?")
-                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                        navController.navigate(R.id.nav_home)
+//                        println("datos guardados?")
+//                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+//                        navController.navigate(R.id.nav_home)
                     }
 
                 }
@@ -227,5 +230,9 @@ class AddTipoDiaFragment : Fragment() {
 //-----------------------------------Fin hilo secundario--------------------------------------------
 
 //-----------------------------------Fin boton calcular---------------------------------------------
+    }
+    private fun navNuevo () {
+        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+        navController.navigate(R.id.nav_home)
     }
 }

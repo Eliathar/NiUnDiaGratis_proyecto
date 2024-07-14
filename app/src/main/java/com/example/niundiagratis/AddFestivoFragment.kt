@@ -83,12 +83,15 @@ class AddFestivoFragment : Fragment() {
                             BBDDHandler.actualizarComputoGlobal(databaseAct!!)
 
                             println("A guardar datos terminado")
+                            withContext(Dispatchers.Main){
+                                navNuevo()
+                            }
 
                         }
                         //------------------------------------Fin hilo secundario-------------------------------------------
-                        println("datos guardados?")
-                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
-                        navController.navigate(R.id.nav_home)
+//                        println("datos guardados?")
+//                        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+//                        navController.navigate(R.id.nav_home)
                     }
 
                 }
@@ -96,5 +99,9 @@ class AddFestivoFragment : Fragment() {
                 construct.show()
             }
         }
+    }
+    private fun navNuevo () {
+        //------Cargamos el fragment home al guardar los datos en la base de datos----------
+        navController.navigate(R.id.nav_home)
     }
 }

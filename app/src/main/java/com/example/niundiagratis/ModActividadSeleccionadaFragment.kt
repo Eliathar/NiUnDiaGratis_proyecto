@@ -296,7 +296,8 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 tipoActividad = daot.getTipoActividadByNombre(tipoActOk)!!
                 //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
                 fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                fechaFin = fechaFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                fechaFin = fechaFinal.togit --version
+                        Instant().atZone(ZoneId.systemDefault()).toLocalDate()
                 //Calculamos la diferencia en días
                 difDias = java.time.temporal.ChronoUnit.DAYS.between(fechaIni, fechaFin).toInt()+1
 
