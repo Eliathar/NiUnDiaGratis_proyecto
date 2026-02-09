@@ -198,51 +198,45 @@ abstract class NiUnDiaGratisBBDD : RoomDatabase() {
     abstract fun fDiasDisfrutadosDao(): DiasDisfrutadosDao
     abstract fun fComputoGlobalDao(): ComputoGlobalDao
     abstract fun fDiasFestivosDao(): DiasFestivosDao
-    companion object{
+    companion object {
         private var instancia: NiUnDiaGratisBBDD? = null
 
-         fun obtenerInstancia(context: Context): NiUnDiaGratisBBDD{
-             val instanciaAnterior = DatabaseActive.databaseAct
-             val repositorio = ReposNiUnDiaGratis()
-             if (context.getDatabasePath(dbSeleccionada).exists()) {//codigo si la base de datos existe
-                instancia = Room.databaseBuilder(
-                    context.applicationContext,
-                    NiUnDiaGratisBBDD::class.java, dbSeleccionada
-                ).fallbackToDestructiveMigration()//Evita que se destruyan los datos existentes
-                    .build()
-                 instancia!!.openHelper.writableDatabase
-            } else {//Codigo si la base de datos no existe
-                instancia = Room.databaseBuilder(
-                    context.applicationContext,
-                    NiUnDiaGratisBBDD::class.java, dbSeleccionada
-                ).build()
-                println(DatabaseActive.databaseAct)
-                println("dentro de obtener bbdd")
-                if(instanciaAnterior != null) {
-                  /*
-                    En caso de que la anterior base de datos no sea null (primera inicializacion),
-                    se copian los datos de las tablas antiguas, evitando tener que realizar las
-                    modificaciones todos los años
-                    */
-                    repositorio.copiarDatos(instanciaAnterior, instancia!!)
-                }else{
-                    /*
-                    En caso de que la base de datos anterior sea null (primera inicializacion)
-                    se inicializan los valores de las tablas
-                    */
-                    runBlocking {
-                        crearBBDD(instancia!!)
-                    }
-                }
-            }
-             /*
-             Abrimos la instancia para escritura, room deberia hacerlo, pero no lo hace, si se
-             borra esta linea todas las opciones del menu lateral cerraran la aplicacion al
-             seleccionar otra base de datos diferente a la que se abre en la app
-             */
+        fun obtenerInstancia(context: Context): NiUnDiaGratisBBDD {
+            val instanciaAnterior = DatabaseActive.databaseAct
+            val repositorio = ReposNiUnDiaGratis()
 
-             //Devolvemos la instancia abierta para escritura
-             return instancia!!
+            val nombreBD = dbSeleccionada
+            val ruta = context.getDatabasePath(nombreBD)
+
+            instancia = if (ruta.exists()) {
+                Room.databaseBuilder(
+                    context.applicationContext,
+                    NiUnDiaGratisBBDD::class.java,
+                    ruta.name  // IMPORTANTE: debe ser el nombre, no la ruta completa
+                )
+                    .fallbackToDestructiveMigration(false)
+                    .build()
+            } else {
+                Room.databaseBuilder(
+                    context.applicationContext,
+                    NiUnDiaGratisBBDD::class.java,
+                    ruta.name
+                )
+                    .build().also {
+                        if (instanciaAnterior != null) {
+                            repositorio.copiarDatos(instanciaAnterior, it)
+                        } else {
+                            runBlocking {
+                                crearBBDD(it)
+                            }
+                        }
+                    }
+            }
+
+            // Este paso es necesario como workaround de Room para asegurar escritura
+            instancia!!.openHelper.writableDatabase
+
+            return instancia!!
         }
     }
 }

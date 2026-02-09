@@ -298,6 +298,11 @@ class ModActividadSeleccionadaFragment : Fragment(), CoroutineScope {
                 tipoActividad = daot.getTipoActividadByNombre(tipoActOk)!!
                 //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
                 fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                /*
+                Reasignamos el valor de fechafinal, pues en caso de seleccionar como tipo de
+                actividad "guardia" la inicializacion de la fecha da como resultado el numero de dia
+                anual en negativo como dias generados, 1 de enero seria -1, 1 de febrero daria -32
+                */
                 if (entidadSeleccionada.nombreTipoAct == "Guardia seguridad 24h" || entidadSeleccionada.nombreTipoAct == "Guardia orden 24h"){
                     println("fase1.2")
                     fechaFinal = fechaInicio

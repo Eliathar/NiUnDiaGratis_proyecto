@@ -214,6 +214,11 @@ class AddActividadFragment : Fragment(), OnMenuItemSelectedListener {
             //Creamos las variables para la resta de fechas, modificando el formato para obetener una medida de dias
             val fechaIni = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("A guardar datos4")
+            /*
+            Reasignamos el valor de fechafinal, pues en caso de seleccionar como tipo de
+            actividad "guardia" la inicializacion de la fecha da como resultado el numero de dia
+            anual en negativo como dias generados, 1 de enero seria -1, 1 de febrero daria -32
+            */
             if (entidadSeleccionada.nombreTipoAct == "Guardia seguridad 24h" || entidadSeleccionada.nombreTipoAct == "Guardia orden 24h"){
                 println("fase1.2")
                 fechaFinal = fechaInicio

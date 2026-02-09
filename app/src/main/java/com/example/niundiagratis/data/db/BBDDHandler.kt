@@ -185,7 +185,7 @@ object BBDDHandler {
         println("inicializar 3 completo")
     }
     //Actividades realizadas
-   /* suspend fun inicializarBBDD3(database: NiUnDiaGratisBBDD) {
+    /*suspend fun inicializarBBDD3(database: NiUnDiaGratisBBDD) {
         runBlocking {
 
             val daoTiposDias = database.fTiposDiasDao()
